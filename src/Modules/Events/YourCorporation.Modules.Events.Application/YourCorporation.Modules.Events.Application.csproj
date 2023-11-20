@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+<TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="MassTransit" Version="8.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YourCorporation.Modules.Events.Core\YourCorporation.Modules.Events.Core.csproj" />
+    <ProjectReference Include="..\YourCorporation.Modules.Events.MessagingContracts\YourCorporation.Modules.Events.MessagingContracts.csproj" />
+  </ItemGroup>
+
+</Project>

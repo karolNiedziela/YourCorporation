@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+<TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>01644454-5d52-4794-9bda-ed2ac2223b2a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Events\YourCorporation.Modules.Events.Api\YourCorporation.Modules.Events.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Forms\YourCorporation.Modules.Forms.Api\YourCorporation.Modules.Forms.Api.csproj" />
+    <ProjectReference Include="..\..\Shared\YourCorporation.Shared.Abstractions\YourCorporation.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Shared\YourCorporation.Shared.Infrastructure\YourCorporation.Shared.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

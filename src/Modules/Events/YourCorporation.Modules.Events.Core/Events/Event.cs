@@ -18,7 +18,9 @@ namespace YourCorporation.Modules.Events.Core.Events
 
         private List<EventSpeaker> _speakers = new();
 
-        public EventName Name { get; private set; } = default!;
+        public EventName Name { get; private set; }
+
+        public EventDescription Description { get; private set; }
 
         public EventCategory Category { get; private set; }
 
@@ -26,9 +28,9 @@ namespace YourCorporation.Modules.Events.Core.Events
 
         public EventStatus Status { get; private set; }
 
-        public BegginingAndEndOfEvent BegginingAndEndOfEvent { get; private set; } = default!;
+        public BegginingAndEndOfEvent BegginingAndEndOfEvent { get; private set; }
 
-        public EventLimits EventLimits { get; private set; } = default!;
+        public EventLimits EventLimits { get; private set; }
 
         public IReadOnlyCollection<DeclaredEventAttendee> DeclaredAttendees => _declaredAttendees.AsReadOnly();
 
@@ -43,12 +45,14 @@ namespace YourCorporation.Modules.Events.Core.Events
         public Event(
             EventId id,
             EventName name,
+            EventDescription description,
             EventCategory category,
             EventMode mode,
             BegginingAndEndOfEvent begginingAndEndOfEvent,
             EventLimits eventLimits) : base(id)
         {
             Name = name;
+            Description = description;
             Category = category;
             Mode = mode;
             EventLimits = eventLimits;

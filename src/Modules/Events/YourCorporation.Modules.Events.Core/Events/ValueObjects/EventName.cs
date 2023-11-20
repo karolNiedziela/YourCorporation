@@ -10,7 +10,7 @@ namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new EmptyValueException(ErrorCodes.Events.EventNameError);
+                throw new EmptyValueException(ErrorCodes.Events.EmptyEventNameError);
             }
 
             Value = value;

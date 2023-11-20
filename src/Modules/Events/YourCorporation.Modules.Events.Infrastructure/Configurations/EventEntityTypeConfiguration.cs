@@ -35,6 +35,13 @@ namespace YourCorporation.Modules.Events.Infrastructure.Configurations
                    name => name.Value,
                    value => new EventName(value));
 
+            builder.Property(x => x.Description)
+                .HasColumnName("Description")
+                .HasConversion(
+                    description => description.Value,
+                    value => new EventDescription(value))
+                .HasMaxLength(EventDescription.MaximimumLength);
+
             builder.OwnsOne(x => x.EventLimits, navigation =>
             {
                 navigation.Property(eventLimits => eventLimits.AttendeesLimit)

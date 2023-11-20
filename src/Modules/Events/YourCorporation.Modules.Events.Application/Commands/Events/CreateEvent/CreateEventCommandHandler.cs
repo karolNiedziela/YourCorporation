@@ -22,6 +22,7 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.CreateEvent
             var @event = new Event(
                new EventId(),
                new EventName(request.Name),
+               new EventDescription(request.Description),
                request.Category,
                request.Mode,
                new BegginingAndEndOfEvent(request.StartTime, request.EndTime),

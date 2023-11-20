@@ -8,6 +8,7 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.CreateEvent
         public CreateEventValidator()
         {
             RuleFor(x => x.Name).NotNull().NotEmpty();
+            RuleFor(x => x.Description).NotNull().NotEmpty().MaximumLength(EventDescription.MaximimumLength);
             RuleFor(x => x.Category).IsInEnum();
             RuleFor(x => x.Mode).IsInEnum();
             RuleFor(x => x.AttendeesLimit)

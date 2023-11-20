@@ -11,9 +11,14 @@ namespace YourCorporation.Modules.Events.Core
 
             public static Error EventLimitsError => new("MinimumAttendeesLimit", $"Minimum attendees limit must be higher or equal to {EventLimits.MinimumNumberOfAttendes}.");
 
-            public static string EventNameError = "EventName";
+            public static string EmptyEventNameError = "EmptyEventName";
 
             public static Error NotFoundEventError(Guid eventId) => new("NotFoundEventError", $"Event with id '{eventId}' was not found.");
+
+            public static string EmptyEventDescriptionError = "EmptyEventDescription";
+
+
+            public static string MaxLengthEventDescription = "MaxLengthEventDescription";
         }
 
         public static class Sessions

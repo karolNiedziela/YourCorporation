@@ -67,7 +67,7 @@ namespace YourCorporation.Modules.Events.Api.Endpoints
 
             var eventLink = linkGenerator.GetUriByName(context,
              endpointName: GetEvent,
-             values: new { result }
+             values: new { eventId = result }
              );
 
             return TypedResults.Created(eventLink!);

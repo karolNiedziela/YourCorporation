@@ -55,6 +55,8 @@ namespace YourCorporation.Shared.Infrastructure
 
             ValidatorOptions.Global.LanguageManager.Enabled = false;
 
+            services.AddHostedService<DbContextInitializer>();
+
             return services;
         }
 
@@ -77,6 +79,18 @@ namespace YourCorporation.Shared.Infrastructure
             app.MapModuleEndpoints(assemblies.ToArray());
 
             return app;
+        }
+
+        public static string GetModuleName(this Type type, string namespacePart = "Modules", int splitIndex = 2)
+        {
+            if (type?.Namespace is null)
+            {
+                return string.Empty;
+            }
+
+            return type.Namespace.Contains(namespacePart)
+                ? type.Namespace.Split(".")[splitIndex]
+                : string.Empty;
         }
     }
 }

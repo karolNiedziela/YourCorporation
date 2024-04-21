@@ -64,8 +64,6 @@ namespace YourCorporation.Modules.Events.Api.Endpoints
 
         public static async Task<Results<Created, BadRequest<List<Error>>>> CreateEventAsync(CreateEventCommand command, ISender sender, LinkGenerator linkGenerator, HttpContext context)
         {
-
-
             var result = await sender.Send(command);
 
             return result.Match<Results<Created, BadRequest<List<Error>>>>(
@@ -81,11 +79,13 @@ namespace YourCorporation.Modules.Events.Api.Endpoints
                 onError: (errors) => TypedResults.BadRequest(errors));        
         }
 
-        public static async Task<Results<NoContent, ValidationProblem>> GoLiveAsync(GoLiveCommand command, ISender sender)
+        public static async Task<Results<NoContent, BadRequest<List<Error>>>> GoLiveAsync(GoLiveCommand command, ISender sender)
         {
-            await sender.Send(command);
+            var result = await sender.Send(command);
 
-            return TypedResults.NoContent();
+            return result.Match<Results<NoContent, BadRequest<List<Error>>>>(
+                onSuccess: () => TypedResults.NoContent(),
+                onError: errors => TypedResults.BadRequest(errors));
         }
     }
 }

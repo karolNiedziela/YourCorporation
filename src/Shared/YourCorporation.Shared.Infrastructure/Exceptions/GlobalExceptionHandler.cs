@@ -1,69 +1,39 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.Net;
-using YourCorporation.Shared.Abstractions.Exceptions;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace YourCorporation.Shared.Infrastructure.Exceptions
 {
-    internal sealed class GlobalExceptionHandler : IMiddleware
+    internal sealed class GlobalExceptionHandler : IExceptionHandler
     {
-        private readonly IExceptionToErrorResponseMapper _exceptionToErrorResponseMapper;
+        private readonly ILogger<GlobalExceptionHandler> _logger;
 
-        public GlobalExceptionHandler(IExceptionToErrorResponseMapper exceptionToErrorResponseMapper)
+        public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
         {
-            _exceptionToErrorResponseMapper = exceptionToErrorResponseMapper;
+            _logger = logger;
         }
 
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        public async ValueTask<bool> TryHandleAsync(
+            HttpContext httpContext,
+            Exception exception,
+            CancellationToken cancellationToken)
         {
-            try
-            {
-                await next(context);
-            }
-            catch (Exception exception)
-            {               
-                await HandleExceptionAsync(context, exception);
-            }
-        }
+            _logger.LogError(
+                exception, "Exception occurred: {Message}", exception.Message);
 
-        private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
-        {
-            var errorResponse = _exceptionToErrorResponseMapper.Map(exception);
-            if (errorResponse is null)
+            var problemDetails = new ProblemDetails
             {
-                return;
-            }
-
-            httpContext.Response.ContentType = "application/problem+json";
-            httpContext.Response.StatusCode = (int)(errorResponse?.StatusCode ?? HttpStatusCode.InternalServerError);
-
-            var problem = new ProblemDetailsContext
-            {
-                HttpContext = httpContext,
-                ProblemDetails =
-                    {
-                        Title = errorResponse!.ErrorCode,
-                        Detail = exception.Message,
-                        Status = (int)errorResponse.StatusCode,
-                    }
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "Unexpected server error"
             };
 
-            problem.ProblemDetails.Extensions.Add("errorCode", errorResponse.ErrorCode);
-            problem.ProblemDetails.Extensions.Add("errors", errorResponse.Errors);
-            var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
-            problem.ProblemDetails.Extensions.Add("traceId", traceId);
+            httpContext.Response.StatusCode = problemDetails.Status.Value;
 
-            var webHostEnvironment = httpContext!.RequestServices.GetRequiredService<IWebHostEnvironment>();
-            if (webHostEnvironment.IsDevelopment())
-            {
-                problem.ProblemDetails.Extensions.Add("stackTrace", exception.StackTrace);
-            }
+            await httpContext.Response
+                .WriteAsJsonAsync(problemDetails, cancellationToken);
 
-            var problemDetailsService = httpContext!.RequestServices.GetRequiredService<IProblemDetailsService>();
-            await problemDetailsService.WriteAsync(problem);
+            return true;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using YourCorporation.Modules.Events.Core.Events.ValueObjects;
-using YourCorporation.Shared.Abstractions.Exceptions;
+using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
 {
@@ -11,24 +11,30 @@ namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
 
         private BegginingAndEndOfSession() { }
 
-        public BegginingAndEndOfSession(
+        private BegginingAndEndOfSession(
             DateTimeOffset startTimeSession,
+            DateTimeOffset endTimeSession)
+        {
+            StartTime = startTimeSession;
+            EndTime = endTimeSession;
+        }
+
+        public static Result<BegginingAndEndOfSession> Create(DateTimeOffset startTimeSession,
             DateTimeOffset endTimeSession,
             BegginingAndEndOfEvent begginingAndEndOfEvent)
         {
             if (startTimeSession >= endTimeSession)
             {
-                throw new InvalidOperationException();
+                return ErrorCodes.Sessions.EndTimeEarlierOrEqualStartTimeError;
             }
 
             var isSessionOverlapsEvent = startTimeSession < begginingAndEndOfEvent.EndTime && begginingAndEndOfEvent.StartTime < endTimeSession;
             if (!isSessionOverlapsEvent)
-            {                
-                throw new CustomValidationException(ErrorCodes.Sessions.BegginingAndEndOfSessionError);
+            {
+                return ErrorCodes.Sessions.NotInScopeOfEventError;
             }
 
-            StartTime = startTimeSession;
-            EndTime = endTimeSession;
+            return new BegginingAndEndOfSession(startTimeSession, endTimeSession);
         }
     }
 }

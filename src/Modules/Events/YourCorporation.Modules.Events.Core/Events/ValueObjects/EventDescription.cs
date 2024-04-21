@@ -1,4 +1,4 @@
-﻿using YourCorporation.Shared.Abstractions.Exceptions.Common;
+﻿using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 {
@@ -8,19 +8,24 @@ namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 
         public string Value { get; }
 
-        public EventDescription(string value)
+        private EventDescription(string value)
+        {           
+            Value = value;
+        }
+
+        public static Result<EventDescription> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new EmptyValueException(ErrorCodes.Events.EmptyEventDescriptionError);
+                return CommonErrors.Empty(ErrorCodes.Events.EmptyEventDescriptionErrorCode, "Event description");
             }
 
-            if (value.Length > 2000)
+            if (value.Length > MaximimumLength)
             {
-                throw new MaxLengthException(ErrorCodes.Events.MaxLengthEventDescription, MaximimumLength);
+                return CommonErrors.MaxLength(ErrorCodes.Events.MaxLengthEventDescriptionErrorCode, MaximimumLength, "Event description");
             }
 
-            Value = value;
+            return new EventDescription(value);
         }
     }
 }

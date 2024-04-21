@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using YourCorporation.Modules.Events.Core.Events;
+using YourCorporation.Modules.Events.Core.Speakers;
 using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Types;
 
@@ -9,7 +11,9 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF
     {
         private readonly IPublisher _publisher;
 
-        public DbSet<Core.Events.Event> Events { get; set; }
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<Speaker> Speakers { get; set; }
 
         public EventsDbContext(DbContextOptions<EventsDbContext> options, IPublisher publisher) : base(options)
         {

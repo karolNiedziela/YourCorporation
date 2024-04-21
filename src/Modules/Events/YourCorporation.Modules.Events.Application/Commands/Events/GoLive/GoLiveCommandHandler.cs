@@ -1,12 +1,11 @@
 ﻿using MediatR;
-using YourCorporation.Modules.Events.Core;
 using YourCorporation.Modules.Events.Core.Events.Repositories;
-using YourCorporation.Shared.Abstractions.Exceptions;
 using YourCorporation.Shared.Abstractions.Persistence;
+using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Application.Commands.Events.GoLive
 {
-    internal class GoLiveCommandHandler : IRequestHandler<GoLiveCommand>
+    internal class GoLiveCommandHandler : IRequestHandler<GoLiveCommand, Result>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,16 +16,21 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.GoLive
             _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(GoLiveCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(GoLiveCommand request, CancellationToken cancellationToken)
         {
-            var @event = await _eventRepository.GetAsync(request.EventId) 
-                ?? throw new CustomValidationException(ErrorCodes.Events.NotFoundEventError(request.EventId));
+            var @event = await _eventRepository.GetAsync(request.EventId);
+            if (@event is null)
+            {
+                return Error.NotFound("Events.NotFoundEventError", $"Event with id '{request.EventId}' was not found.");
+            }
 
             @event.GoLive();
 
             _eventRepository.Update(@event);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Result.Success();
         }
     }
 }

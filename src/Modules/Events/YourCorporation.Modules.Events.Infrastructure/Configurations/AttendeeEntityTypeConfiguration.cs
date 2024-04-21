@@ -22,19 +22,19 @@ namespace YourCorporation.Modules.Events.Infrastructure.Configurations
               .HasColumnName("FirstName")
                 .HasConversion(
                      firstName => firstName.Value,
-                     value => new FirstName(value));
+                     value => FirstName.Create(value).Value);
 
             builder.Property(x => x.LastName)
                 .HasColumnName("LastName")
                   .HasConversion(
                        lastName => lastName.Value,
-                       value => new LastName(value));
+                       value => LastName.Create(value).Value);
 
             builder.Property(x => x.Email)
                 .HasColumnName("Email")
                   .HasConversion(
                        email => email.Value,
-                       value => new Email(value));
+                       value => Email.Create(value).Value);
         }
     }
 }

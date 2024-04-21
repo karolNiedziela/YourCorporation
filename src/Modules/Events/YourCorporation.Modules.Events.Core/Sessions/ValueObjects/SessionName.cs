@@ -1,4 +1,4 @@
-﻿using YourCorporation.Shared.Abstractions.Exceptions.Common;
+﻿using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
 {
@@ -8,14 +8,19 @@ namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
 
         private SessionName() { }
 
-        public SessionName(string value)
+        private SessionName(string value)
+        {          
+            Value = value;
+        }
+
+        public static Result<SessionName> Create(string value) 
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new EmptyValueException(ErrorCodes.Sessions.SessionNameError);
+                return CommonErrors.Empty(ErrorCodes.Sessions.SessionNameErrorCode, "Session name");
             }
 
-            Value = value;
+            return new SessionName(value);
         }
     }
 }

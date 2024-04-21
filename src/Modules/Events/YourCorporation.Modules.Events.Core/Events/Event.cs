@@ -4,6 +4,7 @@ using YourCorporation.Modules.Events.Core.Events.Enums;
 using YourCorporation.Modules.Events.Core.Events.Events;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 using YourCorporation.Modules.Events.Core.Speakers.ValueObjects;
+using YourCorporation.Shared.Abstractions.Results;
 using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Events.Core.Events
@@ -59,16 +60,18 @@ namespace YourCorporation.Modules.Events.Core.Events
             BegginingAndEndOfEvent = begginingAndEndOfEvent;
         }
 
-        public void AddSpeaker(SpeakerId speakerId)
+        public Result AddSpeaker(SpeakerId speakerId)
         {
             CheckIsInValidStatus(EventStatus.Draft);
 
             if (_speakers.Any(x => x.SpeakerId == speakerId))
             {
-                throw new InvalidOperationException();
+                return ErrorCodes.Events.SpeakerAlreadyAdded;
             }
 
             _speakers.Add(new EventSpeaker(Id, speakerId));
+
+            return Result.Success();
         }
 
         public void AddDeclaredParticipant(AttendeeId declaredAttendeeId, DateTimeOffset signUpDate)

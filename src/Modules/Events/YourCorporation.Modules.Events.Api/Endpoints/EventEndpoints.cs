@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using YourCorporation.Modules.Events.Application.Commands.Events.CreateEvent;
 using YourCorporation.Modules.Events.Application.Commands.Events.GoLive;
 using YourCorporation.Shared.Abstractions.MinimalApis;
+using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Api.Endpoints
 {
@@ -61,16 +62,23 @@ namespace YourCorporation.Modules.Events.Api.Endpoints
             return TypedResults.Ok();
         }
 
-        public static async Task<Results<Created, ValidationProblem>> CreateEventAsync(CreateEventCommand command, ISender sender, LinkGenerator linkGenerator, HttpContext context)
+        public static async Task<Results<Created, BadRequest<List<Error>>>> CreateEventAsync(CreateEventCommand command, ISender sender, LinkGenerator linkGenerator, HttpContext context)
         {
-            var result = await sender.Send(command);          
 
-            var eventLink = linkGenerator.GetUriByName(context,
-             endpointName: GetEvent,
-             values: new { eventId = result }
-             );
 
-            return TypedResults.Created(eventLink!);
+            var result = await sender.Send(command);
+
+            return result.Match<Results<Created, BadRequest<List<Error>>>>(
+                onSuccess: (Guid eventId) =>
+                {
+                    var eventLink = linkGenerator.GetUriByName(context,
+                          endpointName: GetEvent,
+                          values: new { eventId = result.Value }
+                          );
+
+                    return TypedResults.Created(eventLink);
+                },
+                onError: (errors) => TypedResults.BadRequest(errors));        
         }
 
         public static async Task<Results<NoContent, ValidationProblem>> GoLiveAsync(GoLiveCommand command, ISender sender)

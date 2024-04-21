@@ -1,4 +1,4 @@
-﻿using YourCorporation.Shared.Abstractions.Exceptions.Common;
+﻿using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 {
@@ -6,14 +6,19 @@ namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
     {
         public string Value { get; } = default!;
 
-        public EventName(string value)
+        private EventName(string value)
+        {           
+            Value = value;
+        }
+
+        public static Result<EventName> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new EmptyValueException(ErrorCodes.Events.EmptyEventNameError);
+                return ErrorCodes.Events.EmptyEventNameError;
             }
 
-            Value = value;
+            return new EventName(value);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.Configurations
                   .HasColumnName("Name")
                   .HasConversion(
                    name => name.Value,
-                   value => new SessionName(value));
+                   value => SessionName.Create(value).Value);
 
             builder.OwnsOne(x => x.BegginingAndEndOfSession, navigation =>
             {

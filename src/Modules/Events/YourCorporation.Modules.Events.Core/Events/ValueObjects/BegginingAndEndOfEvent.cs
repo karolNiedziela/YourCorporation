@@ -1,4 +1,4 @@
-﻿using YourCorporation.Shared.Abstractions.Exceptions;
+﻿using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 {
@@ -10,15 +10,20 @@ namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 
         private BegginingAndEndOfEvent() { }
 
-        public BegginingAndEndOfEvent(DateTimeOffset startTime, DateTimeOffset endTime)
+        private BegginingAndEndOfEvent(DateTimeOffset startTime, DateTimeOffset endTime)
+        {
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+
+        public static Result<BegginingAndEndOfEvent> Create(DateTimeOffset startTime, DateTimeOffset endTime)
         {
             if (startTime >= endTime)
             {
-                throw new CustomValidationException(ErrorCodes.Events.BegginingAndEndOfEventError);
+                return ErrorCodes.Events.BegginingAndEndOfEventError;
             }
 
-            StartTime = startTime;
-            EndTime = endTime;
+            return new BegginingAndEndOfEvent(startTime, endTime);
         }
     }
 }

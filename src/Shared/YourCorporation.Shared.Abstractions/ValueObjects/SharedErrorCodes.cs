@@ -2,12 +2,12 @@
 {
     public static class SharedErrorCodes
     {
-        public static string EmptyFirstName = "EmptyFirstName";
+        public static string EmptyFirstNameErrorCode = "EmptyFirstName";
 
-        public static string MaxLengthFirstName = "MaxLengthFirstName";
+        public static string MaxLengthFirstNameErrorCode = "MaxLengthFirstName";
 
-        public static string EmptyLastName = "EmptyLastName";
+        public static string EmptyLastNameErrorCode = "EmptyLastName";
 
-        public static string MaxLengthLastName = "MaxLengthLastName";
+        public static string MaxLengthLastNameErrorCode = "MaxLengthLastName";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using YourCorporation.Modules.Events.Core.Events.Enums;
 using YourCorporation.Shared.Abstractions.Commands;
+using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Application.Commands.Events.CreateEvent
 {
@@ -11,5 +12,5 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.CreateEvent
          DateTimeOffset StartTime,
          DateTimeOffset EndTime,
          int? AttendeesLimit = null
-         ) : ICommand<Guid>;
+         ) : ICommand<Result<Guid>>;
 }

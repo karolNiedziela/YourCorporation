@@ -13,5 +13,7 @@
         {
             Value = value;
         }
+
+        public static implicit operator Guid(SpeakerId id) => id.Value;
     }
 }

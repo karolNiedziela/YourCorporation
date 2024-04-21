@@ -76,7 +76,7 @@ namespace YourCorporation.Shared.Infrastructure
                 app.UseSwaggerUI();
             }
 
-            app.MapModuleEndpoints(assemblies.ToArray());
+            app.MapModuleEndpoints([.. assemblies]);
 
             return app;
         }

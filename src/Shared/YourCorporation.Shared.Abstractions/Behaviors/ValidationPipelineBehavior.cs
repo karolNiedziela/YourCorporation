@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
 using YourCorporation.Shared.Abstractions.Commands;
+using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Shared.Abstractions.Behaviors
 {
     public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : ICommandBase
+        where TResponse : YourCorporation.Shared.Abstractions.Results.IResult
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -21,24 +23,21 @@ namespace YourCorporation.Shared.Abstractions.Behaviors
             var validationFailures = await Task.WhenAll(
                 _validators.Select(validator => validator.ValidateAsync(context)));
 
-            var errors = validationFailures
-                .Where(validationResult => !validationResult.IsValid)
-                .SelectMany(validationResult => validationResult.Errors)
-                .Select(validationFailure => new ValidationError
-                {
-                    PropertyName = validationFailure.PropertyName,
-                    Message = validationFailure.ErrorMessage
-                })
-                .ToList();
-
-            if (errors.Any())
+            if (validationFailures.Any(x => x.IsValid))
             {
-                throw new ValidationException(errors);
+                return await next();
             }
 
-            var response = await next();
-
-            return response;
+            var errors = validationFailures
+                .SelectMany(x => x.Errors)
+                .ToList()
+                .ConvertAll(error => Error.Validation
+                (
+                    errorCode: error.PropertyName,
+                    message: error.ErrorMessage
+                ));
+            
+            return (dynamic)errors;
         }
     }
 

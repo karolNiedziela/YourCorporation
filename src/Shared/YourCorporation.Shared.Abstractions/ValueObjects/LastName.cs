@@ -1,4 +1,4 @@
-﻿using YourCorporation.Shared.Abstractions.Exceptions.Common;
+﻿using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Shared.Abstractions.ValueObjects
 {
@@ -10,19 +10,24 @@ namespace YourCorporation.Shared.Abstractions.ValueObjects
 
         private LastName() { }
 
-        public LastName(string value)
+        private LastName(string value)
+        {            
+            Value = value;
+        }
+
+        public static Result<LastName> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new EmptyValueException(SharedErrorCodes.EmptyLastName);
+                return CommonErrors.Empty(SharedErrorCodes.EmptyLastNameErrorCode, "LastName");
             }
 
             if (value.Length > MaxLength)
             {
-                throw new MaxLengthException(SharedErrorCodes.MaxLengthLastName, MaxLength);
+                return CommonErrors.MaxLength(SharedErrorCodes.MaxLengthLastNameErrorCode, MaxLength, "LastName");
             }
 
-            Value = value;
+            return new LastName(value);
         }
     }
 }

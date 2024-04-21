@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using YourCorporation.Shared.Abstractions.Exceptions;
+using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Core.Shared.ValueObjects
 {
@@ -9,15 +9,20 @@ namespace YourCorporation.Modules.Events.Core.Shared.ValueObjects
 
         private Email() { }
 
-        public Email(string value)
+        private Email(string value)
+        {          
+            Value = value;
+        }
+
+        public static Result<Email> Create(string value)
         {
             var emailAddressAttribute = new EmailAddressAttribute();
             if (!emailAddressAttribute.IsValid(value))
             {
-                throw new CustomValidationException(ErrorCodes.Shared.EmailError);
+                return ErrorCodes.Shared.EmailError;
             }
 
-            Value = value;
+            return new Email(value);
         }
     }
 }

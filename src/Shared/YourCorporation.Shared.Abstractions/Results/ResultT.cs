@@ -35,5 +35,23 @@
             return onSuccess(Value);
         }
 
+        public TNextValue Match<TNextValue>(
+            Func<TValue, TNextValue> onSuccess,
+            Func<List<Error>, TNextValue> onError,
+            Func<Error, TNextValue> onConflict)
+        {
+            if (!IsFailure)
+            {
+                return onSuccess(Value);
+            }
+
+            if (Errors.Any(x => x.ErrorType == ErrorType.Conflict))
+            {
+                return onConflict(Errors.First());
+            }
+
+            return onError(Errors);
+        }
+
     }
 }

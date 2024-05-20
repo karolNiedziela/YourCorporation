@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\YourCorporation.Shared.Abstractions\YourCorporation.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Forms\YourCorporation.Modules.Forms.MessagingContracts\YourCorporation.Modules.Forms.MessagingContracts.csproj" />
+    <ProjectReference Include="..\YourCorporation.Modules.Recruitment.IntegrationEvents\YourCorporation.Modules.Recruitment.IntegrationEvents.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -47,6 +47,8 @@ namespace YourCorporation.Shared.Infrastructure
                 options.LowercaseUrls = true;
             });
 
+            services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
+
             services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
             {
                 options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -69,6 +71,8 @@ namespace YourCorporation.Shared.Infrastructure
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAntiforgery();
 
             if (app.Environment.IsDevelopment())
             {

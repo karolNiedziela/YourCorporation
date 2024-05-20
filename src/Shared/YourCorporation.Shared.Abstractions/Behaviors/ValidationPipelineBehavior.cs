@@ -23,21 +23,22 @@ namespace YourCorporation.Shared.Abstractions.Behaviors
             var validationFailures = await Task.WhenAll(
                 _validators.Select(validator => validator.ValidateAsync(context)));
 
-            if (validationFailures.Any(x => x.IsValid))
-            {
-                return await next();
-            }
 
             var errors = validationFailures
-                .SelectMany(x => x.Errors)
-                .ToList()
-                .ConvertAll(error => Error.Validation
-                (
-                    errorCode: error.PropertyName,
-                    message: error.ErrorMessage
-                ));
-            
-            return (dynamic)errors;
+             .SelectMany(x => x.Errors)
+             .ToList()
+             .ConvertAll(error => Error.Validation
+             (
+                 errorCode: error.PropertyName,
+                 message: error.ErrorMessage
+             ));
+
+            if (errors.Any())
+            {
+                return (dynamic)errors;
+            }
+
+            return await next();
         }
     }
 

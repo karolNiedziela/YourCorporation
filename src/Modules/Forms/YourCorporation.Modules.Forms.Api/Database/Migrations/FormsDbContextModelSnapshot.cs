@@ -18,7 +18,7 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("forms")
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -53,6 +53,53 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.HasIndex("EventFormId");
 
                     b.ToTable("EventSubmissions", "forms");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("JobOfferFormId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
+                    b.HasIndex("JobOfferFormId");
+
+                    b.ToTable("JobOfferSubmissions", "forms");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmissionChosenWorkLocation", b =>
+                {
+                    b.Property<Guid>("JobOfferSubmissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WorkLocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("JobOfferSubmissionId", "WorkLocationId");
+
+                    b.HasIndex("WorkLocationId");
+
+                    b.ToTable("JobOfferSubmissionChosenWorkLocation", "forms");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms.EventForm", b =>
@@ -95,6 +142,61 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.ToTable("EventForms", "forms");
                 });
 
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsUniqueSubmission")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid>("JobOfferId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(108)
+                        .HasColumnType("nvarchar(108)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobOfferId")
+                        .IsUnique();
+
+                    b.ToTable("JobOfferForms", "forms");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferFormWorkLocation", b =>
+                {
+                    b.Property<Guid>("JobOfferFormId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WorkLocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("JobOfferFormId", "WorkLocationId");
+
+                    b.HasIndex("WorkLocationId");
+
+                    b.ToTable("JobOfferFormWorkLocation", "forms");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkLocations", "forms");
+                });
+
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.EventSubmissions.EventSubmission", b =>
                 {
                     b.HasOne("YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms.EventForm", "EventForm")
@@ -106,9 +208,77 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Navigation("EventForm");
                 });
 
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", b =>
+                {
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", "JobOfferForm")
+                        .WithMany("Submissions")
+                        .HasForeignKey("JobOfferFormId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("JobOfferForm");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmissionChosenWorkLocation", b =>
+                {
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", "JobOfferSubmission")
+                        .WithMany("JobOfferSubmissionChosenWorkLocations")
+                        .HasForeignKey("JobOfferSubmissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", "WorkLocation")
+                        .WithMany("JobOfferSubmissionChosenWorkLocations")
+                        .HasForeignKey("WorkLocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobOfferSubmission");
+
+                    b.Navigation("WorkLocation");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferFormWorkLocation", b =>
+                {
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", "JobOfferForm")
+                        .WithMany("JobOfferFormWorkLocations")
+                        .HasForeignKey("JobOfferFormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", "WorkLocation")
+                        .WithMany("JobOfferFormWorkLocations")
+                        .HasForeignKey("WorkLocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobOfferForm");
+
+                    b.Navigation("WorkLocation");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", b =>
+                {
+                    b.Navigation("JobOfferSubmissionChosenWorkLocations");
+                });
+
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms.EventForm", b =>
                 {
                     b.Navigation("Submissions");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", b =>
+                {
+                    b.Navigation("JobOfferFormWorkLocations");
+
+                    b.Navigation("Submissions");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", b =>
+                {
+                    b.Navigation("JobOfferFormWorkLocations");
+
+                    b.Navigation("JobOfferSubmissionChosenWorkLocations");
                 });
 #pragma warning restore 612, 618
         }

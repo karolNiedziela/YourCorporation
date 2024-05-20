@@ -10,6 +10,8 @@ namespace YourCorporation.Modules.Forms.Api.Entities.FormSubmissions
 
         public string Email { get; protected set; }
 
+        protected FormSubmissionBase() { }
+
         protected FormSubmissionBase(Guid id, string firstName, string lastName, string email) : base(id)
         {
             FirstName = firstName;

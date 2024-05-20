@@ -14,7 +14,9 @@ namespace YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms
 
         public DateTimeOffset EndTime { get; private set; }
 
-        public IEnumerable<EventSubmission> Submissions { get; private set; } = Enumerable.Empty<EventSubmission>();
+        public IEnumerable<EventSubmission> Submissions { get; private set; } = [];
+
+        private EventForm() : base() { }
 
         public EventForm(
             Guid id,
@@ -23,7 +25,7 @@ namespace YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms
             string eventDescription,
             DateTimeOffset startTime, 
             DateTimeOffset endTime) 
-            : base(id, $"Event - {eventName}", true)
+            : base(id, eventName, true)
         {
             EventId = eventId;
             EventName = eventName;

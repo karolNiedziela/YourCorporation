@@ -10,6 +10,7 @@ namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissi
         public virtual void Configure(EntityTypeBuilder<TFormSubmission> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedNever();
 
             builder.Property(x => x.FirstName).HasMaxLength(100);
 

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using YourCorporation.Shared.Abstractions.Persistence;
 using Microsoft.EntityFrameworkCore;
 using YourCorporation.Modules.Forms.Api.Database.Repositories;
+using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.Repositories;
 
 namespace YourCorporation.Modules.Forms.Api.Database
 {
@@ -18,6 +19,9 @@ namespace YourCorporation.Modules.Forms.Api.Database
             });
 
             services.AddScoped<IEventFormRepository, EventFormRepository>();
+            services.AddScoped<IJobOfferFormRepository, JobOfferFormRepository>();
+            services.AddScoped<IWorkLocationRepository, WorkLocationRepository>();
+            services.AddScoped<IJobOfferSubmissionRepository, JobOfferSubmissionRepository>();
 
             return services;
         }

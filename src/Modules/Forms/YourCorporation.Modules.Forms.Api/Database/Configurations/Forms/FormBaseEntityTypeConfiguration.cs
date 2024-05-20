@@ -9,6 +9,7 @@ namespace YourCorporation.Modules.Forms.Api.Database.Configurations.Forms
         public virtual void Configure(EntityTypeBuilder<TForm> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedNever();
 
             builder.Property(x => x.Name).HasMaxLength(108);
 

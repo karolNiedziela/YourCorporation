@@ -8,6 +8,8 @@ namespace YourCorporation.Modules.Forms.Api.Entities.Forms
 
         public bool IsUniqueSubmission { get; protected set; }
 
+        protected FormBase() { }
+
         protected FormBase(
             Guid id,
             string name,

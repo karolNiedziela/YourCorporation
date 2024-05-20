@@ -16,12 +16,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.core" Version="2.1.8" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Events\YourCorporation.Modules.Events.Api\YourCorporation.Modules.Events.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Forms\YourCorporation.Modules.Forms.Api\YourCorporation.Modules.Forms.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\JobSystem\YourCorporation.Modules.JobSystem.Api\YourCorporation.Modules.JobSystem.Api.csproj" />
     <ProjectReference Include="..\..\Shared\YourCorporation.Shared.Abstractions\YourCorporation.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\Shared\YourCorporation.Shared.Infrastructure\YourCorporation.Shared.Infrastructure.csproj" />
   </ItemGroup>

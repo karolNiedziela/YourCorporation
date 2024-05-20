@@ -8,7 +8,10 @@
             => new(errorCode, message, ErrorType.Validation);
 
         public static Error NotFound(string errorCode, string message = null)
-            => new Error(errorCode, message, ErrorType.NotFound);
+            => new (errorCode, message, ErrorType.NotFound);
+
+        public static Error Conflict(string errorCode, string message = null)
+            => new(errorCode, message, ErrorType.Conflict);
 
     }
 }

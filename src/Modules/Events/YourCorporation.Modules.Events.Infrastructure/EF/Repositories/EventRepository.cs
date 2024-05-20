@@ -13,8 +13,8 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Repositories
             _events = context.Events;
         }
 
-        public Task<Event> GetAsync(Guid eventId)
-            => _events.FirstOrDefaultAsync(x => x.Id == eventId);
+        public async Task<Event> GetAsync(Guid eventId)
+            => await _events.FirstOrDefaultAsync(x => x.Id == eventId);
 
         public void Add(Event @event)
             => _events.Add(@event);

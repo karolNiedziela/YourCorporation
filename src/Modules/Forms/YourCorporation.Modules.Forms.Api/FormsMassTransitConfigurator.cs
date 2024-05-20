@@ -17,6 +17,20 @@ namespace YourCorporation.Modules.Forms.Api
                 x.ConfigureConsumer<EventWentLiveConsumer>(context);
             });
 
+            configurator.ReceiveEndpoint("joboffer-publish", x =>
+            {
+                x.PrefetchCount = 20;
+
+                x.ConfigureConsumer<JobOfferPublishedCustomer>(context);
+            });
+
+            configurator.ReceiveEndpoint("worklocation-created", x =>
+            {
+                x.PrefetchCount = 20;
+
+                x.ConfigureConsumer<WorkLocationCreatedConsumer>(context);
+            });
+
             configurator.ConfigureEndpoints(context);
 
             return configurator;
@@ -25,6 +39,8 @@ namespace YourCorporation.Modules.Forms.Api
         public IBusRegistrationConfigurator RegisterConsumers(IBusRegistrationConfigurator configurator)
         {
             configurator.AddConsumer<EventWentLiveConsumer>();
+            configurator.AddConsumer<JobOfferPublishedCustomer>();
+            configurator.AddConsumer<WorkLocationCreatedConsumer>();
 
             return configurator;
         }

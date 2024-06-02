@@ -38,6 +38,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
             }
 
             services.AddHostedService<OutboxProcessor>();
+            services.AddHostedService<OutboxCleanupProcessor>();
 
             return services;
         }

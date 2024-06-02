@@ -9,5 +9,7 @@
         public TimeSpan? StartDelay { get; set; }
 
         public TimeSpan? Interval { get; set; }
+
+        public TimeSpan? CleanupInterval { get; set; }
     }
 }

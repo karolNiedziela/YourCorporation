@@ -2,5 +2,5 @@
 
 namespace YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.Events
 {
-    internal record WorkLocationCreatedDomainEvent(Guid Id, WorkLocation WorkLocation) : DomainEvent(Id);
+    internal record WorkLocationCreatedDomainEvent(Guid Id, string Name, string Code) : IDomainEvent;
 }

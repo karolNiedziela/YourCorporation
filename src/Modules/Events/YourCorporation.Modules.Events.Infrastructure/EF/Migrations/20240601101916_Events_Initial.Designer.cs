@@ -12,8 +12,8 @@ using YourCorporation.Modules.Events.Infrastructure.EF;
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(EventsDbContext))]
-    [Migration("20231102150046_Initial")]
-    partial class Initial
+    [Migration("20240601101916_Events_Initial")]
+    partial class Events_Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("events")
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -32,17 +32,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Email");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("FirstName");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("LastName");
 
@@ -140,12 +137,16 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)")
+                        .HasColumnName("Description");
+
                     b.Property<string>("Mode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
@@ -185,7 +186,6 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnName("EventId");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
@@ -202,18 +202,48 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("FirstName");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("LastName");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Speaker", "events");
+                    b.ToTable("Speakers", "events");
+                });
+
+            modelBuilder.Entity("YourCorporation.Shared.Abstractions.Messaging.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TraceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Outbox", "events");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Events.Core.Events.Entities.ConfirmedEventAttendee", b =>
@@ -316,11 +346,9 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                                 .HasForeignKey("EventId");
                         });
 
-                    b.Navigation("BegginingAndEndOfEvent")
-                        .IsRequired();
+                    b.Navigation("BegginingAndEndOfEvent");
 
-                    b.Navigation("EventLimits")
-                        .IsRequired();
+                    b.Navigation("EventLimits");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Events.Core.Sessions.Entities.SessionSpeaker", b =>
@@ -367,8 +395,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                                 .HasForeignKey("SessionId");
                         });
 
-                    b.Navigation("BegginingAndEndOfSession")
-                        .IsRequired();
+                    b.Navigation("BegginingAndEndOfSession");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Events.Core.Events.Event", b =>

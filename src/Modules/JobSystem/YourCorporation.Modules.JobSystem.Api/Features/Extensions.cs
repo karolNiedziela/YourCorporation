@@ -2,7 +2,7 @@
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using YourCorporation.Shared.Abstractions.Behaviors;
+using YourCorporation.Shared.Abstractions.MediatR.Behaviors;
 
 namespace YourCorporation.Modules.JobSystem.Api.Features
 {

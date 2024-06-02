@@ -20,5 +20,7 @@ namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 
             return new EventName(value);
         }
+
+        public static implicit operator string(EventName name) => name.Value;
     }
 }

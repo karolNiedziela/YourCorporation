@@ -5,11 +5,11 @@ namespace YourCorporation.Modules.Events.Api
 {
     internal class EventsMassTransitConfigurator : IMassTransitDefinition
     {
-        public IRabbitMqBusFactoryConfigurator ConfigureMassTransit(
-            IBusRegistrationContext context, 
-            IRabbitMqBusFactoryConfigurator configurator)
+        public IRabbitMqBusFactoryConfigurator ConfigureRabbitMQ(
+            IBusRegistrationContext busRegistrationContext,
+            IRabbitMqBusFactoryConfigurator rabbitMQBusFactoryConfigurator)
         {          
-            return configurator;
+            return rabbitMQBusFactoryConfigurator;
         }
 
         public IBusRegistrationConfigurator RegisterConsumers(IBusRegistrationConfigurator configurator)

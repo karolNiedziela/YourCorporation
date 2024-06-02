@@ -45,9 +45,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourCorporation.Modules.Job
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourCorporation.Modules.JobSystem.MessagingContracts", "src\Modules\JobSystem\YourCorporation.Modules.JobSystem.MessagingContracts\YourCorporation.Modules.JobSystem.MessagingContracts.csproj", "{505999B0-A5EF-4E3E-A8DE-A51807B6BB38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourCorporation.Modules.Forms.MessagingContracts", "src\Modules\Forms\YourCorporation.Modules.Forms.MessagingContracts\YourCorporation.Modules.Forms.MessagingContracts.csproj", "{0B81A7D1-32C4-4195-B0D9-BEC1846AB838}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourCorporation.Modules.Forms.MessagingContracts", "src\Modules\Forms\YourCorporation.Modules.Forms.MessagingContracts\YourCorporation.Modules.Forms.MessagingContracts.csproj", "{0B81A7D1-32C4-4195-B0D9-BEC1846AB838}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourCorporation.Modules.Recruitment.IntegrationEvents", "src\Modules\Recruitment\YourCorporation.Modules.Recruitment.IntegrationEvents\YourCorporation.Modules.Recruitment.IntegrationEvents.csproj", "{CFC8486D-E530-48A4-B142-3ABE83097B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourCorporation.Modules.Recruitment.IntegrationEvents", "src\Modules\Recruitment\YourCorporation.Modules.Recruitment.IntegrationEvents\YourCorporation.Modules.Recruitment.IntegrationEvents.csproj", "{CFC8486D-E530-48A4-B142-3ABE83097B45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

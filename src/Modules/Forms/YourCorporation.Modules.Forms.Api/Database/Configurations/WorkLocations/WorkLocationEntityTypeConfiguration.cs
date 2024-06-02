@@ -6,10 +6,13 @@ namespace YourCorporation.Modules.Forms.Api.Database.Configurations.WorkLocation
 {
     internal class WorkLocationEntityTypeConfiguration : IEntityTypeConfiguration<WorkLocation>
     {
+        public const int MaxCodeLength = 6;
+
         public void Configure(EntityTypeBuilder<WorkLocation> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
+            builder.Property(x => x.Code).HasMaxLength(MaxCodeLength);
         }
     }
 }

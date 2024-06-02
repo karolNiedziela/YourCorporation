@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Events_Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,9 +20,9 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,12 +35,13 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     AttendeesLimit = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -49,17 +50,36 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Speaker",
+                name: "Outbox",
                 schema: "events",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CorrelationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TraceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Speaker", x => x.Id);
+                    table.PrimaryKey("PK_Outbox", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Speakers",
+                schema: "events",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Speakers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,9 +146,9 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -191,10 +211,10 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EventSpeaker_Speaker_SpeakerId",
+                        name: "FK_EventSpeaker_Speakers_SpeakerId",
                         column: x => x.SpeakerId,
                         principalSchema: "events",
-                        principalTable: "Speaker",
+                        principalTable: "Speakers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -218,10 +238,10 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SessionSpeaker_Speaker_SpeakerId",
+                        name: "FK_SessionSpeaker_Speakers_SpeakerId",
                         column: x => x.SpeakerId,
                         principalSchema: "events",
-                        principalTable: "Speaker",
+                        principalTable: "Speakers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -279,6 +299,10 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 schema: "events");
 
             migrationBuilder.DropTable(
+                name: "Outbox",
+                schema: "events");
+
+            migrationBuilder.DropTable(
                 name: "SessionSpeaker",
                 schema: "events");
 
@@ -291,7 +315,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 schema: "events");
 
             migrationBuilder.DropTable(
-                name: "Speaker",
+                name: "Speakers",
                 schema: "events");
 
             migrationBuilder.DropTable(

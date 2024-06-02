@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using YourCorporation.Modules.Events.Core.Events.Repositories;
@@ -18,6 +19,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF
 
                 options.UseSqlServer(mssqlOptions.ConnectionString);
             });
+
 
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<EventsDbContext>());
 

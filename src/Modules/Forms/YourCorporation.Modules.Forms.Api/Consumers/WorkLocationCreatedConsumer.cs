@@ -19,7 +19,8 @@ namespace YourCorporation.Modules.Forms.Api.Consumers
             var workLocation = new WorkLocation
             {
                 Id = context.Message.Id,
-                Name = context.Message.Name
+                Name = context.Message.Name,
+                Code = context.Message.Code,
             };
 
             await _workLocationRepository.AddAsync(workLocation);

@@ -2,21 +2,25 @@
 using MediatR;
 using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.Events;
 using YourCorporation.Modules.JobSystem.MessagingContracts;
+using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 
 namespace YourCorporation.Modules.JobSystem.Api.Features.WorkLocations.AddWorkLocation
 {
     internal class WorkLocationCreatedDomainEventHandler : INotificationHandler<WorkLocationCreatedDomainEvent>
     {
-        private readonly IPublishEndpoint _endpoint;
+        private readonly IMessageBroker _messageBroker;
 
-        public WorkLocationCreatedDomainEventHandler(IPublishEndpoint endpoint)
+        public WorkLocationCreatedDomainEventHandler(IMessageBroker messageBroker)
         {
-            _endpoint = endpoint;
+            _messageBroker = messageBroker;
         }
 
         public async Task Handle(WorkLocationCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            await _endpoint.Publish(new WorkLocationCreated(notification.WorkLocation.Id, notification.WorkLocation.Name), cancellationToken);
+            await _messageBroker.PublishAsync(
+                new WorkLocationCreated(notification.Id, notification.Name, notification.Code), 
+                notification, 
+                cancellationToken);
         }
     }
 }

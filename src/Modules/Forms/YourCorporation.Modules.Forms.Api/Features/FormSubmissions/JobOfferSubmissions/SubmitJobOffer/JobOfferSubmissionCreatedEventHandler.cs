@@ -2,16 +2,17 @@
 using MediatR;
 using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.Events;
 using YourCorporation.Modules.Forms.MessagingContracts;
+using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 
 namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSubmissions.SubmitJobOffer
 {
     internal class JobOfferSubmissionCreatedEventHandler : INotificationHandler<JobOfferSubmissionCreatedDomainEvent>
     {
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IMessageBroker _messageBroker;
 
-        public JobOfferSubmissionCreatedEventHandler(IPublishEndpoint publishEndpoint)
+        public JobOfferSubmissionCreatedEventHandler(IMessageBroker messageBroker)
         {
-            _publishEndpoint = publishEndpoint;
+            _messageBroker = messageBroker;
         }
 
         public async Task Handle(JobOfferSubmissionCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -23,7 +24,7 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
                 notification.JobOfferSubmission.Email,
                 notification.JobOfferSubmission.ChosenWorkLocations.Select(x => x.Id));
 
-            await _publishEndpoint.Publish(jobOfferSubmissionCreated, cancellationToken);
+            await _messageBroker.PublishAsync(jobOfferSubmissionCreated, notification, cancellationToken);
         }
     }
 }

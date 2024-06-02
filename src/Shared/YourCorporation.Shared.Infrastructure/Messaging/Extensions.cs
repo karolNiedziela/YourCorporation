@@ -4,6 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 using YourCorporation.Shared.Abstractions.Messaging;
+using YourCorporation.Shared.Abstractions.Messaging.Brokers;
+using YourCorporation.Shared.Abstractions.Messaging.Contexts;
+using YourCorporation.Shared.Infrastructure.Messaging.Brokers;
+using YourCorporation.Shared.Infrastructure.Messaging.Contexts;
+using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
 
 namespace YourCorporation.Shared.Infrastructure.Messaging
 {
@@ -11,7 +16,14 @@ namespace YourCorporation.Shared.Infrastructure.Messaging
     {
         public static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration, params Assembly[] scanAssemblies)
         {
+            services.AddTransient<IDomainEventsBroker, DomainEventsBroker>();
+            services.AddTransient<IMessageBroker, MessageBroker>();
+            services.AddSingleton<IMessageContextProvider, MessageContextProvider>();
+            services.AddSingleton<IMessageContextRegistry, MessageContextRegistry>();
+
             services.AddRabbitMQ(configuration);
+
+            services.AddOutbox(configuration);
 
             services.ConfigureMassTransit(scanAssemblies);
 
@@ -60,7 +72,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging
                     foreach (var configuration in configurations)
                     {
                         var instantiatedType = (IMassTransitDefinition)Activator.CreateInstance(configuration)!;
-                        instantiatedType.ConfigureMassTransit(context, config);
+                        instantiatedType.ConfigureRabbitMQ(context, config);
                     }
 
                     config.ConfigureEndpoints(context);

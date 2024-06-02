@@ -1,7 +1,8 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Speakers;
+using YourCorporation.Shared.Abstractions.Messaging.Brokers;
+using YourCorporation.Shared.Abstractions.Messaging.Outbox;
 using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Types;
 
@@ -9,15 +10,17 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF
 {
     internal class EventsDbContext : DbContext, IUnitOfWork
     {
-        private readonly IPublisher _publisher;
+        private readonly IDomainEventsBroker _domainEventsBroker;
 
         public DbSet<Event> Events { get; set; }
 
         public DbSet<Speaker> Speakers { get; set; }
 
-        public EventsDbContext(DbContextOptions<EventsDbContext> options, IPublisher publisher) : base(options)
+        public DbSet<OutboxMessage> Outbox { get; set; }
+
+        public EventsDbContext(DbContextOptions<EventsDbContext> options, IDomainEventsBroker domainEventsBroker) : base(options)
         {
-            _publisher = publisher;
+            _domainEventsBroker = domainEventsBroker;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,14 +41,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF
                    aggregateRoot.ClearEvents();
 
                    return domainEvents;
-               });
+               })
+               .ToArray();
 
             var result = await base.SaveChangesAsync(cancellationToken);
 
-            foreach (var domainEvent in domainEvents)
-            {
-                await _publisher.Publish(domainEvent, cancellationToken);
-            }
+            await _domainEventsBroker.PublishAsync(domainEvents);
 
             return result;
         }

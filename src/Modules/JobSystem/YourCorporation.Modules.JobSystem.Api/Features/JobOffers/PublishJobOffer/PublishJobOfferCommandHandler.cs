@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.Events;
 using YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.Repositiories;
+using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.JobSystem.Api.Features.JobOffers.PublishJobOffer
@@ -8,12 +9,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Features.JobOffers.PublishJobOff
     internal class PublishJobOfferCommandHandler : IRequestHandler<PublishJobOfferCommand, Result>
     {
         private readonly IJobOfferRepository _jobOfferRepository;
-        private readonly IPublisher _publisher;
+        private readonly IDomainEventsBroker _domainEventsBroker;
 
-        public PublishJobOfferCommandHandler(IJobOfferRepository jobOfferRepository, IPublisher publisher)
+        public PublishJobOfferCommandHandler(IJobOfferRepository jobOfferRepository, IDomainEventsBroker domainEventsBroker)
         {
             _jobOfferRepository = jobOfferRepository;
-            _publisher = publisher;
+            _domainEventsBroker = domainEventsBroker;
         }
 
         public async Task<Result> Handle(PublishJobOfferCommand request, CancellationToken cancellationToken)
@@ -33,7 +34,7 @@ namespace YourCorporation.Modules.JobSystem.Api.Features.JobOffers.PublishJobOff
 
             await _jobOfferRepository.UpdateAsync(jobOffer);
 
-            await _publisher.Publish(new JobOfferPublishedDomainEvent(Guid.NewGuid(), jobOffer), cancellationToken);
+            await _domainEventsBroker.PublishAsync(new JobOfferPublishedDomainEvent(jobOffer), cancellationToken);
 
             return Result.Success();
         }

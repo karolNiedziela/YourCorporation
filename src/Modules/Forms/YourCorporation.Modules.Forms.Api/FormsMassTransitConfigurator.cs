@@ -1,39 +1,40 @@
 ﻿using MassTransit;
 using YourCorporation.Modules.Forms.Api.Consumers;
+using YourCorporation.Modules.Forms.Api.Database;
 using YourCorporation.Shared.Abstractions.Messaging;
 
 namespace YourCorporation.Modules.Forms.Api
 {
     internal class FormsMassTransitConfigurator : IMassTransitDefinition
     {
-        public IRabbitMqBusFactoryConfigurator ConfigureMassTransit(
-            IBusRegistrationContext context, 
-            IRabbitMqBusFactoryConfigurator configurator)
-        {
-            configurator.ReceiveEndpoint("event-live", x =>
+        public IRabbitMqBusFactoryConfigurator ConfigureRabbitMQ(
+            IBusRegistrationContext busRegistrationContext,
+            IRabbitMqBusFactoryConfigurator rabbitMQBusFactoryConfigurator)
+        {           
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("event-live", x =>
             {
                 x.PrefetchCount = 20;
 
-                x.ConfigureConsumer<EventWentLiveConsumer>(context);
+                x.ConfigureConsumer<EventWentLiveConsumer>(busRegistrationContext);
             });
 
-            configurator.ReceiveEndpoint("joboffer-publish", x =>
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("joboffer-publish", x =>
             {
                 x.PrefetchCount = 20;
 
-                x.ConfigureConsumer<JobOfferPublishedCustomer>(context);
+                x.ConfigureConsumer<JobOfferPublishedCustomer>(busRegistrationContext);
             });
 
-            configurator.ReceiveEndpoint("worklocation-created", x =>
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("worklocation-created", x =>
             {
                 x.PrefetchCount = 20;
 
-                x.ConfigureConsumer<WorkLocationCreatedConsumer>(context);
+                x.ConfigureConsumer<WorkLocationCreatedConsumer>(busRegistrationContext);
             });
 
-            configurator.ConfigureEndpoints(context);
+            rabbitMQBusFactoryConfigurator.ConfigureEndpoints(busRegistrationContext);
 
-            return configurator;
+            return rabbitMQBusFactoryConfigurator;
         }
 
         public IBusRegistrationConfigurator RegisterConsumers(IBusRegistrationConfigurator configurator)

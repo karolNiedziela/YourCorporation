@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\..\Shared\YourCorporation.Shared.Abstractions\YourCorporation.Shared.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Candidates\Repositories\" />
+  </ItemGroup>
+
 </Project>

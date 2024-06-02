@@ -2,5 +2,5 @@
 
 namespace YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.Events
 {
-    internal record JobOfferFinishedDomainEvent(Guid Id, Guid JobOfferId) : DomainEvent(Id);
+    internal record JobOfferFinishedDomainEvent(Guid JobOfferId) : IDomainEvent;
 }

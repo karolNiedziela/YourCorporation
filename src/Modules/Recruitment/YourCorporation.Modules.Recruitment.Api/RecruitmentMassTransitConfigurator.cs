@@ -6,20 +6,20 @@ namespace YourCorporation.Modules.Recruitment.Api
 {
     internal class RecruitmentMassTransitConfigurator : IMassTransitDefinition
     {
-        public IRabbitMqBusFactoryConfigurator ConfigureMassTransit(
-            IBusRegistrationContext context, 
-            IRabbitMqBusFactoryConfigurator configurator)
+        public IRabbitMqBusFactoryConfigurator ConfigureRabbitMQ(
+            IBusRegistrationContext busRegistrationContext,
+            IRabbitMqBusFactoryConfigurator rabbitMQBusFactoryConfigurator)
         {
-            configurator.ReceiveEndpoint("joboffersubmission-created", x =>
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("joboffersubmission-created", x =>
             {
                 x.PrefetchCount = 20;
 
-                x.ConfigureConsumer<JobOfferSubmissionCreatedConsumer>(context);
+                x.ConfigureConsumer<JobOfferSubmissionCreatedConsumer>(busRegistrationContext);
             });
 
-            configurator.ConfigureEndpoints(context);
+            rabbitMQBusFactoryConfigurator.ConfigureEndpoints(busRegistrationContext);
 
-            return configurator;
+            return rabbitMQBusFactoryConfigurator;
         }
 
         public IBusRegistrationConfigurator RegisterConsumers(IBusRegistrationConfigurator configurator)

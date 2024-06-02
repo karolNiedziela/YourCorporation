@@ -20,7 +20,7 @@ namespace YourCorporation.Modules.Events.Api
         {
             services.AddCore();
             services.AddApplication();
-            services.AddInfrastructure();           
+            services.AddInfrastructure(configuration);           
         }
 
         public void ConfigureModule(IApplicationBuilder builder)

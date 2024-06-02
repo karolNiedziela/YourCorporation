@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.Repositiories;
 using YourCorporation.Modules.JobSystem.Api.Database.Repositories;
 using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.Repositories;
+using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
+using Microsoft.Extensions.Configuration;
 
 namespace YourCorporation.Modules.JobSystem.Api.Database
 {
     internal static class Extensions
     {
-        public static IServiceCollection AddSqlServer(this IServiceCollection services)
+        public static IServiceCollection AddSqlServer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<JobSystemDbContext>((services, options) =>
             {
@@ -21,6 +23,8 @@ namespace YourCorporation.Modules.JobSystem.Api.Database
 
             services.AddScoped<IJobOfferRepository, JobOfferRepository>();
             services.AddScoped<IWorkLocationRepository, WorkLocationRepository>();
+
+            services.AddOutbox<JobSystemDbContext>(configuration);
 
             return services;
         }

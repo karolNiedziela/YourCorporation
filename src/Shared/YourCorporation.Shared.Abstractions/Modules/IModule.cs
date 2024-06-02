@@ -10,7 +10,7 @@ namespace YourCorporation.Shared.Abstractions.Modules
 
         string Path { get; }
 
-        void Register(IServiceCollection services, IConfiguration configratuon);
+        void Register(IServiceCollection services, IConfiguration configuration);
 
         void ConfigureModule(IApplicationBuilder builder);
     }

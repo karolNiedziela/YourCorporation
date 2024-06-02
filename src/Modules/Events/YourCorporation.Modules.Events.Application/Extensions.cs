@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
-using YourCorporation.Shared.Abstractions.Behaviors;
+using YourCorporation.Shared.Abstractions.MediatR.Behaviors;
 
 [assembly: InternalsVisibleTo("YourCorporation.Modules.Events.Infrastructure")]
 [assembly: InternalsVisibleTo("YourCorporation.Modules.Events.Api")]

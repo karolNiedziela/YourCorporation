@@ -18,7 +18,7 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("forms")
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -26,7 +26,6 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.EventSubmissions.EventSubmission", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -58,7 +57,6 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -105,7 +103,6 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms.EventForm", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("EndTime")
@@ -145,7 +142,6 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsUniqueSubmission")
@@ -186,8 +182,11 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -195,6 +194,38 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WorkLocations", "forms");
+                });
+
+            modelBuilder.Entity("YourCorporation.Shared.Abstractions.Messaging.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TraceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Outbox", "forms");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.EventSubmissions.EventSubmission", b =>

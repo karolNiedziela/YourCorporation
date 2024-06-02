@@ -4,9 +4,9 @@ namespace YourCorporation.Shared.Abstractions.Messaging
 {
     public interface IMassTransitDefinition
     {
-        IRabbitMqBusFactoryConfigurator ConfigureMassTransit(
-            IBusRegistrationContext context, 
-            IRabbitMqBusFactoryConfigurator configurator);
+        IRabbitMqBusFactoryConfigurator ConfigureRabbitMQ(
+            IBusRegistrationContext busRegistrationContext,
+            IRabbitMqBusFactoryConfigurator rabbitMQBusFactoryConfigurator);
 
         IBusRegistrationConfigurator RegisterConsumers(IBusRegistrationConfigurator configurator);
     }

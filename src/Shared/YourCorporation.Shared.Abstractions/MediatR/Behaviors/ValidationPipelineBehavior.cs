@@ -3,11 +3,11 @@ using MediatR;
 using YourCorporation.Shared.Abstractions.Commands;
 using YourCorporation.Shared.Abstractions.Results;
 
-namespace YourCorporation.Shared.Abstractions.Behaviors
+namespace YourCorporation.Shared.Abstractions.MediatR.Behaviors
 {
     public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : ICommandBase
-        where TResponse : YourCorporation.Shared.Abstractions.Results.IResult
+        where TResponse : IResult
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 

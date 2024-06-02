@@ -10,6 +10,8 @@ namespace YourCorporation.Modules.Forms.Api.Entities.WorkLocations
 
         public string Name { get; set; }
 
+        public string Code { get; set; }
+
         public IEnumerable<JobOfferFormWorkLocation> JobOfferFormWorkLocations { get; set; } = [];
 
         public IEnumerable<JobOfferForm> JobOfferForms { get; set; } = [];

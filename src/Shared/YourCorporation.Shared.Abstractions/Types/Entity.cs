@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace YourCorporation.Shared.Abstractions.Types
+﻿namespace YourCorporation.Shared.Abstractions.Types
 {
     public abstract class Entity<TId> : IEquatable<Entity<TId>>
         where TId : notnull 

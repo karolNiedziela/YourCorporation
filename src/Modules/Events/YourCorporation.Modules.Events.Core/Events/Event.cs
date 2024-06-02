@@ -120,7 +120,7 @@ namespace YourCorporation.Modules.Events.Core.Events
             CheckIsInValidStatus(EventStatus.Draft);
 
             Status = EventStatus.Live;
-            AddDomainEvent(new EventWentLiveDomainEvent(Guid.NewGuid(), this));
+            AddDomainEvent(new EventWentLiveDomainEvent(Id, Name, BegginingAndEndOfEvent.StartTime, BegginingAndEndOfEvent.EndTime));
         }
 
         private void AddToWailist(AttendeeId attendeeId, DateTimeOffset signUpDate)

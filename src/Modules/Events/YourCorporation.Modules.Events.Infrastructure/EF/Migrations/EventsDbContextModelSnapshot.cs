@@ -18,7 +18,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("events")
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -208,7 +208,39 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Speaker", "events");
+                    b.ToTable("Speakers", "events");
+                });
+
+            modelBuilder.Entity("YourCorporation.Shared.Abstractions.Messaging.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TraceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Outbox", "events");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Events.Core.Events.Entities.ConfirmedEventAttendee", b =>

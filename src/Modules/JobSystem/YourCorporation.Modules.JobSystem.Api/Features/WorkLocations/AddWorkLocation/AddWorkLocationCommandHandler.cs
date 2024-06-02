@@ -2,6 +2,7 @@
 using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations;
 using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.Events;
 using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.Repositories;
+using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.JobSystem.Api.Features.WorkLocations.AddWorkLocation
@@ -9,12 +10,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Features.WorkLocations.AddWorkLo
     internal class AddWorkLocationCommandHandler : IRequestHandler<AddWorkLocationCommand, Result<Guid>>
     {
         private readonly IWorkLocationRepository _workLocationRepository;
-        private readonly IPublisher _publisher;
+        private readonly IDomainEventsBroker _domainEventsBroker;
 
-        public AddWorkLocationCommandHandler(IWorkLocationRepository workLocationRepository, IPublisher publisher)
+        public AddWorkLocationCommandHandler(IWorkLocationRepository workLocationRepository, IDomainEventsBroker domainEventsBroker)
         {
             _workLocationRepository = workLocationRepository;
-            _publisher = publisher;
+            _domainEventsBroker = domainEventsBroker;
         }
 
         public async Task<Result<Guid>> Handle(AddWorkLocationCommand request, CancellationToken cancellationToken)
@@ -36,7 +37,7 @@ namespace YourCorporation.Modules.JobSystem.Api.Features.WorkLocations.AddWorkLo
 
             await _workLocationRepository.AddAsync(workLocation);
 
-            await _publisher.Publish(new WorkLocationCreatedDomainEvent(Guid.NewGuid(), workLocation), cancellationToken);
+            await _domainEventsBroker.PublishAsync(new WorkLocationCreatedDomainEvent(workLocation.Id, workLocation.Name, workLocation.Code.Value), cancellationToken);
 
             return workLocation.Id;
         }

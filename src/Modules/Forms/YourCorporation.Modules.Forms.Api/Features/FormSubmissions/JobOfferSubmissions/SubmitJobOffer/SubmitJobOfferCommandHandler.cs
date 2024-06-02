@@ -3,6 +3,7 @@ using YourCorporation.Modules.Forms.Api.Database.Repositories;
 using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions;
 using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.Events;
 using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.Repositories;
+using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSubmissions.SubmitJobOffer
@@ -12,18 +13,18 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
         private readonly IJobOfferSubmissionRepository _jobOfferSubmissionRepository;
         private readonly IWorkLocationRepository _workLocationRepository;
         private readonly IJobOfferFormRepository _jobOfferFormRepository;
-        private readonly IPublisher _publisher;
+        private readonly IDomainEventsBroker _domainEventsBroker;
 
         public SubmitJobOfferCommandHandler(
             IJobOfferSubmissionRepository jobOfferSubmissionRepository,
             IWorkLocationRepository workLocationRepository,
             IJobOfferFormRepository jobOfferFormRepository,
-            IPublisher publisher)
+            IDomainEventsBroker domainEventsBroker)
         {
             _jobOfferSubmissionRepository = jobOfferSubmissionRepository;
             _workLocationRepository = workLocationRepository;
             _jobOfferFormRepository = jobOfferFormRepository;
-            _publisher = publisher;
+            _domainEventsBroker = domainEventsBroker;
         }
 
         public async Task<Result<Guid>> Handle(SubmitJobOfferCommand request, CancellationToken cancellationToken)
@@ -60,8 +61,7 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
 
             await _jobOfferSubmissionRepository.AddAsync(jobOfferSubmission);
 
-            await _publisher.Publish(new JobOfferSubmissionCreatedDomainEvent(
-                Guid.NewGuid(),
+            await _domainEventsBroker.PublishAsync(new JobOfferSubmissionCreatedDomainEvent(
                 jobOfferSubmission), cancellationToken);
 
             return jobOfferSubmission.Id;

@@ -15,9 +15,9 @@ namespace YourCorporation.Modules.Forms.Api
 
         public string Path => BasePath;
 
-        public void Register(IServiceCollection services, IConfiguration configratuon)
+        public void Register(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSqlServer();
+            services.AddSqlServer(configuration);
             services.AddFeatures();
         }
 

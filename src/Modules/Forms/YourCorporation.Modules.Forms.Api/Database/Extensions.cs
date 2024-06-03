@@ -4,12 +4,15 @@ using YourCorporation.Shared.Abstractions.Persistence;
 using Microsoft.EntityFrameworkCore;
 using YourCorporation.Modules.Forms.Api.Database.Repositories;
 using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.Repositories;
+using Microsoft.Extensions.Configuration;
+using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
+using YourCorporation.Shared.Infrastructure.Messaging.Inbox;
 
 namespace YourCorporation.Modules.Forms.Api.Database
 {
     internal static class Extensions
     {
-        public static IServiceCollection AddSqlServer(this IServiceCollection services)
+        public static IServiceCollection AddSqlServer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<FormsDbContext>((services, options) =>
             {
@@ -17,6 +20,9 @@ namespace YourCorporation.Modules.Forms.Api.Database
 
                 options.UseSqlServer(mssqlOptions.ConnectionString);
             });
+
+            services.AddOutbox<FormsDbContext>(configuration);
+            services.AddInbox<FormsDbContext>(configuration);
 
             services.AddScoped<IEventFormRepository, EventFormRepository>();
             services.AddScoped<IJobOfferFormRepository, JobOfferFormRepository>();

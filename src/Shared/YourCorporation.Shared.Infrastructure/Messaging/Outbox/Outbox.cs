@@ -133,7 +133,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
                 var messageContext = new Contexts.MessageContext(messageId, context);
                 _messageContextRegistry.Set(message, messageContext);
 
-                _logger.LogInformation("Publishing a message from outbox ('{ModuleName}'): {Name} [Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
+                _logger.LogInformation("Publishing a message from outbox from ('{ModuleName}'): {Name} [Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
                     moduleName, name, messageId, correlationId, traceId);
 
                 await _publisher.Publish(message);

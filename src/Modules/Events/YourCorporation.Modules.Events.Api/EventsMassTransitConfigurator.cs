@@ -8,7 +8,7 @@ namespace YourCorporation.Modules.Events.Api
         public IRabbitMqBusFactoryConfigurator ConfigureRabbitMQ(
             IBusRegistrationContext busRegistrationContext,
             IRabbitMqBusFactoryConfigurator rabbitMQBusFactoryConfigurator)
-        {          
+        {            
             return rabbitMQBusFactoryConfigurator;
         }
 

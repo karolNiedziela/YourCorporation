@@ -23,20 +23,20 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Brokers
         {
             var messageContext = _messageContextProvider.Get(notification);
 
-            var module = message.GetModuleName();
+            var module = notification.GetModuleName();
             var name = message.GetType().Name;
             var requestId = messageContext.Context.RequestId;
             var traceId = messageContext.Context.TraceId;
             var correlationId = messageContext.Context.CorrelationId;
             var messageId = messageContext.MessageId;
 
-            _logger.LogInformation("Publishing a message: {Name} ({Module}) [Request Id: {RequestId}, Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
+            _logger.LogInformation("Publishing a message: {Name} from ('{ModuleName}') [Request Id: {RequestId}, Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
                 name, module, requestId, messageId, correlationId, traceId);
 
-            await _publishEndpoint.Publish(message, publishContext =>
+            await _publishEndpoint.Publish(message, message.GetType(), publishContext =>
             {
-                publishContext.CorrelationId = correlationId;
                 publishContext.MessageId = messageId;
+                publishContext.CorrelationId = correlationId;
                 publishContext.RequestId = requestId;
             }, cancellationToken);
         }        

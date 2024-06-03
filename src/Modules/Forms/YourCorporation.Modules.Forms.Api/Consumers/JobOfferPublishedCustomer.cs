@@ -2,16 +2,19 @@
 using YourCorporation.Modules.Forms.Api.Database.Repositories;
 using YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms;
 using YourCorporation.Modules.JobSystem.MessagingContracts;
+using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 
 namespace YourCorporation.Modules.Forms.Api.Consumers
 {
     internal class JobOfferPublishedCustomer : IConsumer<JobOfferPublished>
     {
         private readonly IJobOfferFormRepository _jobOfferFormRepository;
+        private readonly IInboxCustomerHandler _inboxHandler;
 
-        public JobOfferPublishedCustomer(IJobOfferFormRepository jobOfferFormRepository)
+        public JobOfferPublishedCustomer(IJobOfferFormRepository jobOfferFormRepository, IInboxCustomerHandler inboxHandler)
         {
             _jobOfferFormRepository = jobOfferFormRepository;
+            _inboxHandler = inboxHandler;
         }
 
         public async Task Consume(ConsumeContext<JobOfferPublished> context)
@@ -26,7 +29,10 @@ namespace YourCorporation.Modules.Forms.Api.Consumers
                     JobOfferFormId = jobOfferFormId,
                 }).ToList());
 
-            await _jobOfferFormRepository.AddAsync(jobOfferForm);
+            await _inboxHandler.Send(
+                context, 
+                typeof(JobOfferPublishedCustomer),
+                () => _jobOfferFormRepository.AddAsync(jobOfferForm));
         }
     }
 }

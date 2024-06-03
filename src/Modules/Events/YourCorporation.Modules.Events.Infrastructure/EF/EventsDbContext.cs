@@ -2,13 +2,14 @@
 using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Speakers;
 using YourCorporation.Shared.Abstractions.Messaging.Brokers;
+using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
 using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF
 {
-    internal class EventsDbContext : DbContext, IUnitOfWork
+    internal class EventsDbContext : DbContext, IUnitOfWork, IInboxDbSet, IOutboxDbSet
     {
         private readonly IDomainEventsBroker _domainEventsBroker;
 
@@ -17,6 +18,8 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF
         public DbSet<Speaker> Speakers { get; set; }
 
         public DbSet<OutboxMessage> Outbox { get; set; }
+
+        public DbSet<InboxMessage> Inbox { get; set; }
 
         public EventsDbContext(DbContextOptions<EventsDbContext> options, IDomainEventsBroker domainEventsBroker) : base(options)
         {

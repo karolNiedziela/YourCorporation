@@ -8,6 +8,7 @@ using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 using YourCorporation.Shared.Abstractions.Messaging.Contexts;
 using YourCorporation.Shared.Infrastructure.Messaging.Brokers;
 using YourCorporation.Shared.Infrastructure.Messaging.Contexts;
+using YourCorporation.Shared.Infrastructure.Messaging.Inbox;
 using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
 
 namespace YourCorporation.Shared.Infrastructure.Messaging
@@ -24,6 +25,8 @@ namespace YourCorporation.Shared.Infrastructure.Messaging
             services.AddRabbitMQ(configuration);
 
             services.AddOutbox(configuration);
+            services.AddInbox(configuration);
+
 
             services.ConfigureMassTransit(scanAssemblies);
 
@@ -60,7 +63,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging
                 x.UsingRabbitMq((context, config) =>
                 {
                     config.PrefetchCount = 50;
-
+                   
                     var rabbitMQOptions = context.GetRequiredService<IOptions<RabbitMQOptions>>().Value;
 
                     config.Host(rabbitMQOptions.HostName, rabbitMQOptions.VirtualHost, h =>

@@ -7,6 +7,7 @@ using YourCorporation.Modules.JobSystem.Api.Database.Repositories;
 using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.Repositories;
 using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
 using Microsoft.Extensions.Configuration;
+using YourCorporation.Shared.Infrastructure.Messaging.Inbox;
 
 namespace YourCorporation.Modules.JobSystem.Api.Database
 {
@@ -25,6 +26,7 @@ namespace YourCorporation.Modules.JobSystem.Api.Database
             services.AddScoped<IWorkLocationRepository, WorkLocationRepository>();
 
             services.AddOutbox<JobSystemDbContext>(configuration);
+            services.AddInbox<JobSystemDbContext>(configuration);
 
             return services;
         }

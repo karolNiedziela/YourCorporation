@@ -6,5 +6,5 @@ namespace YourCorporation.Modules.Events.MessagingContracts
         Guid EventId, 
         string Name, 
         DateTimeOffset StartTime, 
-        DateTimeOffset EndTime) : IMessage;
+        DateTimeOffset EndTime) : IIntegrationEvent;
 }

@@ -2,5 +2,5 @@
 
 namespace YourCorporation.Modules.JobSystem.MessagingContracts
 {
-    public record WorkLocationCreated(Guid Id, string Name, string Code) : IMessage;
+    public record WorkLocationCreated(Guid Id, string Name, string Code) : IIntegrationEvent;
 }

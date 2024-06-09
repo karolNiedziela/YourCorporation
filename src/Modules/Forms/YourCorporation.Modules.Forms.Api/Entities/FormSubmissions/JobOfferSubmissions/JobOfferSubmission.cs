@@ -9,6 +9,8 @@ namespace YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSub
 
         public Guid JobOfferFormId { get; private set; }
 
+        public string CVUrl { get; private set; }
+
         public List<JobOfferSubmissionChosenWorkLocation> JobOfferSubmissionChosenWorkLocations { get; private set; } = [];
 
         public List<WorkLocation> ChosenWorkLocations { get; private set; } = [];
@@ -21,9 +23,11 @@ namespace YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSub
             string firstName,
             string lastName,
             string email,
+            string cvUrl,
             List<JobOfferSubmissionChosenWorkLocation> jobOfferSubmissionChosenWorkLocations)
             : base(id, firstName, lastName, email)
         {
+            CVUrl = cvUrl;
             JobOfferFormId = jobOfferFormId;
             JobOfferSubmissionChosenWorkLocations = jobOfferSubmissionChosenWorkLocations;
         }

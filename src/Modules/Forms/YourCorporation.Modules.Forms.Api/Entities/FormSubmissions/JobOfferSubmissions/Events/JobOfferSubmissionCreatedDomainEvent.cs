@@ -2,5 +2,12 @@
 
 namespace YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.Events
 {
-    internal record JobOfferSubmissionCreatedDomainEvent(JobOfferSubmission JobOfferSubmission) : IDomainEvent;
+    internal record JobOfferSubmissionCreatedDomainEvent(
+        Guid JobOfferSubmissionId,
+        string FirstName,
+        string LastName,
+        string CvUrl,
+        string Email,
+        IEnumerable<Guid> WorkLocationIds,
+        Guid JobOfferId) : IDomainEvent;
 }

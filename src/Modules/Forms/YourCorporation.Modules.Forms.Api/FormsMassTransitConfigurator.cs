@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using YourCorporation.Modules.Forms.Api.Consumers;
+using YourCorporation.Modules.Forms.Api.IntegrationEventsHandlers.Consumers;
 using YourCorporation.Shared.Abstractions.Messaging;
 
 namespace YourCorporation.Modules.Forms.Api
@@ -27,8 +27,6 @@ namespace YourCorporation.Modules.Forms.Api
             rabbitMQBusFactoryConfigurator.ReceiveEndpoint("worklocation-created", x =>
             {
                 x.PrefetchCount = 20;
-
-                //x.UseConsumeFilter(typeof(InboxCustomerHandlerFilter<>), busRegistrationContext);
 
                 x.ConfigureConsumer<WorkLocationCreatedConsumer>(busRegistrationContext);
             });

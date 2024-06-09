@@ -18,11 +18,13 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
         public async Task Handle(JobOfferSubmissionCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
             var jobOfferSubmissionCreated = new JobOfferSubmissionCreated(
-                notification.JobOfferSubmission.Id,
-                notification.JobOfferSubmission.FirstName,
-                notification.JobOfferSubmission.LastName,
-                notification.JobOfferSubmission.Email,
-                notification.JobOfferSubmission.ChosenWorkLocations.Select(x => x.Id));
+                notification.JobOfferSubmissionId,
+                notification.FirstName,
+                notification.LastName,
+                notification.Email,
+                notification.CvUrl,
+                notification.JobOfferId,
+                notification.WorkLocationIds);
 
             await _messageBroker.PublishAsync(jobOfferSubmissionCreated, notification, cancellationToken);
         }

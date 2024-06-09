@@ -51,18 +51,29 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
                     WorkLocationId = x,
                 }).ToList();
 
+            // TODO: Save CV to storage;
+            var cvUrl = request.Cv.FileName;
+
             var jobOfferSubmission = new JobOfferSubmission(
                jobOfferSubmissionId,
                 jobOffer.Id,
                 request.FirstName,
                 request.LastName,
                 request.Email,
+                cvUrl,
                 chosenWorkLocations);          
 
             await _jobOfferSubmissionRepository.AddAsync(jobOfferSubmission);
 
-            await _domainEventsBroker.PublishAsync(new JobOfferSubmissionCreatedDomainEvent(
-                jobOfferSubmission), cancellationToken);
+            await _domainEventsBroker.PublishAsync(
+                new JobOfferSubmissionCreatedDomainEvent(
+                jobOfferSubmission.Id,
+                jobOfferSubmission.FirstName,
+                jobOfferSubmission.LastName,
+                jobOfferSubmission.CVUrl,
+                jobOfferSubmission.CVUrl,
+                jobOfferSubmission.ChosenWorkLocations.Select(x => x.Id),
+                jobOfferSubmission.JobOfferFormId), cancellationToken);
 
             return jobOfferSubmission.Id;
         }

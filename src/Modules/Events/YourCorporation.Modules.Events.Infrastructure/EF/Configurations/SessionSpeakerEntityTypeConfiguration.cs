@@ -6,7 +6,7 @@ using YourCorporation.Modules.Events.Core.Sessions.ValueObjects;
 using YourCorporation.Modules.Events.Core.Speakers;
 using YourCorporation.Modules.Events.Core.Speakers.ValueObjects;
 
-namespace YourCorporation.Modules.Events.Infrastructure.Configurations
+namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
     internal class SessionSpeakerEntityTypeConfiguration : IEntityTypeConfiguration<SessionSpeaker>
     {

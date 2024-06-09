@@ -6,7 +6,7 @@ using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 using YourCorporation.Modules.Events.Core.Sessions;
 using YourCorporation.Modules.Events.Core.Sessions.ValueObjects;
 
-namespace YourCorporation.Modules.Events.Infrastructure.Configurations
+namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
     internal class SessionEntityTypeConfiguration : IEntityTypeConfiguration<Session>
     {

@@ -4,7 +4,7 @@ using YourCorporation.Modules.Events.Core.Speakers;
 using YourCorporation.Modules.Events.Core.Speakers.ValueObjects;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
-namespace YourCorporation.Modules.Events.Infrastructure.Configurations
+namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
     internal class SpeakerEntityTypeConfiguration : IEntityTypeConfiguration<Speaker>
     {

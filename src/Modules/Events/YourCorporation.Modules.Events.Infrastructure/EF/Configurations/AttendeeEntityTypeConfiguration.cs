@@ -5,7 +5,7 @@ using YourCorporation.Modules.Events.Core.Attendees.ValueObjects;
 using YourCorporation.Modules.Events.Core.Shared.ValueObjects;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
-namespace YourCorporation.Modules.Events.Infrastructure.Configurations
+namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
     internal class AttendeeEntityTypeConfiguration : IEntityTypeConfiguration<Attendee>
     {

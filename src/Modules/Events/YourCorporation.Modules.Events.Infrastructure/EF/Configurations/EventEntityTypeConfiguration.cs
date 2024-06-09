@@ -5,7 +5,7 @@ using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Events.Enums;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 
-namespace YourCorporation.Modules.Events.Infrastructure.Configurations
+namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
     internal class EventEntityTypeConfiguration : IEntityTypeConfiguration<Event>
     {

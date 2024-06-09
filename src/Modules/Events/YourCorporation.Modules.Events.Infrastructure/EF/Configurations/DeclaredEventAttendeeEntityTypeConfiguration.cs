@@ -6,20 +6,20 @@ using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Events.Entities;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 
-namespace YourCorporation.Modules.Events.Infrastructure.Configurations
+namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class WaitlistedEventAttendeeEntityTypeConfiguration : IEntityTypeConfiguration<WaitlistedEventAttendee>
+    internal class DeclaredEventAttendeeEntityTypeConfiguration : IEntityTypeConfiguration<DeclaredEventAttendee>
     {
-        public void Configure(EntityTypeBuilder<WaitlistedEventAttendee> builder)
+        public void Configure(EntityTypeBuilder<DeclaredEventAttendee> builder)
         {
-            builder.ToTable("WaitlistedEventAttendees");
+            builder.ToTable("DeclaredEventAttendees");
 
-            builder.HasKey(nameof(EventId), nameof(AttendeeId));
+            builder.HasKey(nameof(AttendeeId), nameof(EventId));
 
             builder.Property(x => x.AttendeeId)
-                  .HasConversion(
-                   attendeeId => attendeeId.Value,
-                   value => new AttendeeId(value));
+                .HasConversion(
+                 attendeeId => attendeeId.Value,
+                 value => new AttendeeId(value));
 
             builder.Property(x => x.EventId)
                   .HasConversion(
@@ -27,7 +27,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.Configurations
                    value => new EventId(value));
 
             builder.HasOne<Event>()
-                .WithMany(x => x.WaitlistedAttendees)
+                .WithMany(x => x.DeclaredAttendees)
                 .HasForeignKey(x => x.EventId);
 
             builder.HasOne<Attendee>()

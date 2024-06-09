@@ -1,25 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using YourCorporation.Modules.Events.Core.Attendees.ValueObjects;
 using YourCorporation.Modules.Events.Core.Attendees;
+using YourCorporation.Modules.Events.Core.Attendees.ValueObjects;
 using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Events.Entities;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 
-namespace YourCorporation.Modules.Events.Infrastructure.Configurations
+namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class ConfirmedEventAttendeeEntityTypeConfiguration : IEntityTypeConfiguration<ConfirmedEventAttendee>
+    internal class WaitlistedEventAttendeeEntityTypeConfiguration : IEntityTypeConfiguration<WaitlistedEventAttendee>
     {
-        public void Configure(EntityTypeBuilder<ConfirmedEventAttendee> builder)
+        public void Configure(EntityTypeBuilder<WaitlistedEventAttendee> builder)
         {
-            builder.ToTable("ConfirmedEventAttendees");
+            builder.ToTable("WaitlistedEventAttendees");
 
-            builder.HasKey(nameof(AttendeeId), nameof(EventId));
+            builder.HasKey(nameof(EventId), nameof(AttendeeId));
 
             builder.Property(x => x.AttendeeId)
-                .HasConversion(
-                 attendeeId => attendeeId.Value,
-                 value => new AttendeeId(value));
+                  .HasConversion(
+                   attendeeId => attendeeId.Value,
+                   value => new AttendeeId(value));
 
             builder.Property(x => x.EventId)
                   .HasConversion(
@@ -27,7 +27,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.Configurations
                    value => new EventId(value));
 
             builder.HasOne<Event>()
-                .WithMany(x => x.ConfirmedAttendees)
+                .WithMany(x => x.WaitlistedAttendees)
                 .HasForeignKey(x => x.EventId);
 
             builder.HasOne<Attendee>()

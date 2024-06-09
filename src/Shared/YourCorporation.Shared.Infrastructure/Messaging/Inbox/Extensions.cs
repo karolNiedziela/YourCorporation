@@ -24,8 +24,6 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
             using var serviceProvider = services.BuildServiceProvider();
             serviceProvider.GetRequiredService<InboxTypeRegistry>().Register<Inbox<T>>();
 
-            //services.TryDecorate(typeof(IConsumer<>), typeof(InboxConsumerHandlerDecorator<>));
-
             return services;
         }
 
@@ -38,6 +36,9 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
             {
                 return services;
             }
+
+            services.AddHostedService<InboxProcessor>();
+            services.AddHostedService<InboxCleanupProcessor>();
 
             return services;
         }

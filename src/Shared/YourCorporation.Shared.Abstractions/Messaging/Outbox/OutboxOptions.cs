@@ -11,5 +11,7 @@
         public TimeSpan? Interval { get; set; }
 
         public TimeSpan? CleanupInterval { get; set; }
+
+        public TimeSpan? InboxCleanupInterval { get; set; }
     }
 }

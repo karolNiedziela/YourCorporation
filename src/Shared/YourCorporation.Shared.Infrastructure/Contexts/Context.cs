@@ -25,6 +25,11 @@ namespace YourCorporation.Shared.Infrastructure.Contexts
             TraceId = traceId;
         }
 
+        public Context(Guid? correlationId)
+        {
+            CorrelationId = correlationId ?? Guid.NewGuid();
+        }
+
         public static IContext Empty => new Context();
     }
 }

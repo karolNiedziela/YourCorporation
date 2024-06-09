@@ -23,7 +23,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
             _enabled = outboxOptions.Value.Enabled;
         }
 
-        public async Task Send(ConsumeContext<IMessage> context, Type consumerType, Func<Task> handler)
+        public async Task Send(ConsumeContext<IMessage> context, Type consumerType)
         {
             if (!_enabled)
             {
@@ -39,8 +39,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
             using var scope = _serviceProvider.CreateScope();
             var inbox = (IInbox)_serviceProvider.GetRequiredService(inboxType);
             var name = context.Message.GetType().Name;
-            await inbox.HandleAsync(context.MessageId.Value, name, handler);
-            
+            await inbox.SaveAsync(context);
         }
     }
 }

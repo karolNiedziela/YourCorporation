@@ -10,28 +10,26 @@ namespace YourCorporation.Modules.Forms.Api
             IBusRegistrationContext busRegistrationContext,
             IRabbitMqBusFactoryConfigurator rabbitMQBusFactoryConfigurator)
         {           
-            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("event-live", x =>
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("forms-event-live", x =>
             {
                 x.PrefetchCount = 20;
 
                 x.ConfigureConsumer<EventWentLiveConsumer>(busRegistrationContext);
             });
 
-            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("joboffer-publish", x =>
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("forms-joboffer-publish", x =>
             {
                 x.PrefetchCount = 20;
 
                 x.ConfigureConsumer<JobOfferPublishedCustomer>(busRegistrationContext);
             });
 
-            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("worklocation-created", x =>
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("forms-worklocation-created", x =>
             {
                 x.PrefetchCount = 20;
 
                 x.ConfigureConsumer<WorkLocationCreatedConsumer>(busRegistrationContext);
             });
-
-            rabbitMQBusFactoryConfigurator.ConfigureEndpoints(busRegistrationContext);
 
             return rabbitMQBusFactoryConfigurator;
         }

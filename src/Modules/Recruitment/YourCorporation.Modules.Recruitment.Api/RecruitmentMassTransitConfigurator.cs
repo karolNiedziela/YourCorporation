@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using YourCorporation.Modules.Recruitment.IntegrationEvents.Consumers;
+using YourCorporation.Modules.Recruitment.Application.IntegrationEventHandlers.Consumers;
 using YourCorporation.Shared.Abstractions.Messaging;
 
 namespace YourCorporation.Modules.Recruitment.Api
@@ -10,14 +10,19 @@ namespace YourCorporation.Modules.Recruitment.Api
             IBusRegistrationContext busRegistrationContext,
             IRabbitMqBusFactoryConfigurator rabbitMQBusFactoryConfigurator)
         {
-            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("joboffersubmission-created", x =>
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("recruitment-joboffersubmission-created", x =>
             {
                 x.PrefetchCount = 20;
 
                 x.ConfigureConsumer<JobOfferSubmissionCreatedConsumer>(busRegistrationContext);
             });
 
-            rabbitMQBusFactoryConfigurator.ConfigureEndpoints(busRegistrationContext);
+            rabbitMQBusFactoryConfigurator.ReceiveEndpoint("recruitment-worklocation-created", x =>
+            {
+                x.PrefetchCount = 20;
+
+                x.ConfigureConsumer<WorkLocationCreatedCustomer>(busRegistrationContext);
+            });
 
             return rabbitMQBusFactoryConfigurator;
         }
@@ -25,6 +30,8 @@ namespace YourCorporation.Modules.Recruitment.Api
         public IBusRegistrationConfigurator RegisterConsumers(IBusRegistrationConfigurator configurator)
         {
             configurator.AddConsumer<JobOfferSubmissionCreatedConsumer>();
+
+            configurator.AddConsumer<WorkLocationCreatedCustomer>();
 
             return configurator;
         }

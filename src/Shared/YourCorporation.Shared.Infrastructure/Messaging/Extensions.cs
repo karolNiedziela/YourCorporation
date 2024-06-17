@@ -77,8 +77,6 @@ namespace YourCorporation.Shared.Infrastructure.Messaging
                         var instantiatedType = (IMassTransitDefinition)Activator.CreateInstance(configuration)!;
                         instantiatedType.ConfigureRabbitMQ(context, config);
                     }
-
-                    config.ConfigureEndpoints(context);
                 });
             });
 

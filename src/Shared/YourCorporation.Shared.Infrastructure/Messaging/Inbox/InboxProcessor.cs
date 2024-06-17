@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
-using YourCorporation.Shared.Abstractions.Messaging.Outbox;
 using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
 
 namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
@@ -18,7 +17,9 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
         private readonly TimeSpan _startDelay;
         private int _isProcessing;
 
-        public InboxProcessor(IServiceScopeFactory serviceScopeFactory, ILogger<InboxProcessor> logger, IOptions<OutboxOptions> outboxOptions)
+        public InboxProcessor(IServiceScopeFactory serviceScopeFactory,
+            ILogger<InboxProcessor> logger, 
+            IOptions<OutboxOptions> outboxOptions)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;

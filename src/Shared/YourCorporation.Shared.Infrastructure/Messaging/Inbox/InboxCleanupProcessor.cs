@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
@@ -17,14 +18,14 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
         private readonly TimeSpan _startDelay;
         private int _isProcessing;
 
-        public InboxCleanupProcessor(IServiceScopeFactory serviceScopeFactory, OutboxOptions outboxOptions,
+        public InboxCleanupProcessor(IServiceScopeFactory serviceScopeFactory, IOptions<OutboxOptions> outboxOptions,
             ILogger<InboxCleanupProcessor> logger, TimeProvider timeProvider)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
-            _enabled = outboxOptions.Enabled;
-            _interval = outboxOptions.InboxCleanupInterval ?? TimeSpan.FromHours(1);
-            _startDelay = outboxOptions.StartDelay ?? TimeSpan.FromSeconds(5);
+            _enabled = outboxOptions.Value.Enabled;
+            _interval = outboxOptions.Value.InboxCleanupInterval ?? TimeSpan.FromHours(1);
+            _startDelay = outboxOptions.Value.StartDelay ?? TimeSpan.FromSeconds(5);
             _timeProvider = timeProvider;
         }
 

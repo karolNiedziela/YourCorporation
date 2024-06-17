@@ -107,7 +107,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
 
             _logger.LogTrace($"Found {unsentMessages.Count} unsent messages in outbox ('{moduleName}'), publishing...");
 
-            foreach (var outboxMessage in unsentMessages )
+            foreach (var outboxMessage in unsentMessages)
             {
                 var type = Type.GetType(outboxMessage.Type);
 

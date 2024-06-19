@@ -9,13 +9,11 @@ namespace YourCorporation.Modules.Users.Api.Features.Users.CreateUser
     {
         private readonly Supabase.Client _supabaseClient;
         private readonly ILogger<CreateUserCommandHandler> _logger;
-        private readonly TimeProvider _timeProvider;
 
-        public CreateUserCommandHandler(Supabase.Client supabaseClient, ILogger<CreateUserCommandHandler> logger, TimeProvider timeProvider)
+        public CreateUserCommandHandler(Supabase.Client supabaseClient, ILogger<CreateUserCommandHandler> logger)
         {
             _supabaseClient = supabaseClient;
             _logger = logger;
-            _timeProvider = timeProvider;
         }
 
         public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)

@@ -9,11 +9,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using YourCorporation.Shared.Infrastructure.Auth;
 using YourCorporation.Shared.Infrastructure.Contexts;
 using YourCorporation.Shared.Infrastructure.Exceptions;
 using YourCorporation.Shared.Infrastructure.Messaging;
 using YourCorporation.Shared.Infrastructure.MinimalApis;
 using YourCorporation.Shared.Infrastructure.Persistence;
+using YourCorporation.Shared.Infrastructure.SupabaseFeatures;
 using YourCorporation.Shared.Infrastructure.Swagger;
 
 namespace YourCorporation.Shared.Infrastructure
@@ -27,6 +29,9 @@ namespace YourCorporation.Shared.Infrastructure
             IList<Assembly> assemblies,
             IConfiguration configuration)
         {
+            services.AddSupabaseAuth(configuration);
+            services.AddSupabaseFeatures(configuration);
+
             services.AddMemoryCache();
 
             services.AddSingleton(TimeProvider.System);
@@ -94,6 +99,8 @@ namespace YourCorporation.Shared.Infrastructure
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseAuth();
 
             app.MapModuleEndpoints([.. assemblies]);
 

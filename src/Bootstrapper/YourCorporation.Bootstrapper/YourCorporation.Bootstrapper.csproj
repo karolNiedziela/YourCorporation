@@ -22,6 +22,8 @@
     <ProjectReference Include="..\..\Modules\Events\YourCorporation.Modules.Events.Api\YourCorporation.Modules.Events.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Forms\YourCorporation.Modules.Forms.Api\YourCorporation.Modules.Forms.Api.csproj" />
     <ProjectReference Include="..\..\Modules\JobSystem\YourCorporation.Modules.JobSystem.Api\YourCorporation.Modules.JobSystem.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Recruitment\YourCorporation.Modules.Recruitment.Api\YourCorporation.Modules.Recruitment.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Users\YourCorporation.Modules.Users.Api\YourCorporation.Modules.Users.Api.csproj" />
     <ProjectReference Include="..\..\Shared\YourCorporation.Shared.Abstractions\YourCorporation.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\Shared\YourCorporation.Shared.Infrastructure\YourCorporation.Shared.Infrastructure.csproj" />
   </ItemGroup>

@@ -4,6 +4,7 @@
     {
         Validation,
         NotFound,
-        Conflict
+        Conflict,
+        ExternalApi
     }
 }

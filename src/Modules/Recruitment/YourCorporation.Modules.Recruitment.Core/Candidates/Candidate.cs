@@ -10,7 +10,7 @@ namespace YourCorporation.Modules.Recruitment.Core.Candidates
 
         public LastName LastName { get; private set; }
 
-        public string FullName => FirstName.Value + " " + LastName.Value;
+        public string FullName => FirstName + " " + LastName;
 
         public PrivateEmail PrivateEmail { get; private set; }
 
@@ -20,12 +20,23 @@ namespace YourCorporation.Modules.Recruitment.Core.Candidates
 
         public LinkedinUrl LinkedinUrl { get; private set; }
 
-        //public JobApplicationCandidate JobApplicationContact { get; private set; }
-
         //public Nationality Nationality { get; private set; }
 
         //public Country Country { get; private set; }
 
-        public string City { get; private set; }
+        //public string City { get; private set; }
+
+        private Candidate() { }
+
+        private Candidate(FirstName firstName, LastName lastName, PrivateEmail privateEmail, CandidateId candidateId = null) 
+            : base(candidateId ?? new CandidateId(Guid.NewGuid()))
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            PrivateEmail = privateEmail;
+        }
+
+        public static Candidate Create(FirstName firstName, LastName lastName, PrivateEmail privateEmail)
+            => new(firstName, lastName, privateEmail);
     }
 }

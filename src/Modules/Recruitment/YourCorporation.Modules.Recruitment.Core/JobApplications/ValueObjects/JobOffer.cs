@@ -2,10 +2,16 @@
 {
     internal record JobOffer
     {
-        public string Name { get; }
+        public Guid Id { get; init; }
 
-        public string URL { get; }
+        public string Name { get; init; }
 
-        public List<string> PossibleWorkLocations { get; } = new();
+        private JobOffer() { }
+
+        public JobOffer(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }

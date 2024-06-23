@@ -2,7 +2,7 @@
 using YourCorporation.Modules.Forms.MessagingContracts;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 
-namespace YourCorporation.Modules.Recruitment.IntegrationEvents.Consumers
+namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandlers.Consumers
 {
     internal class JobOfferSubmissionCreatedConsumer : IConsumer<JobOfferSubmissionCreated>
     {
@@ -13,9 +13,9 @@ namespace YourCorporation.Modules.Recruitment.IntegrationEvents.Consumers
             _inboxHandler = inboxHandler;
         }
 
-        public Task Consume(ConsumeContext<JobOfferSubmissionCreated> context)
+        public async Task Consume(ConsumeContext<JobOfferSubmissionCreated> context)
         {
-            return Task.CompletedTask;
+            await _inboxHandler.Send(context, typeof(JobOfferSubmissionCreatedConsumer));
         }
     }
 }

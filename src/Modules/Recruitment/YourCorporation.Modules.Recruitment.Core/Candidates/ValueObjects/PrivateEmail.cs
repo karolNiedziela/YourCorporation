@@ -14,7 +14,7 @@ namespace YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects
             Value = value;
         }
 
-        public static Result<PrivateEmail> Create(string value, string[] invalidDomains)
+        public static Result<PrivateEmail> Create(string value, params string[] invalidDomains)
         {
             var emailAddressAttribute = new EmailAddressAttribute();
             if (!emailAddressAttribute.IsValid(value))

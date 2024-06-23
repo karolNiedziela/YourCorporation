@@ -28,7 +28,7 @@ namespace YourCorporation.Modules.Users.Api.Features.Users.CreateUser
                     Data = new Dictionary<string, object>
                     {
                         { "first_name", request.FirstName },
-                        { "last_name", request.LastName },
+                        { "last_name", request.LastName }
                     }
                 });
 

@@ -17,8 +17,6 @@ namespace YourCorporation.Modules.Users.Api.Features
                 configuration.RegisterServicesFromAssembly(applicationAssembly);
             });
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
-
             services.AddFluentValidationAutoValidation(options =>
             {
                 options.DisableDataAnnotationsValidation = true;

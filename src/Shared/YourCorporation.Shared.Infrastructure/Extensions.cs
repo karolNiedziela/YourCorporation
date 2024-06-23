@@ -12,6 +12,7 @@ using System.Text.Json.Serialization;
 using YourCorporation.Shared.Infrastructure.Auth;
 using YourCorporation.Shared.Infrastructure.Contexts;
 using YourCorporation.Shared.Infrastructure.Exceptions;
+using YourCorporation.Shared.Infrastructure.MediatR;
 using YourCorporation.Shared.Infrastructure.Messaging;
 using YourCorporation.Shared.Infrastructure.MinimalApis;
 using YourCorporation.Shared.Infrastructure.Persistence;
@@ -41,6 +42,8 @@ namespace YourCorporation.Shared.Infrastructure
             services.AddSwaggerExtensions();
 
             services.AddContext();
+
+            services.AddBehaviors();
 
             services.AddSqlServer(configuration);
 

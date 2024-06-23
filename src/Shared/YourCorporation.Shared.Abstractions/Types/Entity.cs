@@ -5,6 +5,8 @@
     {
         public TId Id { get; protected set;}
 
+        public long AutoIncrementedId { get; private set; }
+
         protected Entity() { }
 
         protected Entity(TId id)

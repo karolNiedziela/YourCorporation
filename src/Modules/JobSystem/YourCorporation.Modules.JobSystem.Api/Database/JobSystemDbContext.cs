@@ -8,6 +8,8 @@ namespace YourCorporation.Modules.JobSystem.Api.Database
 {
     internal class JobSystemDbContext(DbContextOptions<JobSystemDbContext> options) : DbContext(options), IInboxDbSet, IOutboxDbSet
     {
+        public const string SchemaName = "jobsystem";
+
         public DbSet<JobOffer> JobOffers { get; set; }
 
         public DbSet<WorkLocation> WorkLocations { get; set; }
@@ -18,7 +20,7 @@ namespace YourCorporation.Modules.JobSystem.Api.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("jobsystem");
+            modelBuilder.HasDefaultSchema(SchemaName);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(JobSystemDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);

@@ -11,6 +11,8 @@ namespace YourCorporation.Modules.Forms.Api.Database
 {
     internal class FormsDbContext : DbContext, IInboxDbSet, IOutboxDbSet
     {
+        public const string SchemaName = "forms";
+
         public DbSet<EventForm> EventForms { get; set; }
 
         public DbSet<EventSubmission> EventSubmissions { get; set; }
@@ -31,7 +33,7 @@ namespace YourCorporation.Modules.Forms.Api.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("forms");
+            modelBuilder.HasDefaultSchema(SchemaName);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FormsDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);

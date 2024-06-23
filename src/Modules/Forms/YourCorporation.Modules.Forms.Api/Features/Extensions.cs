@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using YourCorporation.Shared.Abstractions.MediatR.Behaviors;
 
 namespace YourCorporation.Modules.Forms.Api.Features
 {
@@ -16,8 +14,6 @@ namespace YourCorporation.Modules.Forms.Api.Features
             {
                 configuration.RegisterServicesFromAssembly(applicationAssembly);
             });
-
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
             services.AddFluentValidationAutoValidation(options =>
             {

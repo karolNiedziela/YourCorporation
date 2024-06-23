@@ -7,6 +7,7 @@ using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmiss
 using Microsoft.Extensions.Configuration;
 using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
 using YourCorporation.Shared.Infrastructure.Messaging.Inbox;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace YourCorporation.Modules.Forms.Api.Database
 {
@@ -18,7 +19,10 @@ namespace YourCorporation.Modules.Forms.Api.Database
             {
                 var mssqlOptions = services.GetRequiredService<IOptions<MSSQLOptions>>().Value;
 
-                options.UseSqlServer(mssqlOptions.ConnectionString);
+                options.UseSqlServer(mssqlOptions.ConnectionString, o => o
+                    .MigrationsHistoryTable(
+                    tableName: HistoryRepository.DefaultTableName,
+                    schema: FormsDbContext.SchemaName));
             });
 
             services.AddOutbox<FormsDbContext>(configuration);

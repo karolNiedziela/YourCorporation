@@ -8,6 +8,7 @@ using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.Repositories;
 using YourCorporation.Shared.Infrastructure.Messaging.Outbox;
 using Microsoft.Extensions.Configuration;
 using YourCorporation.Shared.Infrastructure.Messaging.Inbox;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace YourCorporation.Modules.JobSystem.Api.Database
 {
@@ -19,7 +20,9 @@ namespace YourCorporation.Modules.JobSystem.Api.Database
             {
                 var mssqlOptions = services.GetRequiredService<IOptions<MSSQLOptions>>().Value;
 
-                options.UseSqlServer(mssqlOptions.ConnectionString);
+                options.UseSqlServer(mssqlOptions.ConnectionString, o => o.MigrationsHistoryTable(
+                    tableName: HistoryRepository.DefaultTableName,
+                    schema: JobSystemDbContext.SchemaName));
             });
 
             services.AddScoped<IJobOfferRepository, JobOfferRepository>();

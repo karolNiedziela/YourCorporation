@@ -1,5 +1,4 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.Events;
 using YourCorporation.Modules.Forms.MessagingContracts;
 using YourCorporation.Shared.Abstractions.Messaging.Brokers;
@@ -18,13 +17,14 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
         public async Task Handle(JobOfferSubmissionCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
             var jobOfferSubmissionCreated = new JobOfferSubmissionCreated(
-                notification.JobOfferSubmissionId,
-                notification.FirstName,
-                notification.LastName,
-                notification.Email,
-                notification.CvUrl,
-                notification.JobOfferId,
-                notification.WorkLocationIds);
+                JobOfferSubmissionId: notification.JobOfferSubmissionId,
+                FirstName: notification.FirstName,
+                LastName: notification.LastName,
+                CVUrl: notification.CvUrl,
+                Email: notification.Email,
+                JobOfferId: notification.JobOfferId,
+                JobOfferName: notification.JobOfferName,
+                ChosenWorkLocationIds: notification.WorkLocationIds);
 
             await _messageBroker.PublishAsync(jobOfferSubmissionCreated, notification, cancellationToken);
         }

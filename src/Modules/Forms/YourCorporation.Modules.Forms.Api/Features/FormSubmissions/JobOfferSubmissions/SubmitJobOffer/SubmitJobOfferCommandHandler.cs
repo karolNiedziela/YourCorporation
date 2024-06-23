@@ -67,13 +67,14 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
 
             await _domainEventsBroker.PublishAsync(
                 new JobOfferSubmissionCreatedDomainEvent(
-                jobOfferSubmission.Id,
-                jobOfferSubmission.FirstName,
-                jobOfferSubmission.LastName,
-                jobOfferSubmission.CVUrl,
-                jobOfferSubmission.CVUrl,
-                jobOfferSubmission.ChosenWorkLocations.Select(x => x.Id),
-                jobOfferSubmission.JobOfferFormId), cancellationToken);
+                JobOfferSubmissionId: jobOfferSubmission.Id,
+                FirstName: jobOfferSubmission.FirstName,
+                LastName: jobOfferSubmission.LastName,
+                CvUrl: jobOfferSubmission.CVUrl,
+                Email: jobOfferSubmission.Email,
+                WorkLocationIds: jobOfferSubmission.ChosenWorkLocations.Select(x => x.Id).ToList(),
+                JobOfferId: jobOfferSubmission.JobOfferFormId,
+                JobOfferName: jobOfferSubmission.JobOfferForm.Name), cancellationToken);
 
             return jobOfferSubmission.Id;
         }

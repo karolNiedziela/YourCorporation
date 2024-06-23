@@ -4,6 +4,8 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using YourCorporation.Shared.Abstractions.MediatR.Behaviors;
+using YourCorporation.Shared.Infrastructure.Persistence;
+using MediatR.Pipeline;
 
 [assembly: InternalsVisibleTo("YourCorporation.Modules.Events.Infrastructure")]
 [assembly: InternalsVisibleTo("YourCorporation.Modules.Events.Api")]
@@ -19,8 +21,6 @@ namespace YourCorporation.Modules.Events.Application
             {
                 configuration.RegisterServicesFromAssembly(applicationAssembly);
             });
-
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
             services.AddFluentValidationAutoValidation(options =>
             {

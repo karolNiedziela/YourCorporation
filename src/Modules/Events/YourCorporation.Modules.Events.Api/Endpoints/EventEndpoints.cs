@@ -22,17 +22,18 @@ namespace YourCorporation.Modules.Events.Api.Endpoints
         {
             var group = builder.MapGroup(EventsModule.BasePath + "/events");
 
-            group.MapGet("", () =>
-            {
-                return Results.Ok("Events");
-            });
+            //group.MapGet("", () =>
+            //{
+            //    return Results.Ok("Events");
+            //});
 
             group.MapGet("{eventId:guid}", GetAsync)
                .WithName(GetEvent)
                 .WithMetadata(
                    new SwaggerOperationAttribute(summary: "Get event"),
                    new ProducesResponseTypeAttribute(StatusCodes.Status200OK),
-                   new ProducesResponseTypeAttribute(StatusCodes.Status404NotFound));
+                   new ProducesResponseTypeAttribute(StatusCodes.Status404NotFound))
+               .RequireAuthorization();
 
             group.MapPost("", CreateEventAsync)
                 .WithName(CreateEvent)
@@ -51,7 +52,7 @@ namespace YourCorporation.Modules.Events.Api.Endpoints
             return builder;
         }
 
-        public static async Task<Results<Ok, NotFound>> GetAsync(Guid eventId, ISender sender)
+        public static async Task<Results<Ok, NotFound>> GetAsync(Guid eventId, ISender sender, HttpContext context)
         {
             //var eventDto = await sender.Send(new GetDraftEventQuery(draftEventId));
             //if (draftEventDto is null)

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\YourCorporation.Shared.Abstractions\YourCorporation.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\YourCorporation.Modules.Events.Core\YourCorporation.Modules.Events.Core.csproj" />
     <ProjectReference Include="..\YourCorporation.Modules.Events.MessagingContracts\YourCorporation.Modules.Events.MessagingContracts.csproj" />
   </ItemGroup>

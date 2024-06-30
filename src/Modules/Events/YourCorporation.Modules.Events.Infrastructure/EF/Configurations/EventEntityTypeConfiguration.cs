@@ -62,15 +62,10 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
                           .HasColumnName("EndTime");
             });
 
-            builder.Ignore(x => x.Speakers);
-            builder.Ignore(x => x.WaitlistedAttendees);
-            builder.Ignore(x => x.DeclaredAttendees);
-            builder.Ignore(x => x.ConfirmedAttendees);
-
-            //builder.Navigation(x => x.Speakers).AutoInclude();
-            //builder.Navigation(x => x.WaitlistedAttendees).AutoInclude();
-            //builder.Navigation(x => x.DeclaredAttendees).AutoInclude();
-            //builder.Navigation(x => x.ConfirmedAttendees).AutoInclude();
+            builder.Navigation(x => x.Speakers).AutoInclude();
+            builder.Navigation(x => x.WaitlistedAttendees).AutoInclude();
+            builder.Navigation(x => x.DeclaredAttendees).AutoInclude();
+            builder.Navigation(x => x.ConfirmedAttendees).AutoInclude();
         }
     }
 }

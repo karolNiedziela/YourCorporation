@@ -12,7 +12,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\YourCorporation.Shared.Infrastructure\YourCorporation.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Forms\YourCorporation.Modules.Forms.MessagingContracts\YourCorporation.Modules.Forms.MessagingContracts.csproj" />
     <ProjectReference Include="..\..\JobSystem\YourCorporation.Modules.JobSystem.MessagingContracts\YourCorporation.Modules.JobSystem.MessagingContracts.csproj" />
     <ProjectReference Include="..\YourCorporation.Modules.Recruitment.Core\YourCorporation.Modules.Recruitment.Core.csproj" />

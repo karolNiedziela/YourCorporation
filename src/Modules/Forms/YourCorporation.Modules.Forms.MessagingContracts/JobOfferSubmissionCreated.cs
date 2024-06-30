@@ -9,5 +9,6 @@ namespace YourCorporation.Modules.Forms.MessagingContracts
         string CVUrl, 
         string Email, 
         Guid JobOfferId,
+        string JobOfferName,
         IEnumerable<Guid> ChosenWorkLocationIds) : IIntegrationEvent;
 }

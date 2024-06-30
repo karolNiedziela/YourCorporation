@@ -10,8 +10,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<JobApplicationChosenWorkLocation> builder)
         {
-            builder.ToTable("JobApplicationChosenWorkLocations");
-            builder.HasKey(nameof(JobApplicationId), nameof(WorkLocationId));
+            builder.HasKey(nameof(JobApplicationId), nameof(WorkLocationId)).IsClustered(false);
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.JobApplicationId)
                 .HasConversion(
@@ -25,8 +29,6 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 
             builder.HasOne<JobApplication>().WithMany(x => x.ChosenWorkLocations).HasForeignKey(x => x.JobApplicationId).IsRequired();
             builder.HasOne<WorkLocation>().WithMany().HasForeignKey(x => x.WorkLocationId).IsRequired();
-
-            builder.HasIndex(nameof(JobApplicationId), nameof(WorkLocationId));
         }
     }
 }

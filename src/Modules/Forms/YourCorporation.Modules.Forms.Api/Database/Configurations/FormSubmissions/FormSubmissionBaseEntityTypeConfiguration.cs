@@ -9,8 +9,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissi
     {
         public virtual void Configure(EntityTypeBuilder<TFormSubmission> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).ValueGeneratedNever();
+            builder.HasKey(x => x.Id).IsClustered(false);
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.FirstName).HasMaxLength(100);
 

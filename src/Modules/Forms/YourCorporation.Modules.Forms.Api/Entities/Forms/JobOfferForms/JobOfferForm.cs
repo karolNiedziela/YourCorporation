@@ -11,7 +11,7 @@ namespace YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms
 
         public List<JobOfferFormWorkLocation> JobOfferFormWorkLocations { get; private set; } = [];
 
-        public IEnumerable<WorkLocation> WorkLocations { get; private set; } = []; 
+        public List<WorkLocation> WorkLocations { get; private set; } = []; 
 
         private JobOfferForm() : base() { }
 

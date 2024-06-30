@@ -1,9 +1,10 @@
 ﻿using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
+using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 {
-    internal class JobApplicationChosenWorkLocation
+    internal class JobApplicationChosenWorkLocation : Entity
     {
         public JobApplicationId JobApplicationId { get; set; }
 

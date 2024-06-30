@@ -9,9 +9,7 @@ namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissi
         {
             builder.HasMany(x => x.ChosenWorkLocations)
                 .WithMany(x => x.JobOfferSubmissions)
-                .UsingEntity<JobOfferSubmissionChosenWorkLocation>(
-                l => l.HasOne(x => x.WorkLocation).WithMany(x => x.JobOfferSubmissionChosenWorkLocations).HasForeignKey(x => x.WorkLocationId),
-                r => r.HasOne(x => x.JobOfferSubmission).WithMany(x => x.JobOfferSubmissionChosenWorkLocations).HasForeignKey(x => x.JobOfferSubmissionId));
+                .UsingEntity<JobOfferSubmissionChosenWorkLocation>();
 
             base.Configure(builder);
         }

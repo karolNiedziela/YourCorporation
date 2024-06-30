@@ -1,15 +1,12 @@
 ﻿using YourCorporation.Modules.Forms.Api.Entities.WorkLocations;
+using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions
 {
-    internal class JobOfferSubmissionChosenWorkLocation
+    internal class JobOfferSubmissionChosenWorkLocation : Entity
     {
         public Guid JobOfferSubmissionId { get; set; }
 
-        public JobOfferSubmission JobOfferSubmission { get; set; }
-
         public Guid WorkLocationId { get; set; }
-
-        public WorkLocation WorkLocation { get; set; }
     }
 }

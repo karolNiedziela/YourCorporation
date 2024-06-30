@@ -16,10 +16,8 @@ namespace YourCorporation.Modules.Forms.Api.Database.Configurations.Forms
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(x => x.WorkLocations)
-                .WithMany(x => x.JobOfferForms)
-                .UsingEntity<JobOfferFormWorkLocation>(
-                l => l.HasOne(x => x.WorkLocation).WithMany(x => x.JobOfferFormWorkLocations).HasForeignKey(x => x.WorkLocationId),
-                r => r.HasOne(x => x.JobOfferForm).WithMany(x => x.JobOfferFormWorkLocations).HasForeignKey(x => x.JobOfferFormId));
+             .WithMany(x => x.JobOfferForms)
+             .UsingEntity<JobOfferFormWorkLocation>();
 
             base.Configure(builder);
         }

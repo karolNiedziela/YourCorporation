@@ -12,8 +12,8 @@ using YourCorporation.Modules.Forms.Api.Database;
 namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 {
     [DbContext(typeof(FormsDbContext))]
-    [Migration("20240602083918_Forms_Add_Outbox")]
-    partial class Forms_Add_Outbox
+    [Migration("20240630144759_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.EventSubmissions.EventSubmission", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
                     b.Property<string>("Email")
                         .HasMaxLength(200)
@@ -48,6 +55,13 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
@@ -60,7 +74,17 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CVUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
                     b.Property<string>("Email")
                         .HasMaxLength(200)
@@ -79,6 +103,13 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
@@ -96,7 +127,20 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("WorkLocationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
+
                     b.HasKey("JobOfferSubmissionId", "WorkLocationId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("JobOfferSubmissionId", "WorkLocationId"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("WorkLocationId");
 
@@ -106,7 +150,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms.EventForm", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
                     b.Property<DateTimeOffset>("EndTime")
                         .HasColumnType("datetimeoffset");
@@ -136,6 +187,13 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("EventId")
                         .IsUnique();
 
@@ -145,7 +203,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
                     b.Property<bool>("IsUniqueSubmission")
                         .ValueGeneratedOnAdd()
@@ -161,6 +226,13 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("JobOfferId")
                         .IsUnique();
 
@@ -175,7 +247,20 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("WorkLocationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
+
                     b.HasKey("JobOfferFormId", "WorkLocationId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("JobOfferFormId", "WorkLocationId"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("WorkLocationId");
 
@@ -185,7 +270,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
                     b.Property<string>("Code")
                         .HasMaxLength(6)
@@ -196,7 +288,43 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("WorkLocations", "forms");
+                });
+
+            modelBuilder.Entity("YourCorporation.Shared.Abstractions.Messaging.Inbox.InboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ProcessedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReceivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Inbox", "forms");
                 });
 
             modelBuilder.Entity("YourCorporation.Shared.Abstractions.Messaging.Outbox.OutboxMessage", b =>
@@ -255,40 +383,32 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmissionChosenWorkLocation", b =>
                 {
-                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", "JobOfferSubmission")
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", null)
                         .WithMany("JobOfferSubmissionChosenWorkLocations")
                         .HasForeignKey("JobOfferSubmissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", "WorkLocation")
-                        .WithMany("JobOfferSubmissionChosenWorkLocations")
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", null)
+                        .WithMany()
                         .HasForeignKey("WorkLocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("JobOfferSubmission");
-
-                    b.Navigation("WorkLocation");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferFormWorkLocation", b =>
                 {
-                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", "JobOfferForm")
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms.JobOfferForm", null)
                         .WithMany("JobOfferFormWorkLocations")
                         .HasForeignKey("JobOfferFormId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", "WorkLocation")
-                        .WithMany("JobOfferFormWorkLocations")
+                    b.HasOne("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", null)
+                        .WithMany()
                         .HasForeignKey("WorkLocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("JobOfferForm");
-
-                    b.Navigation("WorkLocation");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmissions.JobOfferSubmission", b =>
@@ -306,13 +426,6 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Navigation("JobOfferFormWorkLocations");
 
                     b.Navigation("Submissions");
-                });
-
-            modelBuilder.Entity("YourCorporation.Modules.Forms.Api.Entities.WorkLocations.WorkLocation", b =>
-                {
-                    b.Navigation("JobOfferFormWorkLocations");
-
-                    b.Navigation("JobOfferSubmissionChosenWorkLocations");
                 });
 #pragma warning restore 612, 618
         }

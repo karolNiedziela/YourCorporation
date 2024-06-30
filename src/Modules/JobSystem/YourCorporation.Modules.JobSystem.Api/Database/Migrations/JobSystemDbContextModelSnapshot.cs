@@ -23,26 +23,17 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("JobOfferWorkLocation", b =>
-                {
-                    b.Property<Guid>("JobOfferId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("WorkLocationsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("JobOfferId", "WorkLocationsId");
-
-                    b.HasIndex("WorkLocationsId");
-
-                    b.ToTable("JobOfferWorkLocation", "jobsystem");
-                });
-
             modelBuilder.Entity("YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.JobOffer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -53,7 +44,42 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("JobOffers", "jobsystem");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.JobOfferWorkLocation", b =>
+                {
+                    b.Property<Guid>("JobOfferId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WorkLocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
+
+                    b.HasKey("JobOfferId", "WorkLocationId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("JobOfferId", "WorkLocationId"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
+                    b.HasIndex("WorkLocationId");
+
+                    b.ToTable("JobOfferWorkLocation", "jobsystem");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.WorkLocation", b =>
@@ -61,6 +87,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)")
@@ -70,6 +102,13 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("WorkLocations", "jobsystem");
                 });
@@ -135,7 +174,7 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                     b.ToTable("Outbox", "jobsystem");
                 });
 
-            modelBuilder.Entity("JobOfferWorkLocation", b =>
+            modelBuilder.Entity("YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.JobOfferWorkLocation", b =>
                 {
                     b.HasOne("YourCorporation.Modules.JobSystem.Api.Domain.JobOffers.JobOffer", null)
                         .WithMany()
@@ -145,7 +184,7 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
 
                     b.HasOne("YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations.WorkLocation", null)
                         .WithMany()
-                        .HasForeignKey("WorkLocationsId")
+                        .HasForeignKey("WorkLocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

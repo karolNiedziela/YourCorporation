@@ -1,4 +1,5 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
+﻿using YourCorporation.Modules.JobSystem.Api.Domain.JobOffers;
+using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations
 {
@@ -7,6 +8,8 @@ namespace YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations
         public string Name { get; private set; }
 
         public WorkLocationCode Code { get; private set; }
+
+        public List<JobOffer> JobOffers { get; private set; } = [];
 
         private WorkLocation() : base() { }
 

@@ -4,7 +4,7 @@ using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Forms.Api.Entities.WorkLocations
 {
-    internal class WorkLocation
+    internal class WorkLocation : Entity
     {
         public Guid Id { get; set; }
 
@@ -12,12 +12,8 @@ namespace YourCorporation.Modules.Forms.Api.Entities.WorkLocations
 
         public string Code { get; set; }
 
-        public IEnumerable<JobOfferFormWorkLocation> JobOfferFormWorkLocations { get; set; } = [];
-
-        public IEnumerable<JobOfferForm> JobOfferForms { get; set; } = [];
-
-        public List<JobOfferSubmissionChosenWorkLocation> JobOfferSubmissionChosenWorkLocations { get; set; } = [];
-
-        public List<JobOfferSubmission> JobOfferSubmissions { get; set; } = [];
+        public List<JobOfferForm> JobOfferForms { get; } = [];
+        
+        public List<JobOfferSubmission> JobOfferSubmissions { get; } = [];
     }
 }

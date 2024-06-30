@@ -14,7 +14,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
         {
             builder.ToTable("WaitlistedEventAttendees");
 
-            builder.HasKey(nameof(EventId), nameof(AttendeeId));
+            builder.HasKey(nameof(EventId), nameof(AttendeeId)).IsClustered(false);
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.AttendeeId)
                   .HasConversion(

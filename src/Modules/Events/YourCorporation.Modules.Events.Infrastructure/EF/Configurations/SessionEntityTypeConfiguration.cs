@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 using YourCorporation.Modules.Events.Core.Sessions;
@@ -14,12 +13,16 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
         {
             builder.ToTable("Sessions");
 
-            builder.HasKey(x => x.Id);
-
+            builder.HasKey(x => x.Id).IsClustered(false);
             builder.Property(x => x.Id)
                 .HasConversion(
                     sessionId => sessionId.Value,
                     value => new SessionId(value));
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.EventId)
                 .HasColumnName("EventId")

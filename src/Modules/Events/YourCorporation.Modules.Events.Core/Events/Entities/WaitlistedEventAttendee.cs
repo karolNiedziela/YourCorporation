@@ -1,9 +1,10 @@
 ﻿using YourCorporation.Modules.Events.Core.Attendees.ValueObjects;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
+using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Events.Core.Events.Entities
 {
-    internal class WaitlistedEventAttendee
+    internal class WaitlistedEventAttendee : Entity
     {
         public AttendeeId AttendeeId { get; private set; } = default!;
 

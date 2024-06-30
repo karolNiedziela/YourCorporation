@@ -10,12 +10,17 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<Speaker> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id).IsClustered(false);
 
             builder.Property(x => x.Id)
                   .HasConversion(
                    speakerId => speakerId.Value,
                    value => new SpeakerId(value));
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.FirstName)
                 .HasColumnName("FirstName")

@@ -12,7 +12,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<EventSpeaker> builder)
         {
-            builder.HasKey(nameof(SpeakerId), nameof(EventId));
+            builder.HasKey(nameof(SpeakerId), nameof(EventId)).IsClustered(false);
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.SpeakerId)
                 .HasColumnName(nameof(SpeakerId))

@@ -1,10 +1,10 @@
-﻿using YourCorporation.Modules.Events.Core.Events.ValueObjects;
-using YourCorporation.Modules.Events.Core.Sessions.ValueObjects;
+﻿using YourCorporation.Modules.Events.Core.Sessions.ValueObjects;
 using YourCorporation.Modules.Events.Core.Speakers.ValueObjects;
+using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Events.Core.Sessions.Entities
 {
-    internal class SessionSpeaker
+    internal class SessionSpeaker : Entity
     {
         public SessionId SessionId { get; private set; } = default!;
 

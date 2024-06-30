@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YourCorporation.Modules.Events.Core.Events;
-using YourCorporation.Shared.Abstractions.Messaging.Brokers;
+using YourCorporation.Modules.Events.Core.Speakers;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
 
@@ -12,7 +12,7 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF
 
         public DbSet<Event> Events { get; set; }
 
-        //public DbSet<Speaker> Speakers { get; set; }
+        public DbSet<Speaker> Speakers { get; set; }
 
         public DbSet<OutboxMessage> Outbox { get; set; }
 

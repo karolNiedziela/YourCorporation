@@ -14,7 +14,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
         {
             builder.ToTable("ConfirmedEventAttendees");
 
-            builder.HasKey(nameof(AttendeeId), nameof(EventId));
+            builder.HasKey(nameof(AttendeeId), nameof(EventId)).IsClustered(false);
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.AttendeeId)
                 .HasConversion(

@@ -13,12 +13,17 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
         {
             builder.ToTable("Events");
 
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id).IsClustered(false);
 
             builder.Property(x => x.Id)
               .HasConversion(
               eventId => eventId.Value,
               value => new EventId(value));
+
+            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
+            builder.HasIndex(x => x.ClusterId)
+                .IsUnique()
+                .IsClustered();
 
             builder.Property(x => x.Category)
                 .HasConversion<EnumToStringConverter<EventCategory>>();
@@ -57,10 +62,15 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
                           .HasColumnName("EndTime");
             });
 
-            builder.Navigation(x => x.Speakers).AutoInclude();
-            builder.Navigation(x => x.WaitlistedAttendees).AutoInclude();
-            builder.Navigation(x => x.DeclaredAttendees).AutoInclude();
-            builder.Navigation(x => x.ConfirmedAttendees).AutoInclude();
+            builder.Ignore(x => x.Speakers);
+            builder.Ignore(x => x.WaitlistedAttendees);
+            builder.Ignore(x => x.DeclaredAttendees);
+            builder.Ignore(x => x.ConfirmedAttendees);
+
+            //builder.Navigation(x => x.Speakers).AutoInclude();
+            //builder.Navigation(x => x.WaitlistedAttendees).AutoInclude();
+            //builder.Navigation(x => x.DeclaredAttendees).AutoInclude();
+            //builder.Navigation(x => x.ConfirmedAttendees).AutoInclude();
         }
     }
 }

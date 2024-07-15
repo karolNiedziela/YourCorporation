@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Recruitment_Initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,8 +21,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Substatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
+                    Substatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,14 +60,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     ApplicationEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationFirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ApplicationLastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobApplications", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_JobApplications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,14 +92,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkLocations", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_WorkLocations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,14 +110,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     PrivateEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PrivatePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LinkedinUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    LinkedinUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contacts", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Contacts_ContactStatus_Id",
                         column: x => x.Id,
@@ -140,14 +130,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     JobApplicationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobApplicationChosenWorkLocation", x => new { x.JobApplicationId, x.WorkLocationId })
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_JobApplicationChosenWorkLocation", x => new { x.JobApplicationId, x.WorkLocationId });
                     table.ForeignKey(
                         name: "FK_JobApplicationChosenWorkLocation_JobApplications_JobApplicationId",
                         column: x => x.JobApplicationId,
@@ -165,42 +152,10 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contacts_ClusterId",
-                schema: "recruitment",
-                table: "Contacts",
-                column: "ClusterId",
-                unique: true)
-                .Annotation("SqlServer:Clustered", true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobApplicationChosenWorkLocation_ClusterId",
-                schema: "recruitment",
-                table: "JobApplicationChosenWorkLocation",
-                column: "ClusterId",
-                unique: true)
-                .Annotation("SqlServer:Clustered", true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_JobApplicationChosenWorkLocation_WorkLocationId",
                 schema: "recruitment",
                 table: "JobApplicationChosenWorkLocation",
                 column: "WorkLocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobApplications_ClusterId",
-                schema: "recruitment",
-                table: "JobApplications",
-                column: "ClusterId",
-                unique: true)
-                .Annotation("SqlServer:Clustered", true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkLocations_ClusterId",
-                schema: "recruitment",
-                table: "WorkLocations",
-                column: "ClusterId",
-                unique: true)
-                .Annotation("SqlServer:Clustered", true);
         }
 
         /// <inheritdoc />

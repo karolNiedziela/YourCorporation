@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YourCorporation.Modules.Events.Core.Events;
@@ -7,23 +8,18 @@ using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class EventEntityTypeConfiguration : IEntityTypeConfiguration<Event>
+    internal class EventEntityypeConfiguration : IEntityTypeConfiguration<Event>
     {
         public void Configure(EntityTypeBuilder<Event> builder)
         {
             builder.ToTable("Events");
 
-            builder.HasKey(x => x.Id).IsClustered(false);
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
               .HasConversion(
               eventId => eventId.Value,
-              value => new EventId(value));
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+              value => new EventId(value));          
 
             builder.Property(x => x.Category)
                 .HasConversion<EnumToStringConverter<EventCategory>>();

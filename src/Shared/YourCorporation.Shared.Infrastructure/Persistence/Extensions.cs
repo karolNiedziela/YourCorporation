@@ -30,8 +30,8 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
 
         public static IServiceCollection AddUnitOfWork<T>(this IServiceCollection services) where T : class, IUnitOfWork
         {
-            services.AddScoped<IUnitOfWork, T>();
-            services.AddScoped<T>();
+            services.AddTransient<IUnitOfWork, T>();
+            services.AddTransient<T>();
 
             using var serviceProvider = services.BuildServiceProvider();
             serviceProvider.GetRequiredService<UnitOfWorkTypeRegistry>().Register<T>();

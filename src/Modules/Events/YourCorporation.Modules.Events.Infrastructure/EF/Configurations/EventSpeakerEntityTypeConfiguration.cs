@@ -8,16 +8,11 @@ using YourCorporation.Modules.Events.Core.Speakers.ValueObjects;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class EventSpeakerEntityTypeConfiguration : IEntityTypeConfiguration<EventSpeaker>
+    internal class EventSpeakerEntityypeConfiguration : IEntityTypeConfiguration<EventSpeaker>
     {
         public void Configure(EntityTypeBuilder<EventSpeaker> builder)
         {
-            builder.HasKey(nameof(SpeakerId), nameof(EventId)).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(nameof(SpeakerId), nameof(EventId));
 
             builder.Property(x => x.SpeakerId)
                 .HasColumnName(nameof(SpeakerId))

@@ -6,23 +6,18 @@ using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 {
-    internal class ContactEntityTypeConfiguration : IEntityTypeConfiguration<Contact>
+    internal class ContactEntityypeConfiguration : IEntityTypeConfiguration<Contact>
     {
         private readonly TimeProvider _timeProvider;
 
-        public ContactEntityTypeConfiguration(TimeProvider timeProvider)
+        public ContactEntityypeConfiguration(TimeProvider timeProvider)
         {
             _timeProvider = timeProvider;
         }
 
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
-            builder.HasKey(x => x.Id).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.FirstName)
                 .HasColumnName("FirstName")

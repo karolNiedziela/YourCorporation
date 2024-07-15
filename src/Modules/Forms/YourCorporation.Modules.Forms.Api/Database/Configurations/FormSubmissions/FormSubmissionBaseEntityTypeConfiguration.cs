@@ -4,17 +4,12 @@ using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions;
 
 namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissions
 {
-    internal abstract class FormSubmissionBaseEntityTypeConfiguration<TFormSubmission> : IEntityTypeConfiguration<TFormSubmission>
+    internal abstract class FormSubmissionBaseEntityypeConfiguration<TFormSubmission> : IEntityTypeConfiguration<TFormSubmission>
         where TFormSubmission : FormSubmissionBase
     {
         public virtual void Configure(EntityTypeBuilder<TFormSubmission> builder)
         {
-            builder.HasKey(x => x.Id).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.FirstName).HasMaxLength(100);
 

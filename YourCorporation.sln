@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourCorporation.Modules.Rec
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{A61BA08C-85AB-4776-8D02-48A8520A60D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourCorporation.Modules.Users.Api", "src\Modules\Users\YourCorporation.Modules.Users.Api\YourCorporation.Modules.Users.Api.csproj", "{797F1F5C-E3DF-43E0-9D2B-111C1DB2CB5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourCorporation.Modules.Users.Api", "src\Modules\Users\YourCorporation.Modules.Users.Api\YourCorporation.Modules.Users.Api.csproj", "{797F1F5C-E3DF-43E0-9D2B-111C1DB2CB5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

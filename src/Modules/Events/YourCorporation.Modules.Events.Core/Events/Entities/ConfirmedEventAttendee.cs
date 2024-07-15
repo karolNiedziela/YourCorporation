@@ -1,10 +1,9 @@
 ﻿using YourCorporation.Modules.Events.Core.Attendees.ValueObjects;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
-using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Events.Core.Events.Entities
 {
-    internal class ConfirmedEventAttendee : Entity
+    internal class ConfirmedEventAttendee
     {
         public AttendeeId AttendeeId { get; private set; } = default!;
 

@@ -44,13 +44,13 @@ namespace YourCorporation.Modules.Events.Core.Events
         private Event(): base() { }
 
         public Event(
-            EventId id,
             EventName name,
             EventDescription description,
             EventCategory category,
             EventMode mode,
             BegginingAndEndOfEvent begginingAndEndOfEvent,
-            EventLimits eventLimits) : base(id)
+            EventLimits eventLimits,
+            EventId id = null)  : base(id ?? Guid.NewGuid())
         {
             Name = name;
             Description = description;

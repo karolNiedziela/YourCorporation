@@ -7,10 +7,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Repositories
     internal class EventRepository : IEventRepository
     {
         private readonly DbSet<Event> _events;
+        private readonly EventsDbContext _dbContext;
 
-        public EventRepository(EventsDbContext context)
+        public EventRepository(EventsDbContext context, EventsDbContext dbContext)
         {
             _events = context.Events;
+            _dbContext = dbContext;
         }
 
         public async Task<Event> GetAsync(Guid eventId)

@@ -3,7 +3,7 @@ using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.EventSubmission
 
 namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissions
 {
-    internal sealed class EventSubmissionEntityTypeConfiguration : FormSubmissionBaseEntityTypeConfiguration<EventSubmission>
+    internal sealed class EventSubmissionEntityypeConfiguration : FormSubmissionBaseEntityypeConfiguration<EventSubmission>
     {
         public override void Configure(EntityTypeBuilder<EventSubmission> builder)
         {

@@ -4,16 +4,11 @@ using YourCorporation.Modules.Recruitment.Core.WorkLocations;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 {
-    internal class WorkLocationEntityTypeConfiguration : IEntityTypeConfiguration<WorkLocation>
+    internal class WorkLocationEntityypeConfiguration : IEntityTypeConfiguration<WorkLocation>
     {
         public void Configure(EntityTypeBuilder<WorkLocation> builder)
         {
-            builder.HasKey(x => x.Id).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
                  .HasConversion(

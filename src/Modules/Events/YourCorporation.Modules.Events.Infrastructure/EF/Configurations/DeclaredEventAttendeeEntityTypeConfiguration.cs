@@ -8,18 +8,13 @@ using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class DeclaredEventAttendeeEntityTypeConfiguration : IEntityTypeConfiguration<DeclaredEventAttendee>
+    internal class DeclaredEventAttendeeEntityypeConfiguration : IEntityTypeConfiguration<DeclaredEventAttendee>
     {
         public void Configure(EntityTypeBuilder<DeclaredEventAttendee> builder)
         {
             builder.ToTable("DeclaredEventAttendees");
 
-            builder.HasKey(nameof(AttendeeId), nameof(EventId)).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(nameof(AttendeeId), nameof(EventId));
 
             builder.Property(x => x.AttendeeId)
                 .HasConversion(

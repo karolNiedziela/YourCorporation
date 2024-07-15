@@ -39,14 +39,11 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobOffers", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_JobOffers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,14 +72,11 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkLocations", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_WorkLocations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,14 +85,11 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                 columns: table => new
                 {
                     JobOfferId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobOfferWorkLocation", x => new { x.JobOfferId, x.WorkLocationId })
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_JobOfferWorkLocation", x => new { x.JobOfferId, x.WorkLocationId });
                     table.ForeignKey(
                         name: "FK_JobOfferWorkLocation_JobOffers_JobOfferId",
                         column: x => x.JobOfferId,
@@ -116,34 +107,10 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobOffers_ClusterId",
-                schema: "jobsystem",
-                table: "JobOffers",
-                column: "ClusterId",
-                unique: true)
-                .Annotation("SqlServer:Clustered", true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobOfferWorkLocation_ClusterId",
-                schema: "jobsystem",
-                table: "JobOfferWorkLocation",
-                column: "ClusterId",
-                unique: true)
-                .Annotation("SqlServer:Clustered", true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_JobOfferWorkLocation_WorkLocationId",
                 schema: "jobsystem",
                 table: "JobOfferWorkLocation",
                 column: "WorkLocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkLocations_ClusterId",
-                schema: "jobsystem",
-                table: "WorkLocations",
-                column: "ClusterId",
-                unique: true)
-                .Annotation("SqlServer:Clustered", true);
         }
 
         /// <inheritdoc />

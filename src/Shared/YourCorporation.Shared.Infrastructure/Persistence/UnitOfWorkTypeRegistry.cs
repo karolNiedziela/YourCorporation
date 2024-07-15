@@ -1,4 +1,6 @@
-﻿using YourCorporation.Shared.Abstractions.Persistence;
+﻿using YourCorporation.Shared.Abstractions.Messaging;
+using YourCorporation.Shared.Abstractions.Persistence;
+using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Shared.Infrastructure.Persistence
 {
@@ -10,6 +12,13 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
 
         public Type Resolve<T>() => _types.TryGetValue(GetKey<T>(), out var type) ? type : null;
 
+        public Type Resolve(IAggregateRoot aggregateRoot) => _types.TryGetValue(GetKey(aggregateRoot.GetType()), out var type) ? type : null;
+
         private static string GetKey<T>() => $"{typeof(T).GetModuleName()}";
+
+        private static string GetKey(Type type)
+            => type.IsGenericType
+                ? $"{type.GenericTypeArguments[0].GetModuleName()}"
+                : $"{type.GetModuleName()}";
     }
 }

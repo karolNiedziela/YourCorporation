@@ -5,16 +5,11 @@ using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations;
 
 namespace YourCorporation.Modules.JobSystem.Api.Database.Configurations
 {
-    internal sealed class JobOfferEntityTypeConfiguration : IEntityTypeConfiguration<JobOffer>
+    internal sealed class JobOfferEntityypeConfiguration : IEntityTypeConfiguration<JobOffer>
     {
         public void Configure(EntityTypeBuilder<JobOffer> builder)
         {
-            builder.HasKey(x => x.Id).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Status)
                 .HasConversion(

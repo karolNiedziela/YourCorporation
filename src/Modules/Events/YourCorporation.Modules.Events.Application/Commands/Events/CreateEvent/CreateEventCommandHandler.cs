@@ -30,7 +30,6 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.CreateEvent
             }
 
             var @event = new Event(
-               new EventId(),
                eventName.Value,
                eventDescripton.Value,
                request.Category,

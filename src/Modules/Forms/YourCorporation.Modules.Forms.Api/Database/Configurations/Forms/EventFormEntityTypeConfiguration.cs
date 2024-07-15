@@ -4,7 +4,7 @@ using YourCorporation.Modules.Forms.Api.Entities.Forms.EventForms;
 
 namespace YourCorporation.Modules.Forms.Api.Database.Configurations.Forms
 {
-    internal sealed class EventFormEntityTypeConfiguration : FormBaseEntityTypeConfiguration<EventForm>
+    internal sealed class EventFormEntityypeConfiguration : FormBaseEntityypeConfiguration<EventForm>
     {
         public override void Configure(EntityTypeBuilder<EventForm> builder)
         {

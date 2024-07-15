@@ -4,7 +4,7 @@ using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 {
-    internal class JobApplicationChosenWorkLocation : Entity
+    internal class JobApplicationChosenWorkLocation
     {
         public JobApplicationId JobApplicationId { get; set; }
 

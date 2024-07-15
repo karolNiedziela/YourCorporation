@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Supabase.Gotrue;
+using YourCorporation.Modules.Users.Api.Entities;
 using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Users.Api.Features.Users.CreateUser
@@ -30,8 +31,9 @@ namespace YourCorporation.Modules.Users.Api.Features.Users.CreateUser
                         { "first_name", request.FirstName },
                         { "last_name", request.LastName }
                     }
-                });
+                });                
 
+                var systemUser = new SystemUser(request.FirstName, request.LastName, request.Email, Guid.Parse(session.User.Id)!);
                 // Confirm email is turn off, so session is not null
                 // When confirm is enabled, session would be null
                 // More information here: https://supabase.com/docs/reference/csharp/auth-signup

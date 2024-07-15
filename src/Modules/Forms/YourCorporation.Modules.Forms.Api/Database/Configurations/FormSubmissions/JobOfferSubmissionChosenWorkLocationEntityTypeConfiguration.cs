@@ -4,16 +4,11 @@ using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmiss
 
 namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissions
 {
-    internal class JobOfferSubmissionChosenWorkLocationEntityTypeConfiguration : IEntityTypeConfiguration<JobOfferSubmissionChosenWorkLocation>
+    internal class JobOfferSubmissionChosenWorkLocationEntityypeConfiguration : IEntityTypeConfiguration<JobOfferSubmissionChosenWorkLocation>
     {
         public void Configure(EntityTypeBuilder<JobOfferSubmissionChosenWorkLocation> builder)
         {
-            builder.HasKey(x => new { x.JobOfferSubmissionId, x.WorkLocationId }).IsClustered(false);
-            
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();         
+            builder.HasKey(x => new { x.JobOfferSubmissionId, x.WorkLocationId });             
         }
     }
 }

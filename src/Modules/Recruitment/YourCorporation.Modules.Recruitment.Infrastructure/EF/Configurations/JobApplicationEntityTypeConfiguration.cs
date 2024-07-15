@@ -9,16 +9,11 @@ using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 {
-    internal class JobApplicationEntityTypeConfiguration : IEntityTypeConfiguration<JobApplication>
+    internal class JobApplicationEntityypeConfiguration : IEntityTypeConfiguration<JobApplication>
     {
         public void Configure(EntityTypeBuilder<JobApplication> builder)
         {
-            builder.HasKey(x => x.Id).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
                 .HasConversion(

@@ -4,7 +4,7 @@ using YourCorporation.Modules.Forms.Api.Entities.Forms.JobOfferForms;
 
 namespace YourCorporation.Modules.Forms.Api.Database.Configurations.Forms
 {
-    internal sealed class JobOfferFormEntityTypeConfiguration : FormBaseEntityTypeConfiguration<JobOfferForm>
+    internal sealed class JobOfferFormEntityypeConfiguration : FormBaseEntityypeConfiguration<JobOfferForm>
     {
         public override void Configure(EntityTypeBuilder<JobOfferForm> builder)
         {

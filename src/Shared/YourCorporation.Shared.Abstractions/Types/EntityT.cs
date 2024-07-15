@@ -5,8 +5,6 @@
     {
         public TId Id { get; protected set;}
 
-        public long ClusterId { get; private set; }
-
         protected Entity() { }
 
         protected Entity(TId id)

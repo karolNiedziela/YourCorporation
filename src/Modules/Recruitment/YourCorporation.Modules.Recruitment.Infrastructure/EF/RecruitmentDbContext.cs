@@ -33,11 +33,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(SchemaName);
-            modelBuilder.ApplyConfiguration(new JobApplicationEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new ContactEntityTypeConfiguration(_timeProvider));
-            //modelBuilder.ApplyConfiguration(new ContactStatusEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new WorkLocationEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new JobApplicationChosenWorkLocationEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new JobApplicationEntityypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactEntityypeConfiguration(_timeProvider));
+            //modelBuilder.ApplyConfiguration(new ContactStatusEntityypeConfiguration());
+            modelBuilder.ApplyConfiguration(new WorkLocationEntityypeConfiguration());
+            modelBuilder.ApplyConfiguration(new JobApplicationChosenWorkLocationEntityypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

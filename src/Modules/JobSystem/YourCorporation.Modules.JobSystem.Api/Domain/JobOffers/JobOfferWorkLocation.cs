@@ -1,9 +1,6 @@
-﻿using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations;
-using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.JobSystem.Api.Domain.JobOffers
+﻿namespace YourCorporation.Modules.JobSystem.Api.Domain.JobOffers
 {
-    internal class JobOfferWorkLocation : Entity
+    internal class JobOfferWorkLocation
     {
         public Guid JobOfferId { get; set; }
 

@@ -1,19 +1,15 @@
-﻿namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
+﻿using YourCorporation.Shared.Abstractions.Types;
+
+namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 {
-    internal record struct EventId
+    internal class EventId : TypedIdValueBase
     {
-        public Guid Value { get; }
-
-        public EventId()
+        public EventId(Guid value) : base(value)
         {
-            Value = Guid.NewGuid();
-        }
-
-        public EventId(Guid value)
-        {
-            Value = value;
         }
 
         public static implicit operator Guid(EventId id) => id.Value;
+
+        public static implicit operator EventId(Guid value) => new(value);
     }
 }

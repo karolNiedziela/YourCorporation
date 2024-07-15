@@ -8,18 +8,13 @@ using YourCorporation.Modules.Events.Core.Events.ValueObjects;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class WaitlistedEventAttendeeEntityTypeConfiguration : IEntityTypeConfiguration<WaitlistedEventAttendee>
+    internal class WaitlistedEventAttendeeEntityypeConfiguration : IEntityTypeConfiguration<WaitlistedEventAttendee>
     {
         public void Configure(EntityTypeBuilder<WaitlistedEventAttendee> builder)
         {
             builder.ToTable("WaitlistedEventAttendees");
 
-            builder.HasKey(nameof(EventId), nameof(AttendeeId)).IsClustered(false);
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
+            builder.HasKey(nameof(EventId), nameof(AttendeeId));
 
             builder.Property(x => x.AttendeeId)
                   .HasConversion(

@@ -7,22 +7,17 @@ using YourCorporation.Modules.Events.Core.Sessions.ValueObjects;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class SessionEntityTypeConfiguration : IEntityTypeConfiguration<Session>
+    internal class SessionEntityypeConfiguration : IEntityTypeConfiguration<Session>
     {
         public void Configure(EntityTypeBuilder<Session> builder)
         {
             builder.ToTable("Sessions");
 
-            builder.HasKey(x => x.Id).IsClustered(false);
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.Id)
                 .HasConversion(
                     sessionId => sessionId.Value,
                     value => new SessionId(value));
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
 
             builder.Property(x => x.EventId)
                 .HasColumnName("EventId")

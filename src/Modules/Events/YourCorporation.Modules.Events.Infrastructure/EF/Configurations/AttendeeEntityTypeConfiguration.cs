@@ -7,7 +7,7 @@ using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
 {
-    internal class AttendeeEntityTypeConfiguration : IEntityTypeConfiguration<Attendee>
+    internal class AttendeeEntityypeConfiguration : IEntityTypeConfiguration<Attendee>
     {
         public void Configure(EntityTypeBuilder<Attendee> builder)
         {
@@ -17,11 +17,6 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Configurations
                  .HasConversion(
                   attendeeId => attendeeId.Value,
                   value => new AttendeeId(value));
-
-            builder.Property(x => x.ClusterId).ValueGeneratedOnAdd();
-            builder.HasIndex(x => x.ClusterId)
-                .IsUnique()
-                .IsClustered();
 
             builder.Property(x => x.FirstName)
               .HasColumnName("FirstName")

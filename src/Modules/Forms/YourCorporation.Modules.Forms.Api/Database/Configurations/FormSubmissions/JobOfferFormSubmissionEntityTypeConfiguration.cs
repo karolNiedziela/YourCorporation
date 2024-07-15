@@ -3,7 +3,7 @@ using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmiss
 
 namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissions
 {
-    internal class JobOfferFormSubmissionEntityTypeConfiguration : FormSubmissionBaseEntityTypeConfiguration<JobOfferSubmission>
+    internal class JobOfferFormSubmissionEntityypeConfiguration : FormSubmissionBaseEntityypeConfiguration<JobOfferSubmission>
     {
         public override void Configure(EntityTypeBuilder<JobOfferSubmission> builder)
         {

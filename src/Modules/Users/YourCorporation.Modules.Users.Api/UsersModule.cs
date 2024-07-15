@@ -16,9 +16,7 @@ namespace YourCorporation.Modules.Users.Api
 
         public void Register(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddFeatures();
-
-            services.AddHostedService<AuthenticationSeederHostedService>();
+            services.AddFeatures();            
         }
 
         public void ConfigureModule(IApplicationBuilder builder)

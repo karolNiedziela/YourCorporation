@@ -16,12 +16,7 @@ namespace YourCorporation.Modules.Forms.Api.IntegrationEventsHandlers.Handlers
 
         public async Task Handle(WorkLocationCreated notification, CancellationToken cancellationToken)
         {
-            var workLocation = new WorkLocation
-            {
-                Id = notification.Id,
-                Name = notification.Name,
-                Code = notification.Code,
-            };
+            var workLocation = new WorkLocation(notification.Id, notification.Name, notification.Code);
 
             await _workLocationRepository.AddAsync(workLocation);
         }

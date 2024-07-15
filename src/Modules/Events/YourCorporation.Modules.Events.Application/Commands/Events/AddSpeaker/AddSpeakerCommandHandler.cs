@@ -42,7 +42,7 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.AddSpeaker
 
             _eventRepository.Update(@event);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            //await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

@@ -35,7 +35,6 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
             var contact = Contact.Create(notification.ApplicationFirstName, notification.ApplicationLastName, notification.ApplicationEmail);
 
             _contactRepository.Add(contact);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("New contact with '{ContactId}' and private email '{PrivateEmail}'.", contact.Id, contact.PrivateEmail.Value);
         }
@@ -46,7 +45,6 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
             jobApplication.AssignContact(contact.Id);
 
             _jobApplicationRepository.Update(jobApplication);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogDebug($"Contact with id '{contact.Id}' assigned to Job Application with id '{jobApplicationId}'.");
         }

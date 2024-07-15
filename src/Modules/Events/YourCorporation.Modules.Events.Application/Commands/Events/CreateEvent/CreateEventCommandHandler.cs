@@ -2,7 +2,6 @@
 using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Events.Repositories;
 using YourCorporation.Modules.Events.Core.Events.ValueObjects;
-using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Application.Commands.Events.CreateEvent

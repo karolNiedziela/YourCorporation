@@ -21,7 +21,7 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
             var workLocation = new WorkLocation(new WorkLocationId(notification.Id), notification.Name);
 
             _workLocationRepository.Add(workLocation);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            //await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

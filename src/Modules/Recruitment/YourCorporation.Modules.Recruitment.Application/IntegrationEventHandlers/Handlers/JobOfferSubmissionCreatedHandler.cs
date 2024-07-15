@@ -55,7 +55,7 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
                 jobApplicationId);
 
             _jobApplicationRepository.Add(jobApplication);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            //await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("New job application with id '{JobApplicationId}'", jobApplication.Id.Value);
         }

@@ -1,10 +1,11 @@
-﻿using YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects;
+﻿using YourCorporation.Modules.Recruitment.Core.Contacts.Entities;
+using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Shared.Abstractions.Types;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
-namespace YourCorporation.Modules.Recruitment.Core.Candidates
+namespace YourCorporation.Modules.Recruitment.Core.Contacts
 {
-    internal class Candidate : AggregateRoot<CandidateId>
+    internal class Contact : AggregateRoot<Guid>
     {
         public FirstName FirstName { get; private set; }
 
@@ -20,23 +21,26 @@ namespace YourCorporation.Modules.Recruitment.Core.Candidates
 
         public LinkedinUrl LinkedinUrl { get; private set; }
 
+        public ContactStatus ContactStatus { get; private set; }
+
         //public Nationality Nationality { get; private set; }
 
         //public Country Country { get; private set; }
 
         //public string City { get; private set; }
 
-        private Candidate() { }
+        private Contact() { }
 
-        private Candidate(FirstName firstName, LastName lastName, PrivateEmail privateEmail, CandidateId candidateId = null) 
-            : base(candidateId ?? new CandidateId(Guid.NewGuid()))
+        private Contact(FirstName firstName, LastName lastName, PrivateEmail privateEmail, Guid? contactId = null) 
+            : base(contactId ?? Guid.NewGuid())
         {
             FirstName = firstName;
             LastName = lastName;
             PrivateEmail = privateEmail;
+            ContactStatus = ContactStatus.ApplicantNotVerified;
         }
 
-        public static Candidate Create(FirstName firstName, LastName lastName, PrivateEmail privateEmail)
+        public static Contact Create(FirstName firstName, LastName lastName, PrivateEmail privateEmail)
             => new(firstName, lastName, privateEmail);
     }
 }

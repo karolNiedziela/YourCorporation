@@ -1,4 +1,4 @@
-﻿using YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects;
+﻿using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Recruitment.Core

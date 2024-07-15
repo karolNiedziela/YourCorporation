@@ -12,8 +12,8 @@ using YourCorporation.Modules.Recruitment.Infrastructure.EF;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(RecruitmentDbContext))]
-    [Migration("20240630145019_Initial")]
-    partial class Initial
+    [Migration("20240715181434_Recruitment_Initial")]
+    partial class Recruitment_Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.Candidates.Candidate", b =>
+            modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.Contacts.Contact", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -72,7 +72,27 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
                     SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
-                    b.ToTable("Candidates", "recruitment");
+                    b.ToTable("Contacts", "recruitment");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.Contacts.Entities.ContactStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("ClusterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Substatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactStatus", "recruitment");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.JobApplications.JobApplication", b =>
@@ -80,11 +100,22 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ApplicationEmail")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ApplicationEmail");
+
+                    b.Property<string>("ApplicationFirstName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("ApplicationFirstName");
+
+                    b.Property<string>("ApplicationLastName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("ApplicationLastName");
+
                     b.Property<string>("CVUrl")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CandidateId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<long>("ClusterId")
                         .ValueGeneratedOnAdd()
@@ -92,15 +123,15 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClusterId"));
 
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("JobApplicationStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("JobOfferSubmissionId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -227,6 +258,17 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Outbox", "recruitment");
+                });
+
+            modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.Contacts.Contact", b =>
+                {
+                    b.HasOne("YourCorporation.Modules.Recruitment.Core.Contacts.Entities.ContactStatus", "ContactStatus")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ContactStatus");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.JobApplications.JobApplication", b =>

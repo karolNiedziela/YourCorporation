@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using YourCorporation.Shared.Abstractions.Results;
 
-namespace YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects
+namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
 {
     internal partial record LinkedinUrl
     {

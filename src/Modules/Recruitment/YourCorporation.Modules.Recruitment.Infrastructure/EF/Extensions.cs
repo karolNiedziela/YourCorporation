@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using YourCorporation.Modules.Recruitment.Core.Candidates.Repositories;
+using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
 using YourCorporation.Modules.Recruitment.Infrastructure.EF.Repositories;
@@ -35,7 +35,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
 
             services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
             services.AddScoped<IWorkLocationRepository, WorkLocationRepository>();
-            services.AddScoped<ICandidateRepository, CandidateRepository>();         
+            services.AddScoped<IContactRepository, ContactRepository>();         
 
             return services;
         }

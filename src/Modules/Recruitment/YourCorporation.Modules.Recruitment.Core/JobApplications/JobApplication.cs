@@ -1,8 +1,9 @@
-﻿using YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects;
+﻿using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Constants;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Shared.Abstractions.Types;
+using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 {
@@ -10,7 +11,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
     {
         private readonly List<JobApplicationChosenWorkLocation> _chosenWorkLocations = [];
 
-        public string Name { get; private set; }
+        public string Name => $"{ApplicationFirstName.Value} {ApplicationLastName.Value}";
 
         public string CVUrl { get; private set; }
 
@@ -20,7 +21,13 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 
         public Guid JobOfferSubmissionId { get; private set; }
 
-        public CandidateId CandidateId { get; private set; }
+        public PrivateEmail ApplicationEmail { get; private set; }
+
+        public FirstName ApplicationFirstName { get; private set; }
+
+        public LastName ApplicationLastName { get; private set; }
+
+        public Guid? ContactId { get; private set; }
 
         private JobApplication() : base() { }
 
@@ -30,20 +37,23 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             string cvUrl,
             JobOffer jobOffer,
             Guid jobOfferSubmissionId,
-            CandidateId candidateId,
-            string CandidateFirstName,
-            string CandidateLastName,
+            FirstName applicationFirstName,
+            LastName applicationLastName,
+            PrivateEmail applicationEmail,
             IEnumerable<JobApplicationChosenWorkLocation> chosenWorkLocations,
             JobApplicationId jobApplicationId = null) : base(jobApplicationId ?? new JobApplicationId())
-        {
-            Name = $"{CandidateFirstName} {CandidateLastName}";
+        {            
             CVUrl = cvUrl;
             JobOffer = jobOffer;
+            ApplicationFirstName = applicationFirstName;
+            ApplicationLastName = applicationLastName;
+            ApplicationEmail = applicationEmail;
             JobOfferSubmissionId = jobOfferSubmissionId;
-            CandidateId = candidateId;
             JobApplicationStatus = JobApplicationStatus.Created;
             _chosenWorkLocations.AddRange(chosenWorkLocations);
-            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id));
+            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName, ApplicationLastName, ApplicationEmail));
         }
+
+        public void AssignContact(Guid contactId) => ContactId = contactId;
     }
 }

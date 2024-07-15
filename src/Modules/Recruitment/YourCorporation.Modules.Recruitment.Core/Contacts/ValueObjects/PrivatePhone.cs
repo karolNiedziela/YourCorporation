@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using YourCorporation.Shared.Abstractions.Results;
 
-namespace YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects
+namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
 {
     internal record PrivatePhone
     {

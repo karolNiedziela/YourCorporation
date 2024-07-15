@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YourCorporation.Modules.Recruitment.Core.Candidates;
+using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.JobApplications;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
 using YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations;
@@ -28,13 +28,14 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
 
         public DbSet<JobApplication> JobApplications { get; set; }
 
-        public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(SchemaName);
             modelBuilder.ApplyConfiguration(new JobApplicationEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new CandidateEntityTypeConfiguration(_timeProvider));
+            modelBuilder.ApplyConfiguration(new ContactEntityTypeConfiguration(_timeProvider));
+            //modelBuilder.ApplyConfiguration(new ContactStatusEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new WorkLocationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new JobApplicationChosenWorkLocationEntityTypeConfiguration());
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Recruitment_Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,24 +15,18 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 name: "recruitment");
 
             migrationBuilder.CreateTable(
-                name: "Candidates",
+                name: "ContactStatus",
                 schema: "recruitment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    PrivateEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PrivatePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LinkedinUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Substatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClusterId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Candidates", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                    table.PrimaryKey("PK_ContactStatus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,13 +53,15 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CVUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     JobApplicationStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     JobOfferId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     JobOfferName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     JobOfferSubmissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CandidateId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ApplicationEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationFirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ApplicationLastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ClusterId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1")
                 },
@@ -111,6 +107,34 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Contacts",
+                schema: "recruitment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PrivateEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrivatePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LinkedinUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClusterId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contacts", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
+                    table.ForeignKey(
+                        name: "FK_Contacts_ContactStatus_Id",
+                        column: x => x.Id,
+                        principalSchema: "recruitment",
+                        principalTable: "ContactStatus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "JobApplicationChosenWorkLocation",
                 schema: "recruitment",
                 columns: table => new
@@ -141,9 +165,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidates_ClusterId",
+                name: "IX_Contacts_ClusterId",
                 schema: "recruitment",
-                table: "Candidates",
+                table: "Contacts",
                 column: "ClusterId",
                 unique: true)
                 .Annotation("SqlServer:Clustered", true);
@@ -183,7 +207,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Candidates",
+                name: "Contacts",
                 schema: "recruitment");
 
             migrationBuilder.DropTable(
@@ -196,6 +220,10 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Outbox",
+                schema: "recruitment");
+
+            migrationBuilder.DropTable(
+                name: "ContactStatus",
                 schema: "recruitment");
 
             migrationBuilder.DropTable(

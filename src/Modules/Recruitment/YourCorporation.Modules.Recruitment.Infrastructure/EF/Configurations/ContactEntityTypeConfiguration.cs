@@ -1,21 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using YourCorporation.Modules.Recruitment.Core.Candidates;
-using YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.Contacts;
+using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 {
-    internal class CandidateEntityTypeConfiguration : IEntityTypeConfiguration<Candidate>
+    internal class ContactEntityTypeConfiguration : IEntityTypeConfiguration<Contact>
     {
         private readonly TimeProvider _timeProvider;
 
-        public CandidateEntityTypeConfiguration(TimeProvider timeProvider)
+        public ContactEntityTypeConfiguration(TimeProvider timeProvider)
         {
             _timeProvider = timeProvider;
         }
 
-        public void Configure(EntityTypeBuilder<Candidate> builder)
+        public void Configure(EntityTypeBuilder<Contact> builder)
         {
             builder.HasKey(x => x.Id).IsClustered(false);
 
@@ -23,11 +23,6 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
             builder.HasIndex(x => x.ClusterId)
                 .IsUnique()
                 .IsClustered();
-
-            builder.Property(x => x.Id)
-                .HasConversion(
-                candidateId => candidateId.Value,
-                value => new CandidateId(value));
 
             builder.Property(x => x.FirstName)
                 .HasColumnName("FirstName")
@@ -66,6 +61,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
                 .HasConversion(
                 linkedinUrl => linkedinUrl.Value,
                 value => LinkedinUrl.Create(value).Value);
+
+            builder.HasOne(x => x.ContactStatus)
+                .WithMany()
+                .HasForeignKey(x => x.Id);
+            builder.Navigation(x => x.ContactStatus).AutoInclude();
         }
     }
 }

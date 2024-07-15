@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using YourCorporation.Modules.Forms.MessagingContracts;
-using YourCorporation.Modules.Recruitment.Core.Candidates;
-using YourCorporation.Modules.Recruitment.Core.Candidates.Repositories;
-using YourCorporation.Modules.Recruitment.Core.Candidates.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
@@ -15,14 +13,12 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
 {
     internal class JobOfferSubmissionCreatedHandler : INotificationHandler<JobOfferSubmissionCreated>
     {
-        private readonly ICandidateRepository _candidateRepository;
-        private readonly ILogger<JobOfferSubmissionCreatedHandler> _logger;
+       private readonly ILogger<JobOfferSubmissionCreatedHandler> _logger;
         private readonly IJobApplicationRepository _jobApplicationRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public JobOfferSubmissionCreatedHandler(ICandidateRepository candidateRepository, ILogger<JobOfferSubmissionCreatedHandler> logger, IJobApplicationRepository jobApplicationRepository, IUnitOfWork unitOfWork)
+        public JobOfferSubmissionCreatedHandler(ILogger<JobOfferSubmissionCreatedHandler> logger, IJobApplicationRepository jobApplicationRepository, IUnitOfWork unitOfWork)
         {
-            _candidateRepository = candidateRepository;
             _logger = logger;
             _jobApplicationRepository = jobApplicationRepository;
             _unitOfWork = unitOfWork;
@@ -37,32 +33,14 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
                 return;
             }
 
-            var candidate = await _candidateRepository.GetAsync(privateEmail.Value);
-            if (candidate is not null)
-            {
-                await CreateJobApplication(notification, candidate, cancellationToken);
-                return;
-            }
-
             var firstName = FirstName.Create(notification.FirstName);
             var lastName = LastName.Create(notification.LastName);
             if (firstName.IsFailure || lastName.IsFailure)
             {
-                _logger.LogWarning("Invalid contact personal data, won't process job offer submission.");
+                _logger.LogWarning("Invalid application personal data, won't process job offer submission.");
                 return;
             }
 
-            candidate = Candidate.Create(firstName.Value, lastName.Value, privateEmail.Value);
-            _candidateRepository.Add(candidate);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation("New candidate with '{CandidateId}' and private email '{PrivateEmail}'.", candidate.Id.Value, candidate.PrivateEmail.Value);           
-
-            await CreateJobApplication(notification, candidate, cancellationToken);
-        }
-
-        private async Task CreateJobApplication(JobOfferSubmissionCreated notification, Candidate candidate, CancellationToken cancellationToken)
-        {
             var chosenWorkLocationIds = notification.ChosenWorkLocationIds.Select(x => new WorkLocationId(x));
             var jobOffer = new JobOffer(notification.JobOfferId, notification.JobOfferName);
             var jobApplicationId = new JobApplicationId(Guid.NewGuid());
@@ -70,9 +48,9 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
                 notification.CVUrl,
                 jobOffer,
                 notification.JobOfferSubmissionId,
-                candidate.Id,
-                candidate.FirstName.Value,
-                candidate.LastName.Value,
+                firstName.Value,
+                lastName.Value,
+                privateEmail.Value,
                 chosenWorkLocationIds.Select(x => new JobApplicationChosenWorkLocation(jobApplicationId, x)),
                 jobApplicationId);
 

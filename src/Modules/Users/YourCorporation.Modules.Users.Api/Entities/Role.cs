@@ -2,7 +2,7 @@
 
 namespace YourCorporation.Modules.Users.Api.Entities
 {
-    internal class Role : Entity<long>
+    internal class Role : Entity<int>
     {
         public string Name { get; set; }
 

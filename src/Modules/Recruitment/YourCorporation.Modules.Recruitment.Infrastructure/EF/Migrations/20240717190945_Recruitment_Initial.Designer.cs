@@ -12,8 +12,8 @@ using YourCorporation.Modules.Recruitment.Infrastructure.EF;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(RecruitmentDbContext))]
-    [Migration("20240715194313_Initial")]
-    partial class Initial
+    [Migration("20240717190945_Recruitment_Initial")]
+    partial class Recruitment_Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("BirthDate");
+
+                    b.Property<Guid?>("ContactStatusId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(100)
@@ -58,6 +61,8 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnName("PrivatePhone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContactStatusId");
 
                     b.ToTable("Contacts", "recruitment");
                 });
@@ -112,6 +117,8 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
 
                     b.ToTable("JobApplications", "recruitment");
                 });
@@ -209,15 +216,17 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 {
                     b.HasOne("YourCorporation.Modules.Recruitment.Core.Contacts.Entities.ContactStatus", "ContactStatus")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactStatusId");
 
                     b.Navigation("ContactStatus");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.JobApplications.JobApplication", b =>
                 {
+                    b.HasOne("YourCorporation.Modules.Recruitment.Core.Contacts.Contact", null)
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.OwnsOne("YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects.JobOffer", "JobOffer", b1 =>
                         {
                             b1.Property<Guid>("JobApplicationId")

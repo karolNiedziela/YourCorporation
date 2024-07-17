@@ -1,21 +1,8 @@
-﻿using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
+﻿using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Modules.Recruitment.Core.WorkLocations
 {
-    internal class WorkLocationId
+    internal class WorkLocationId(Guid Value) : StronglyTypedId(Value)
     {
-        public Guid Value { get; }
-
-        public WorkLocationId()
-        {
-            Value = Guid.NewGuid();
-        }
-
-        public WorkLocationId(Guid value)
-        {
-            Value = value;
-        }
-
-        public static implicit operator Guid(WorkLocationId id) => id.Value;
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Recruitment_Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,27 +44,6 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Inbox", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "JobApplications",
-                schema: "recruitment",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CVUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JobApplicationStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobOfferId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    JobOfferName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JobOfferSubmissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ApplicationEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ApplicationFirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ApplicationLastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JobApplications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,18 +89,45 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     PrivateEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PrivatePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LinkedinUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LinkedinUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactStatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contacts_ContactStatus_Id",
-                        column: x => x.Id,
+                        name: "FK_Contacts_ContactStatus_ContactStatusId",
+                        column: x => x.ContactStatusId,
                         principalSchema: "recruitment",
                         principalTable: "ContactStatus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JobApplications",
+                schema: "recruitment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CVUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JobApplicationStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobOfferId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    JobOfferName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JobOfferSubmissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicationEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationFirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ApplicationLastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobApplications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_JobApplications_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalSchema: "recruitment",
+                        principalTable: "Contacts",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -152,19 +158,27 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Contacts_ContactStatusId",
+                schema: "recruitment",
+                table: "Contacts",
+                column: "ContactStatusId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_JobApplicationChosenWorkLocation_WorkLocationId",
                 schema: "recruitment",
                 table: "JobApplicationChosenWorkLocation",
                 column: "WorkLocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplications_ContactId",
+                schema: "recruitment",
+                table: "JobApplications",
+                column: "ContactId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Contacts",
-                schema: "recruitment");
-
             migrationBuilder.DropTable(
                 name: "Inbox",
                 schema: "recruitment");
@@ -178,15 +192,19 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 schema: "recruitment");
 
             migrationBuilder.DropTable(
-                name: "ContactStatus",
-                schema: "recruitment");
-
-            migrationBuilder.DropTable(
                 name: "JobApplications",
                 schema: "recruitment");
 
             migrationBuilder.DropTable(
                 name: "WorkLocations",
+                schema: "recruitment");
+
+            migrationBuilder.DropTable(
+                name: "Contacts",
+                schema: "recruitment");
+
+            migrationBuilder.DropTable(
+                name: "ContactStatus",
                 schema: "recruitment");
         }
     }

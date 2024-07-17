@@ -18,9 +18,9 @@ namespace YourCorporation.Modules.JobSystem.Api.Features.JobOffers.PublishJobOff
         public async Task Handle(JobOfferPublishedDomainEvent notification, CancellationToken cancellationToken)
         {
             await _messageBroker.PublishAsync(new JobOfferPublished(
-                notification.JobOffer.Id,
-                notification.JobOffer.Name,
-                notification.JobOffer.WorkLocations.Select(x => x.Id)),
+                notification.JobOfferId,
+                notification.JobOfferName,
+                notification.WorkLocationIds.ToList()),
                 notification,
                 cancellationToken);
         }

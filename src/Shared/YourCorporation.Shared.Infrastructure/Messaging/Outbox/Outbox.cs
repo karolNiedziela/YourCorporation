@@ -63,7 +63,6 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
 
                     return new OutboxMessage
                     {
-
                         Id = Guid.NewGuid(),
                         Name = message.GetType().Name,
                         CorrelationId = context.Context.CorrelationId,
@@ -113,7 +112,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
 
                 var message = JsonConvert.DeserializeObject<IMessage>(outboxMessage.Content, new JsonSerializerSettings
                 {
-                    TypeNameHandling = TypeNameHandling.Auto
+                    TypeNameHandling = TypeNameHandling.All
                 });
 
                 if (message is null)

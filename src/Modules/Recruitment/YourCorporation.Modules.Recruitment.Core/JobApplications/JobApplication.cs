@@ -27,7 +27,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 
         public LastName ApplicationLastName { get; private set; }
 
-        public Guid? ContactId { get; private set; }
+        public ContactId ContactId { get; private set; }
 
         private JobApplication() : base() { }
 
@@ -41,7 +41,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             LastName applicationLastName,
             PrivateEmail applicationEmail,
             IEnumerable<JobApplicationChosenWorkLocation> chosenWorkLocations,
-            JobApplicationId jobApplicationId = null) : base(jobApplicationId ?? new JobApplicationId())
+            JobApplicationId jobApplicationId = null) : base(jobApplicationId)
         {            
             CVUrl = cvUrl;
             JobOffer = jobOffer;
@@ -54,6 +54,6 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName, ApplicationLastName, ApplicationEmail));
         }
 
-        public void AssignContact(Guid contactId) => ContactId = contactId;
+        public void AssignContact(ContactId contactId) => ContactId = contactId;
     }
 }

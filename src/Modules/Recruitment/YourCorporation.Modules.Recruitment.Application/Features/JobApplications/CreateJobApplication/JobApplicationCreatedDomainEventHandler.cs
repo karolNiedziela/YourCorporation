@@ -4,6 +4,7 @@ using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
+using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplications.CreateJobApplication
 {
@@ -29,7 +30,11 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
                 return;
             }
 
-            var contact = Contact.Create(notification.ApplicationFirstName, notification.ApplicationLastName, notification.ApplicationEmail);
+            var contact = Contact.CreateFromJobApplication(
+                notification.ApplicationFirstName,
+                notification.ApplicationLastName,
+                notification.ApplicationEmail,
+                new JobApplicationId(notification.JobApplicationId));
 
             _contactRepository.Add(contact);
 

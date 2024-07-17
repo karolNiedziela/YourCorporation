@@ -16,7 +16,7 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
             _logger = logger;
         }
 
-        public async Task Handle(WorkLocationCreated notification, CancellationToken cancellationToken)
+        public Task Handle(WorkLocationCreated notification, CancellationToken cancellationToken)
         {
             var existingWorkLocation = await _workLocationRepository.GetAsync(notification.Id);
             if (existingWorkLocation is not null)
@@ -28,7 +28,8 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
             var workLocation = new WorkLocation(new WorkLocationId(notification.Id), notification.Name);
 
             _workLocationRepository.Add(workLocation);
-            //await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Task.CompletedTask;
         }
     }
 }

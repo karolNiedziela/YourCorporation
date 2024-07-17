@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -25,10 +26,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
                 options.UseSqlServer(mssqlOptions.ConnectionString, o =>
                     o.MigrationsHistoryTable(
                         tableName: HistoryRepository.DefaultTableName,
-                        schema: RecruitmentDbContext.SchemaName));
+                        schema: RecruitmentDbContext.SchemaName))
+                    .ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>();
             });
 
-            //services.AddUnitOfWork<RecruitmentUnitOfWork>();
+            services.AddUnitOfWork<RecruitmentUnitOfWork>();
 
             services.AddOutbox<RecruitmentDbContext>(configuration);
             services.AddInbox<RecruitmentDbContext>(configuration);

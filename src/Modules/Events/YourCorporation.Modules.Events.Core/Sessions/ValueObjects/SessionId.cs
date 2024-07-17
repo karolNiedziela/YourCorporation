@@ -1,17 +1,8 @@
-﻿namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
+﻿using YourCorporation.Shared.Abstractions.Types;
+
+namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
 {
-    internal record struct SessionId
+    internal class SessionId(Guid Value) : StronglyTypedId(Value)
     {
-        public Guid Value { get; }
-
-        public SessionId()
-        {
-            Value = Guid.NewGuid();
-        }
-
-        public SessionId(Guid value)
-        {
-            Value = value;
-        }
     }
 }

@@ -12,6 +12,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Repositories
             _workLocations = context.WorkLocations;
         }
 
+        public async Task<WorkLocation?> GetAsync(Guid workLocationId)
+          => await _workLocations.FirstOrDefaultAsync(x => x.Id == workLocationId);
+
         public void Add(WorkLocation workLocation)
             => _workLocations.Add(workLocation);
     }

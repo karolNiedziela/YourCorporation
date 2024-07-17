@@ -59,7 +59,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 
             builder.HasOne(x => x.ContactStatus)
                 .WithMany()
-                .HasForeignKey(x => x.Id);
+                .HasForeignKey("ContactStatusId");
             builder.Navigation(x => x.ContactStatus).AutoInclude();
         }
     }

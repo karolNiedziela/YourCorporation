@@ -1,7 +1,7 @@
 ﻿namespace YourCorporation.Shared.Abstractions.Types
 {
     public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
-        where TId : notnull
+        where TId : StronglyTypedId
     {
         private readonly List<IDomainEvent> _events = new();
 

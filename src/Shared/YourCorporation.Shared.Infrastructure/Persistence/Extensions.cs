@@ -15,7 +15,7 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
 
             services.AddUnitOfWork();
 
-            services.AddTransient(typeof(IRequestPostProcessor<,>), typeof(TransactionalPostProcessor<,>));
+            services.AddTransient(typeof(IRequestPostProcessor<,>), typeof(UnitOfWorkCommandHandlerDecorator<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
 
             return services;

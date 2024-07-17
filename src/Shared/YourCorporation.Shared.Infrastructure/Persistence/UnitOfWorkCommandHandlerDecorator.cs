@@ -6,14 +6,14 @@ using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Shared.Infrastructure.Persistence
 {
-    public class TransactionalPostProcessor<TRequest, TResponse> : IRequestPostProcessor<TRequest, TResponse>
+    public class UnitOfWorkCommandHandlerDecorator<TRequest, TResponse> : IRequestPostProcessor<TRequest, TResponse>
         where TRequest : ICommandBase
         where TResponse : IResult
     {
         private readonly UnitOfWorkTypeRegistry _unitOfWorkTypeRegistry;
         private readonly IServiceProvider _serviceProvider;
 
-        public TransactionalPostProcessor(UnitOfWorkTypeRegistry unitOfWorkTypeRegistry, IServiceProvider serviceProvider)
+        public UnitOfWorkCommandHandlerDecorator(UnitOfWorkTypeRegistry unitOfWorkTypeRegistry, IServiceProvider serviceProvider)
         {
             _unitOfWorkTypeRegistry = unitOfWorkTypeRegistry;
             _serviceProvider = serviceProvider;

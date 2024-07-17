@@ -28,7 +28,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
                         schema: RecruitmentDbContext.SchemaName));
             });
 
-            //services.AddUnitOfWork<RecruitmentUnitOfWork>();
+            services.AddUnitOfWork<RecruitmentUnitOfWork>();
 
             services.AddOutbox<RecruitmentDbContext>(configuration);
             services.AddInbox<RecruitmentDbContext>(configuration);

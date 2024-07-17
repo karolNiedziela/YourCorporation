@@ -4,7 +4,6 @@ using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
-using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplications.CreateJobApplication
 {
@@ -13,14 +12,12 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
         private readonly IContactRepository _contactRepository;
         private readonly ILogger<JobApplicationCreatedDomainEventHandler> _logger;
         private readonly IJobApplicationRepository _jobApplicationRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public JobApplicationCreatedDomainEventHandler(IContactRepository contactRepository, ILogger<JobApplicationCreatedDomainEventHandler> logger, IJobApplicationRepository jobApplicationRepository, IUnitOfWork unitOfWork)
+        public JobApplicationCreatedDomainEventHandler(IContactRepository contactRepository, ILogger<JobApplicationCreatedDomainEventHandler> logger, IJobApplicationRepository jobApplicationRepository)
         {
             _contactRepository = contactRepository;
             _logger = logger;
             _jobApplicationRepository = jobApplicationRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(JobApplicationCreatedDomainEvent notification, CancellationToken cancellationToken)

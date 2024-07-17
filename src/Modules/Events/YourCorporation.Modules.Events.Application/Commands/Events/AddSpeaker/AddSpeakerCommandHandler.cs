@@ -2,7 +2,6 @@
 using YourCorporation.Modules.Events.Core.Events.Repositories;
 using YourCorporation.Modules.Events.Core.Speakers.Repositories;
 using YourCorporation.Modules.Events.Core.Speakers.ValueObjects;
-using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Results;
 
 namespace YourCorporation.Modules.Events.Application.Commands.Events.AddSpeaker
@@ -10,13 +9,11 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.AddSpeaker
     internal class AddSpeakerCommandHandler : IRequestHandler<AddSpeakerCommand, Result>
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ISpeakerRepository _speakerRepository;
 
-        public AddSpeakerCommandHandler(IEventRepository eventRepository, IUnitOfWork unitOfWork, ISpeakerRepository speakerRepository)
+        public AddSpeakerCommandHandler(IEventRepository eventRepository, ISpeakerRepository speakerRepository)
         {
             _eventRepository = eventRepository;
-            _unitOfWork = unitOfWork;
             _speakerRepository = speakerRepository;
         }
 
@@ -41,8 +38,6 @@ namespace YourCorporation.Modules.Events.Application.Commands.Events.AddSpeaker
             }
 
             _eventRepository.Update(@event);
-
-            //await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Events;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
+using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.Contacts.CreateContactFromJobApplication
 {
@@ -10,11 +11,13 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.Contacts.Crea
     {
         private readonly ILogger<ContactFromJobApplicationCreatedDomainEventHandler> _logger;
         private readonly IJobApplicationRepository _jobApplicationRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ContactFromJobApplicationCreatedDomainEventHandler(ILogger<ContactFromJobApplicationCreatedDomainEventHandler> logger, IJobApplicationRepository jobApplicationRepository)
+        public ContactFromJobApplicationCreatedDomainEventHandler(ILogger<ContactFromJobApplicationCreatedDomainEventHandler> logger, IJobApplicationRepository jobApplicationRepository, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _jobApplicationRepository = jobApplicationRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(ContactFromJobApplicationCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -22,6 +25,8 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.Contacts.Crea
             var jobApplication = await _jobApplicationRepository.GetAsync(notification.JobApplicationId);
             jobApplication.AssignContact(new ContactId(notification.ContactId));
             _jobApplicationRepository.Update(jobApplication);
+
+            await _unitOfWork.SaveChangesAsync(jobApplication, cancellationToken);
 
             _logger.LogDebug($"Contact with id '{notification.ContactId}' assigned to Job Application with id '{notification.JobApplicationId}'.");
         }

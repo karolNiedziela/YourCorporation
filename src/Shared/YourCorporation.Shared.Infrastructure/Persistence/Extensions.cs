@@ -1,7 +1,4 @@
-﻿using MediatR.Pipeline;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YourCorporation.Shared.Abstractions.Persistence;
 
@@ -15,23 +12,21 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
 
             services.AddUnitOfWork();
 
-            services.AddTransient(typeof(IRequestPostProcessor<,>), typeof(UnitOfWorkCommandHandlerDecorator<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
-
             return services;
         }
 
         private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
             services.AddSingleton(new UnitOfWorkTypeRegistry());
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
 
-        public static IServiceCollection AddUnitOfWork<T>(this IServiceCollection services) where T : class, IUnitOfWork
+        public static IServiceCollection AddUnitOfWork<T>(this IServiceCollection services) where T : class, IUnitOfWorkModuleContext
         {
-            services.AddTransient<IUnitOfWork, T>();
-            services.AddTransient<T>();
+            services.AddScoped<IUnitOfWorkModuleContext, T>();
+            services.AddScoped<T>();
 
             using var serviceProvider = services.BuildServiceProvider();
             serviceProvider.GetRequiredService<UnitOfWorkTypeRegistry>().Register<T>();

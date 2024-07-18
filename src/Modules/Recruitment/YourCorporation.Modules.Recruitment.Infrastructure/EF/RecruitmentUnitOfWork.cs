@@ -3,7 +3,7 @@ using YourCorporation.Shared.Infrastructure.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
 {
-    internal class RecruitmentUnitOfWork : UnitOfWork<RecruitmentDbContext>
+    internal class RecruitmentUnitOfWork : UnitOfWorkModuleContext<RecruitmentDbContext>
     {
         public RecruitmentUnitOfWork(RecruitmentDbContext dbContext, IDomainEventsBroker domainEventsBroker) : base(dbContext, domainEventsBroker)
         {

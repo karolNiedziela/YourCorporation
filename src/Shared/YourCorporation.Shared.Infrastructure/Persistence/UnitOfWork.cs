@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using YourCorporation.Shared.Abstractions.Messaging;
 using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Types;
 
@@ -21,6 +23,14 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
 
             var unitOfWorkModuleContext = (IUnitOfWorkModuleContext)_serviceProvider.GetRequiredService(unitOfWorkTypeRegistry);
             return await unitOfWorkModuleContext.SaveChangesAndPublishAsync(cancellationToken);
+        }
+
+        public async Task<int> SaveChangesAsync(IAggregateRoot aggregateRoot, IMessage sourceNotification, CancellationToken cancellationToken = default)
+        {
+            var unitOfWorkTypeRegistry = _typeRegistry.Resolve(aggregateRoot);
+
+            var unitOfWorkModuleContext = (IUnitOfWorkModuleContext)_serviceProvider.GetRequiredService(unitOfWorkTypeRegistry);
+            return await unitOfWorkModuleContext.SaveChangesAndPublishAsync(sourceNotification, cancellationToken);
         }
     }
 }

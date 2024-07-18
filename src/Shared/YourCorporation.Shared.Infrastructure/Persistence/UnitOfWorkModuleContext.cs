@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using YourCorporation.Shared.Abstractions.Messaging;
 using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Types;
@@ -32,6 +34,26 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
             var result = await _dbContext.SaveChangesAsync(cancellationToken);
 
             await _domainEventsBroker.PublishAsync(domainEvents, cancellationToken);
+
+            return result;
+        }
+
+        public async Task<int> SaveChangesAndPublishAsync(IMessage sourceNotification, CancellationToken cancellationToken = default)
+        {
+            var domainEvents = _dbContext.ChangeTracker.Entries<IAggregateRoot>()
+            .Select(x => x.Entity)
+            .SelectMany(aggregateRoot =>
+            {
+                var domainEvents = aggregateRoot.Events;
+                aggregateRoot.ClearEvents();
+
+                return domainEvents;
+            })
+            .ToArray();
+
+            var result = await _dbContext.SaveChangesAsync(cancellationToken);
+
+            await _domainEventsBroker.PublishAsync(sourceNotification, domainEvents, cancellationToken);
 
             return result;
         }

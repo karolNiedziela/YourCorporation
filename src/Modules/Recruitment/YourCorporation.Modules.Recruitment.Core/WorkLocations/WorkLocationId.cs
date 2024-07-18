@@ -2,7 +2,14 @@
 
 namespace YourCorporation.Modules.Recruitment.Core.WorkLocations
 {
-    internal class WorkLocationId(Guid Value) : StronglyTypedId(Value)
+    internal class WorkLocationId : StronglyTypedId
     {
+        public WorkLocationId() : base()
+        {
+        }
+
+        public WorkLocationId(Guid value) : base(value)
+        {
+        }
     }
 }

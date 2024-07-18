@@ -2,10 +2,12 @@
 using Microsoft.Extensions.Logging;
 using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
+using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Shared.Abstractions.Persistence;
+using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplications.CreateJobApplication
 {
@@ -26,36 +28,38 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
 
         public async Task Handle(JobApplicationCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            var existingContact = await _contactRepository.GetAsync(notification.ApplicationEmail);
+            var privateEmail = PrivateEmail.Create(notification.ApplicationEmail);
+
+            var existingContact = await _contactRepository.GetAsync(privateEmail.Value);
             if (existingContact is not null)
             {
-                await AssignContactToJobApplication(existingContact, notification.JobApplicationId, cancellationToken);
+                await AssignContactToJobApplication(existingContact, notification, cancellationToken);
                 return;
             }
 
             var contact = Contact.CreateFromJobApplication(
-                notification.ApplicationFirstName,
-                notification.ApplicationLastName,
-                notification.ApplicationEmail,
+                FirstName.Create(notification.ApplicationFirstName).Value,
+                LastName.Create(notification.ApplicationLastName).Value,
+                privateEmail.Value,
                 new JobApplicationId(notification.JobApplicationId));
 
             _contactRepository.Add(contact);
 
-            await _unitOfWork.SaveChangesAsync(contact, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(contact, notification, cancellationToken);
 
             _logger.LogInformation("New contact with '{ContactId}' and private email '{PrivateEmail}'.", contact.Id, contact.PrivateEmail.Value);
         }
 
-        private async Task AssignContactToJobApplication(Contact contact, Guid jobApplicationId, CancellationToken cancellationToken)
+        private async Task AssignContactToJobApplication(Contact contact, JobApplicationCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            var jobApplication = await _jobApplicationRepository.GetAsync(jobApplicationId);
+            var jobApplication = await _jobApplicationRepository.GetAsync(notification.JobApplicationId);
             jobApplication.AssignContact(contact.Id);
 
             _jobApplicationRepository.Update(jobApplication);
 
-            await _unitOfWork.SaveChangesAsync(jobApplication, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(jobApplication, notification, cancellationToken);
 
-            _logger.LogDebug($"Contact with id '{contact.Id}' assigned to Job Application with id '{jobApplicationId}'.");
+            _logger.LogDebug($"Contact with id '{contact.Id}' assigned to Job Application with id '{notification.JobApplicationId}'.");
         }
     }
 }

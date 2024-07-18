@@ -51,7 +51,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             JobOfferSubmissionId = jobOfferSubmissionId;
             JobApplicationStatus = JobApplicationStatus.Created;
             _chosenWorkLocations.AddRange(chosenWorkLocations);
-            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName, ApplicationLastName, ApplicationEmail));
+            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName.Value, ApplicationLastName.Value, ApplicationEmail.Value));
         }
 
         public void AssignContact(ContactId contactId) => ContactId = contactId;

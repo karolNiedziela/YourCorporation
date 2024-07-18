@@ -35,7 +35,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
             modelBuilder.HasDefaultSchema(SchemaName);
             modelBuilder.ApplyConfiguration(new JobApplicationEntityypeConfiguration());
             modelBuilder.ApplyConfiguration(new ContactEntityypeConfiguration(_timeProvider));
-            //modelBuilder.ApplyConfiguration(new ContactStatusEntityypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactStatusEntityypeConfiguration());
             modelBuilder.ApplyConfiguration(new WorkLocationEntityypeConfiguration());
             modelBuilder.ApplyConfiguration(new JobApplicationChosenWorkLocationEntityypeConfiguration());
 

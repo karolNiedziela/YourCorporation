@@ -1,6 +1,6 @@
-﻿using YourCorporation.Modules.Recruitment.Core.Contacts.Entities;
-using YourCorporation.Modules.Recruitment.Core.Contacts.Events;
+﻿using YourCorporation.Modules.Recruitment.Core.Contacts.Events;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.ContactStatuses;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Shared.Abstractions.Types;
 using YourCorporation.Shared.Abstractions.ValueObjects;
@@ -23,7 +23,7 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts
 
         public LinkedinUrl LinkedinUrl { get; private set; }
 
-        public ContactStatus ContactStatus { get; private set; }
+        public ContactStatusId ContactStatusId { get; private set; }
 
         //public Nationality Nationality { get; private set; }
 
@@ -34,13 +34,13 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts
         private Contact() { }
 
         private Contact(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId, ContactId contactId = null) 
-            : base(contactId)
+            : base(contactId ?? new ContactId())
         {
             FirstName = firstName;
             LastName = lastName;
             PrivateEmail = privateEmail;
-            ContactStatus = ContactStatus.ApplicantNotVerified;
-            AddDomainEvent(new ContactFromJobApplicationCreatedDomainEvent(contactId.Value, jobApplicationId.Value));
+            ContactStatusId = ContactStatus.ApplicantNotVerified.Id;
+            AddDomainEvent(new ContactFromJobApplicationCreatedDomainEvent(Id, jobApplicationId.Value));
         }
 
         public static Contact CreateFromJobApplication(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId)

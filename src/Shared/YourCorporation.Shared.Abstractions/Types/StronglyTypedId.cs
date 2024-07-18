@@ -4,6 +4,11 @@
     {
         public Guid Value { get; }
 
+        protected StronglyTypedId() 
+        {
+            Value = Guid.NewGuid();
+        }
+
         protected StronglyTypedId(Guid value)
         {
             if (value == Guid.Empty)
@@ -16,7 +21,7 @@
 
         public override bool Equals(object obj)
         {
-            if (obj is null)
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
@@ -31,14 +36,19 @@
 
         public bool Equals(StronglyTypedId other)
         {
-            return Value == other?.Value;
+            return this.Value == other?.Value;
         }
 
         public static bool operator ==(StronglyTypedId obj1, StronglyTypedId obj2)
         {
-            if (Equals(obj1, null))
+            if (object.Equals(obj1, null))
             {
-                return Equals(obj2, null);
+                if (object.Equals(obj2, null))
+                {
+                    return true;
+                }
+
+                return false;
             }
 
             return obj1.Equals(obj2);
@@ -49,8 +59,6 @@
             return !(x == y);
         }
 
-
         public static implicit operator Guid(StronglyTypedId id) => id.Value;
-
     }
 }

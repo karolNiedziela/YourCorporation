@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Recruitment_Initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 name: "recruitment");
 
             migrationBuilder.CreateTable(
-                name: "ContactStatus",
+                name: "ContactStatuses",
                 schema: "recruitment",
                 columns: table => new
                 {
@@ -25,7 +25,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactStatus", x => x.Id);
+                    table.PrimaryKey("PK_ContactStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,10 +96,10 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contacts_ContactStatus_ContactStatusId",
+                        name: "FK_Contacts_ContactStatuses_ContactStatusId",
                         column: x => x.ContactStatusId,
                         principalSchema: "recruitment",
-                        principalTable: "ContactStatus",
+                        principalTable: "ContactStatuses",
                         principalColumn: "Id");
                 });
 
@@ -157,6 +157,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                schema: "recruitment",
+                table: "ContactStatuses",
+                columns: new[] { "Id", "Status", "Substatus" },
+                values: new object[] { new Guid("0380bc27-18de-4683-bd10-37c267f4f979"), "Not Verified", null });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Contacts_ContactStatusId",
                 schema: "recruitment",
@@ -204,7 +210,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 schema: "recruitment");
 
             migrationBuilder.DropTable(
-                name: "ContactStatus",
+                name: "ContactStatuses",
                 schema: "recruitment");
         }
     }

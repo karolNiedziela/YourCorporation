@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.ContactStatuses;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
@@ -57,10 +58,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
                 linkedinUrl => linkedinUrl.Value,
                 value => LinkedinUrl.Create(value).Value);
 
-            builder.HasOne(x => x.ContactStatus)
+            builder.HasOne<ContactStatus>()
                 .WithMany()
-                .HasForeignKey("ContactStatusId");
-            builder.Navigation(x => x.ContactStatus).AutoInclude();
+                .HasForeignKey(nameof(ContactStatusId));
         }
     }
 }

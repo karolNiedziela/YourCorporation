@@ -26,7 +26,7 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.Contacts.Crea
             jobApplication.AssignContact(new ContactId(notification.ContactId));
             _jobApplicationRepository.Update(jobApplication);
 
-            await _unitOfWork.SaveChangesAsync(jobApplication, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(jobApplication, notification, cancellationToken);
 
             _logger.LogDebug($"Contact with id '{notification.ContactId}' assigned to Job Application with id '{notification.JobApplicationId}'.");
         }

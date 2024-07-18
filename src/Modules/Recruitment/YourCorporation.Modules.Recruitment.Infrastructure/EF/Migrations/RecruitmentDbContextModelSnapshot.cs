@@ -23,6 +23,29 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.ContactStatuses.ContactStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Substatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactStatuses", "recruitment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0380bc27-18de-4683-bd10-37c267f4f979"),
+                            Status = "Not Verified"
+                        });
+                });
+
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.Contacts.Contact", b =>
                 {
                     b.Property<Guid>("Id")
@@ -62,23 +85,6 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.HasIndex("ContactStatusId");
 
                     b.ToTable("Contacts", "recruitment");
-                });
-
-            modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.Contacts.Entities.ContactStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Substatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ContactStatus", "recruitment");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.JobApplications.JobApplication", b =>
@@ -211,11 +217,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.Contacts.Contact", b =>
                 {
-                    b.HasOne("YourCorporation.Modules.Recruitment.Core.Contacts.Entities.ContactStatus", "ContactStatus")
+                    b.HasOne("YourCorporation.Modules.Recruitment.Core.ContactStatuses.ContactStatus", null)
                         .WithMany()
                         .HasForeignKey("ContactStatusId");
-
-                    b.Navigation("ContactStatus");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.JobApplications.JobApplication", b =>

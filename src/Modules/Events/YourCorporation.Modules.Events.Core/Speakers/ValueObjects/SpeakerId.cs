@@ -2,7 +2,14 @@
 
 namespace YourCorporation.Modules.Events.Core.Speakers.ValueObjects
 {
-    internal class SpeakerId(Guid Value) : StronglyTypedId(Value)
+    internal class SpeakerId : StronglyTypedId
     {
+        public SpeakerId() : base()
+        {
+        }
+
+        public SpeakerId(Guid value) : base(value)
+        {
+        }
     }
 }

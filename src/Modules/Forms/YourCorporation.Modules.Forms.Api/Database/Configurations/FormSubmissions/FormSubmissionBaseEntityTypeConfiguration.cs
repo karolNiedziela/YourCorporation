@@ -16,8 +16,6 @@ namespace YourCorporation.Modules.Forms.Api.Database.Configurations.FormSubmissi
             builder.Property(x => x.LastName).HasMaxLength(100);
 
             builder.Property(x => x.Email).HasMaxLength(200);
-
-            builder.HasIndex(x => x.Email).IsUnique();
         }
     }
 }

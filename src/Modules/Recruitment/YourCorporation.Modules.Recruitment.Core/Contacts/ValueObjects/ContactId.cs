@@ -2,7 +2,14 @@
 
 namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
 {
-    internal class ContactId(Guid value) : StronglyTypedId(value)
+    internal class ContactId : StronglyTypedId
     {
+        public ContactId() : base()
+        {
+        }
+
+        public ContactId(Guid value) : base(value)
+        {
+        }
     }
 }

@@ -2,8 +2,10 @@
 
 namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 {
-    internal class EventId(Guid value) : StronglyTypedId(value)
+    internal class EventId : StronglyTypedId
     {
-        public static implicit operator EventId(Guid value) => new(value);
+        public EventId() : base() { }
+
+        public EventId(Guid value) : base(value) { }
     }
 }

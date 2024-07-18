@@ -1,7 +1,7 @@
 ﻿namespace YourCorporation.Shared.Abstractions.Types
 {
     public abstract class Entity<TId> : IEquatable<Entity<TId>>
-        where TId : notnull
+          where TId : notnull
     {
         public TId Id { get; protected set; }
 

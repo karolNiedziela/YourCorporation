@@ -32,6 +32,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("BirthDate");
 
+                    b.Property<Guid?>("ContactStatusId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FirstName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -55,6 +58,8 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnName("PrivatePhone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContactStatusId");
 
                     b.ToTable("Contacts", "recruitment");
                 });
@@ -109,6 +114,8 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
 
                     b.ToTable("JobApplications", "recruitment");
                 });
@@ -206,15 +213,17 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 {
                     b.HasOne("YourCorporation.Modules.Recruitment.Core.Contacts.Entities.ContactStatus", "ContactStatus")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactStatusId");
 
                     b.Navigation("ContactStatus");
                 });
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.JobApplications.JobApplication", b =>
                 {
+                    b.HasOne("YourCorporation.Modules.Recruitment.Core.Contacts.Contact", null)
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.OwnsOne("YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects.JobOffer", "JobOffer", b1 =>
                         {
                             b1.Property<Guid>("JobApplicationId")

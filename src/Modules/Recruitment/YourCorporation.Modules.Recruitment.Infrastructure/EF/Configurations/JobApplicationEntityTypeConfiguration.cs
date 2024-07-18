@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Constants;
@@ -53,6 +54,10 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
             });
 
             builder.Navigation(x => x.ChosenWorkLocations).AutoInclude();
+
+            builder.HasOne<Contact>()
+                .WithMany()
+                .HasForeignKey(x => x.ContactId);   
         }        
     }
 }

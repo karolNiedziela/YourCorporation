@@ -2,6 +2,8 @@
 {
     internal interface IWorkLocationRepository
     {
+        Task<WorkLocation> GetAsync(Guid workLocationId);
+
         public void Add(WorkLocation workLocation);
     }
 }

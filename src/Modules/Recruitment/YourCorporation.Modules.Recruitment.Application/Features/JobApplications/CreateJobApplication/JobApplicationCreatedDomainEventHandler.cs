@@ -4,6 +4,7 @@ using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
+using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplications.CreateJobApplication
@@ -32,9 +33,15 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
                 return;
             }
 
-            var contact = Contact.Create(notification.ApplicationFirstName, notification.ApplicationLastName, notification.ApplicationEmail);
+            var contact = Contact.CreateFromJobApplication(
+                notification.ApplicationFirstName,
+                notification.ApplicationLastName,
+                notification.ApplicationEmail,
+                new JobApplicationId(notification.JobApplicationId));
 
             _contactRepository.Add(contact);
+
+            await _unitOfWork.SaveChangesAsync(contact, cancellationToken);
 
             _logger.LogInformation("New contact with '{ContactId}' and private email '{PrivateEmail}'.", contact.Id, contact.PrivateEmail.Value);
         }
@@ -45,6 +52,8 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
             jobApplication.AssignContact(contact.Id);
 
             _jobApplicationRepository.Update(jobApplication);
+
+            await _unitOfWork.SaveChangesAsync(jobApplication, cancellationToken);
 
             _logger.LogDebug($"Contact with id '{contact.Id}' assigned to Job Application with id '{jobApplicationId}'.");
         }

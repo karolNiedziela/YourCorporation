@@ -1,11 +1,13 @@
 ﻿using YourCorporation.Modules.Recruitment.Core.Contacts.Entities;
+using YourCorporation.Modules.Recruitment.Core.Contacts.Events;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Shared.Abstractions.Types;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Core.Contacts
 {
-    internal class Contact : AggregateRoot<Guid>
+    internal class Contact : AggregateRoot<ContactId>
     {
         public FirstName FirstName { get; private set; }
 
@@ -31,16 +33,17 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts
 
         private Contact() { }
 
-        private Contact(FirstName firstName, LastName lastName, PrivateEmail privateEmail, Guid? contactId = null) 
-            : base(contactId ?? Guid.NewGuid())
+        private Contact(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId, ContactId contactId = null) 
+            : base(contactId)
         {
             FirstName = firstName;
             LastName = lastName;
             PrivateEmail = privateEmail;
             ContactStatus = ContactStatus.ApplicantNotVerified;
+            AddDomainEvent(new ContactFromJobApplicationCreatedDomainEvent(contactId.Value, jobApplicationId.Value));
         }
 
-        public static Contact Create(FirstName firstName, LastName lastName, PrivateEmail privateEmail)
-            => new(firstName, lastName, privateEmail);
+        public static Contact CreateFromJobApplication(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId)
+            => new(firstName, lastName, privateEmail, jobApplicationId);
     }
 }

@@ -1,5 +1,4 @@
-﻿using YourCorporation.Shared.Abstractions.Messaging;
-using YourCorporation.Shared.Abstractions.Persistence;
+﻿using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Shared.Infrastructure.Persistence
@@ -8,7 +7,7 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
     {
         private readonly Dictionary<string, Type> _types = [];
 
-        public void Register<T>() where T : IUnitOfWork => _types[GetKey<T>()] = typeof(T);
+        public void Register<T>() where T : IUnitOfWorkModuleContext => _types[GetKey<T>()] = typeof(T);
 
         public Type Resolve<T>() => _types.TryGetValue(GetKey<T>(), out var type) ? type : null;
 

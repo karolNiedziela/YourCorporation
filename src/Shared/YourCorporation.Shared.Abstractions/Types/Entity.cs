@@ -1,9 +1,9 @@
 ﻿namespace YourCorporation.Shared.Abstractions.Types
 {
     public abstract class Entity<TId> : IEquatable<Entity<TId>>
-        where TId : notnull 
+        where TId : notnull
     {
-        public TId Id { get; protected set;}
+        public TId Id { get; protected set; }
 
         protected Entity() { }
 
@@ -20,6 +20,6 @@
 
         public static bool operator !=(Entity<TId> left, Entity<TId> right) => !Equals(left, right);
 
-        public override int GetHashCode() =>  Id.GetHashCode();       
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }

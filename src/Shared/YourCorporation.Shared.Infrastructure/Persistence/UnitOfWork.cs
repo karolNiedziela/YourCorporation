@@ -1,39 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using YourCorporation.Shared.Abstractions.Messaging.Brokers;
+﻿using Microsoft.Extensions.DependencyInjection;
 using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.Types;
 
 namespace YourCorporation.Shared.Infrastructure.Persistence
 {
-    public class UnitOfWork<T> : IUnitOfWork where T : DbContext
+    internal class UnitOfWork : IUnitOfWork
     {
-        private readonly T _dbContext;
-        private readonly IDomainEventsBroker _domainEventsBroker;
+        private readonly UnitOfWorkTypeRegistry _typeRegistry;
+        private readonly IServiceProvider _serviceProvider;
 
-        public UnitOfWork(T dbContext, IDomainEventsBroker domainEventsBroker)
+        public UnitOfWork(UnitOfWorkTypeRegistry typeRegistry, IServiceProvider serviceProvider)
         {
-            _dbContext = dbContext;
-            _domainEventsBroker = domainEventsBroker;
+            _typeRegistry = typeRegistry;
+            _serviceProvider = serviceProvider;
         }
 
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesAsync(IAggregateRoot aggregateRoot, CancellationToken cancellationToken = default)
         {
-            var domainEvents = _dbContext.ChangeTracker.Entries<IAggregateRoot>()
-            .Select(x => x.Entity)
-            .SelectMany(aggregateRoot =>
-            {
-                var domainEvents = aggregateRoot.Events;
-                aggregateRoot.ClearEvents();
+            var unitOfWorkTypeRegistry = _typeRegistry.Resolve(aggregateRoot);
 
-                return domainEvents;
-            })
-            .ToArray();
-
-            var result = await _dbContext.SaveChangesAsync(cancellationToken);
-
-            await _domainEventsBroker.PublishAsync(domainEvents, cancellationToken);
-
-            return result;
+            var unitOfWorkModuleContext = (IUnitOfWorkModuleContext)_serviceProvider.GetRequiredService(unitOfWorkTypeRegistry);
+            return await unitOfWorkModuleContext.SaveChangesAndPublishAsync(cancellationToken);
         }
     }
 }

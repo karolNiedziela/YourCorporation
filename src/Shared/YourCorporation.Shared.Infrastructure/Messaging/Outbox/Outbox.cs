@@ -63,7 +63,6 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
 
                     return new OutboxMessage
                     {
-
                         Id = Guid.NewGuid(),
                         Name = message.GetType().Name,
                         CorrelationId = context.Context.CorrelationId,
@@ -113,7 +112,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
 
                 var message = JsonConvert.DeserializeObject<IMessage>(outboxMessage.Content, new JsonSerializerSettings
                 {
-                    TypeNameHandling = TypeNameHandling.Auto
+                    TypeNameHandling = TypeNameHandling.All
                 });
 
                 if (message is null)
@@ -134,7 +133,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
                 _messageContextRegistry.Set(message, messageContext);
 
                 _logger.LogInformation("Publishing a message from outbox from ('{ModuleName}'): {Name} [Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
-                    moduleName, name, messageId, correlationId, traceId);
+                    moduleName, name, messageId, correlationId, traceId);                
 
                 await _publisher.Publish(message);
 

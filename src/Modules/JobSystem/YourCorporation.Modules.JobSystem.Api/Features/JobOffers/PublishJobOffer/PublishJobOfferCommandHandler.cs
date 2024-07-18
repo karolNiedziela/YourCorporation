@@ -34,7 +34,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Features.JobOffers.PublishJobOff
 
             await _jobOfferRepository.UpdateAsync(jobOffer);
 
-            await _domainEventsBroker.PublishAsync(new JobOfferPublishedDomainEvent(jobOffer), cancellationToken);
+            await _domainEventsBroker.PublishAsync
+                (new JobOfferPublishedDomainEvent(
+                    jobOffer.Id, 
+                    jobOffer.Name,
+                    jobOffer.WorkLocations.Select(x => x.Id).ToList()), 
+                    cancellationToken);
 
             return Result.Success();
         }

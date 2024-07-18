@@ -1,19 +1,8 @@
-﻿namespace YourCorporation.Modules.Events.Core.Attendees.ValueObjects
+﻿using YourCorporation.Shared.Abstractions.Types;
+
+namespace YourCorporation.Modules.Events.Core.Attendees.ValueObjects
 {
-    internal record struct AttendeeId
+    internal class AttendeeId(Guid Value) : StronglyTypedId(Value)
     {
-        public Guid Value { get; }
-
-        public AttendeeId()
-        {
-            Value = Guid.NewGuid();
-        }
-
-        public AttendeeId(Guid value)
-        {
-            Value = value;
-        }
-
-        public static implicit operator Guid(AttendeeId id) => id.Value;
     }
 }

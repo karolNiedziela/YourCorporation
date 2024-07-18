@@ -13,7 +13,7 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
 {
     internal class JobOfferSubmissionCreatedHandler : INotificationHandler<JobOfferSubmissionCreated>
     {
-       private readonly ILogger<JobOfferSubmissionCreatedHandler> _logger;
+        private readonly ILogger<JobOfferSubmissionCreatedHandler> _logger;
         private readonly IJobApplicationRepository _jobApplicationRepository;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -55,7 +55,8 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
                 jobApplicationId);
 
             _jobApplicationRepository.Add(jobApplication);
-            //await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _unitOfWork.SaveChangesAsync(jobApplication, cancellationToken);
 
             _logger.LogInformation("New job application with id '{JobApplicationId}'", jobApplication.Id.Value);
         }

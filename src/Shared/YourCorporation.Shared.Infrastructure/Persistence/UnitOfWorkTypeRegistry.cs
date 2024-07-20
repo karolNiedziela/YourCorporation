@@ -1,5 +1,4 @@
-﻿using YourCorporation.Shared.Abstractions.Messaging;
-using YourCorporation.Shared.Abstractions.Persistence;
+﻿using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Shared.Infrastructure.Persistence
 {

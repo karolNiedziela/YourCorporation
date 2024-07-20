@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using YourCorporation.Modules.JobSystem.MessagingContracts;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
-using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandlers.Handlers
 {

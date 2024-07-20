@@ -6,7 +6,6 @@ using YourCorporation.Modules.Recruitment.Core.JobApplications;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
-using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandlers.Handlers

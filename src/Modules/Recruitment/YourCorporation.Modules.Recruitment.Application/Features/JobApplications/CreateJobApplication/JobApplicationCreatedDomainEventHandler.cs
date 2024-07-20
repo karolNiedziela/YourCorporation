@@ -6,7 +6,6 @@ using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
-using YourCorporation.Shared.Abstractions.Persistence;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplications.CreateJobApplication

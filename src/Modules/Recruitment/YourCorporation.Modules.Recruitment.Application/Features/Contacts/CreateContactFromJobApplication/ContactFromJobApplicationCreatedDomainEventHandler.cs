@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Events;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
-using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.Contacts.CreateContactFromJobApplication
 {

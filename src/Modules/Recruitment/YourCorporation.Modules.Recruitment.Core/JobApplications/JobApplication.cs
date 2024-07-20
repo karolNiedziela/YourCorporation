@@ -54,6 +54,10 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName.Value, ApplicationLastName.Value, ApplicationEmail.Value));
         }
 
-        public void AssignContact(ContactId contactId) => ContactId = contactId;
+        public void AssignContact(ContactId contactId)
+        {
+            ContactId = contactId;
+            JobApplicationStatus = JobApplicationStatus.ReadyToProcess;
+        }
     }
 }

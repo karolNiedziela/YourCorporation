@@ -16,14 +16,12 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
         private readonly IContactRepository _contactRepository;
         private readonly ILogger<JobApplicationCreatedDomainEventHandler> _logger;
         private readonly IJobApplicationRepository _jobApplicationRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public JobApplicationCreatedDomainEventHandler(IContactRepository contactRepository, ILogger<JobApplicationCreatedDomainEventHandler> logger, IJobApplicationRepository jobApplicationRepository, IUnitOfWork unitOfWork)
+        public JobApplicationCreatedDomainEventHandler(IContactRepository contactRepository, ILogger<JobApplicationCreatedDomainEventHandler> logger, IJobApplicationRepository jobApplicationRepository)
         {
             _contactRepository = contactRepository;
             _logger = logger;
             _jobApplicationRepository = jobApplicationRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(JobApplicationCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -45,8 +43,6 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
 
             _contactRepository.Add(contact);
 
-            await _unitOfWork.SaveChangesAsync(contact, notification, cancellationToken);
-
             _logger.LogInformation("New contact with '{ContactId}' and private email '{PrivateEmail}'.", contact.Id, contact.PrivateEmail.Value);
         }
 
@@ -56,8 +52,6 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
             jobApplication.AssignContact(contact.Id);
 
             _jobApplicationRepository.Update(jobApplication);
-
-            await _unitOfWork.SaveChangesAsync(jobApplication, notification, cancellationToken);
 
             _logger.LogDebug($"Contact with id '{contact.Id}' assigned to Job Application with id '{notification.JobApplicationId}'.");
         }

@@ -40,14 +40,14 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Brokers
         public async Task PublishAsync(IMessage message, CancellationToken cancellationToken = default)
             => await PublishAsync(cancellationToken, message);
 
-        public async Task PublishAsync(IMessage sourceNotification, IMessage message, CancellationToken cancellationToken = default)
-             => await PublishAsync(sourceNotification, cancellationToken, message);
-
         public async Task PublishAsync(IMessage[] messages, CancellationToken cancellationToken = default)
             => await PublishAsync(cancellationToken, messages);
 
-        public async Task PublishAsync(IMessage sourceNotification, IMessage[] messages, CancellationToken cancellationToken = default)
-            => await PublishAsync(sourceNotification, cancellationToken, messages);
+        public async Task PublisFromNotificationHandlerAsync(IMessage sourceNotification, IMessage message, CancellationToken cancellationToken = default)
+            => await PublisFromNotificationHandlerAsync(sourceNotification, cancellationToken, message);
+
+        public async Task PublisFromNotificationHandlerAsync(IMessage sourceNotification, IMessage[] messages, CancellationToken cancellationToken = default)
+            => await PublisFromNotificationHandlerAsync(sourceNotification, cancellationToken, messages);
 
         private async Task PublishAsync(CancellationToken cancellationToken, params IMessage[] messages)
         {
@@ -81,7 +81,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Brokers
             await _outboxBroker.SendAsync(messages);
         }
 
-        private async Task PublishAsync(IMessage sourceNotification, CancellationToken cancellationToken, params IMessage[] messages)
+        private async Task PublisFromNotificationHandlerAsync(IMessage sourceNotification, CancellationToken cancellationToken, params IMessage[] messages)
         {
             if (messages.Length == 0)
             {

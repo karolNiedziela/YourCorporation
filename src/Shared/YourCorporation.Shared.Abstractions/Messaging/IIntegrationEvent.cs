@@ -2,7 +2,7 @@
 
 namespace YourCorporation.Shared.Abstractions.Messaging
 {
-    public interface IIntegrationEvent : INotification, IMessage
+    public interface IIntegrationEvent : IMessage
     {
     }
 }

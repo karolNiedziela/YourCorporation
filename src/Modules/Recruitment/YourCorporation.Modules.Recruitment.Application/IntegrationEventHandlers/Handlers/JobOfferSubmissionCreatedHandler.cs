@@ -15,22 +15,20 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
     {
         private readonly ILogger<JobOfferSubmissionCreatedHandler> _logger;
         private readonly IJobApplicationRepository _jobApplicationRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public JobOfferSubmissionCreatedHandler(ILogger<JobOfferSubmissionCreatedHandler> logger, IJobApplicationRepository jobApplicationRepository, IUnitOfWork unitOfWork)
+        public JobOfferSubmissionCreatedHandler(ILogger<JobOfferSubmissionCreatedHandler> logger, IJobApplicationRepository jobApplicationRepository)
         {
             _logger = logger;
             _jobApplicationRepository = jobApplicationRepository;
-            _unitOfWork = unitOfWork;
         }
 
-        public async Task Handle(JobOfferSubmissionCreated notification, CancellationToken cancellationToken)
+        public Task Handle(JobOfferSubmissionCreated notification, CancellationToken cancellationToken)
         {
             var privateEmail = PrivateEmail.Create(notification.Email);
             if (privateEmail.IsFailure)
             {
                 _logger.LogWarning($"Job offer submission won't be process due to invalid email address.");
-                return;
+                return Task.CompletedTask;
             }
 
             var firstName = FirstName.Create(notification.FirstName);
@@ -38,7 +36,7 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
             if (firstName.IsFailure || lastName.IsFailure)
             {
                 _logger.LogWarning("Invalid application personal data, won't process job offer submission.");
-                return;
+                return Task.CompletedTask;
             }
 
             var chosenWorkLocationIds = notification.ChosenWorkLocationIds.Select(x => new WorkLocationId(x));
@@ -56,9 +54,9 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
 
             _jobApplicationRepository.Add(jobApplication);
 
-            await _unitOfWork.SaveChangesAsync(jobApplication, notification, cancellationToken);
-
             _logger.LogInformation("New job application with id '{JobApplicationId}'", jobApplication.Id.Value);
+
+            return Task.CompletedTask;
         }
     }
 }

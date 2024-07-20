@@ -25,7 +25,7 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
                 return;
             }
 
-            var workLocation = new WorkLocation(new WorkLocationId(notification.Id), notification.Name);
+            var workLocation = new WorkLocation(new WorkLocationId(notification.Id), notification.Name, notification.Code);
 
             _workLocationRepository.Add(workLocation);
         }

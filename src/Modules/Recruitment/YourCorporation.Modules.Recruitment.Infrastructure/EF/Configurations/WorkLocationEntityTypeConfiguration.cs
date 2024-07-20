@@ -6,6 +6,8 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 {
     internal class WorkLocationEntityypeConfiguration : IEntityTypeConfiguration<WorkLocation>
     {
+        public const int MaxCodeLength = 6;
+
         public void Configure(EntityTypeBuilder<WorkLocation> builder)
         {
             builder.HasKey(x => x.Id);
@@ -13,7 +15,10 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
             builder.Property(x => x.Id)
                  .HasConversion(
                   workLocationId => workLocationId.Value,
-                  value => new WorkLocationId(value));    
+                  value => new WorkLocationId(value));
+
+
+            builder.Property(x => x.Code).HasMaxLength(MaxCodeLength);
         }
     }
 }

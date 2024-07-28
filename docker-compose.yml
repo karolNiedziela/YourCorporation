@@ -1,5 +1,5 @@
 name: yourcorporation
-version: '3.8'
+version: '3.9'
 
 services:
   bootstrapper:
@@ -31,11 +31,11 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=/run/secrets/mssql_password
     secrets:
-      - mssql_password  
+      - mssql_password
     volumes:
-      -  ~/.YourCorporation_MSSQL_data:/var/opt/mssql/data
-      -  ~/.YourCorporation_MSSQL_log:/var/opt/mssql/log
-      -  ~/.YourCorporation_MSSQL_secrets:/var/opt/mssql/secrets
+      - .datamssql/data:/var/opt/mssql/data
+      - .datamssql/log:/var/opt/mssql/log
+      - .datamssql/secrets:/var/opt/mssql/secrets
 
   rabbitmq:
     container_name: YourCorporation_RabbitMQ
@@ -45,17 +45,13 @@ services:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      -  ~/.YourCorporation_RabbitMQ_Queue_Data:/var/lib/rabbitmq
-      -  ~/.YourCorporation_RabbitMQ_Queue_Logs:/var/log/rabbitmq rabbitmq:3-management
+      - yourcorporation_rabbitmq_queue_data:/var/lib/rabbitmq
+      - yourcorporation_rabbitmq_queue_logs:/var/log/rabbitmq rabbitmq:3-management
 
 secrets:
     mssql_password:
         file: docker-secrets/mssql_password.txt
 
 volumes:
-  YourCorporation_MSSQL_data:
-  YourCorporation_MSSQL_log:
-  YourCorporation_MSSQL_secrets:
-  YourCorporation_RabbitMQ_Queue_Data:
-  YourCorporation_RabbitMQ_Queue_Logs:
- 
+  yourcorporation_rabbitmq_queue_data:
+  yourcorporation_rabbitmq_queue_logs:

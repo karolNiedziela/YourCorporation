@@ -477,5 +477,6 @@ $RECYCLE.BIN/
 *.lnk
 
 
-# Docker secrets
+# Docker files
 docker-secrets/
+.datamssql/

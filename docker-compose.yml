@@ -1,0 +1,57 @@
+name: yourcorporation
+version: '3.9'
+
+services:
+  bootstrapper:
+    container_name: YourCorporation_Bootstrapper
+    build:
+      context: .
+      dockerfile: src/Bootstrapper/YourCorporation.Bootstrapper/Dockerfile
+    depends_on:
+      - mssql-db
+      - rabbitmq 
+    restart: on-failure
+    ports:
+      - "8081:80"
+      - "8082:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ~/.aspnet/https:/https:ro
+
+  mssql-db:
+    container_name: YourCorporation_MSSQL
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    hostname: mssql-db
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=/run/secrets/mssql_password
+    secrets:
+      - mssql_password
+    volumes:
+      - .datamssql/data:/var/opt/mssql/data
+      - .datamssql/log:/var/opt/mssql/log
+      - .datamssql/secrets:/var/opt/mssql/secrets
+
+  rabbitmq:
+    container_name: YourCorporation_RabbitMQ
+    image: rabbitmq:3-management
+    hostname: YourCorporation_RabbitMQ
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - yourcorporation_rabbitmq_queue_data:/var/lib/rabbitmq
+      - yourcorporation_rabbitmq_queue_logs:/var/log/rabbitmq rabbitmq:3-management
+
+secrets:
+    mssql_password:
+        file: docker-secrets/mssql_password.txt
+
+volumes:
+  yourcorporation_rabbitmq_queue_data:
+  yourcorporation_rabbitmq_queue_logs:

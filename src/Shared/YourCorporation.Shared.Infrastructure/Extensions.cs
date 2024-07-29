@@ -105,6 +105,12 @@ namespace YourCorporation.Shared.Infrastructure
 
             app.UseAuth();
 
+            app.Use((context, next) =>
+            {
+                context.Request.EnableBuffering();
+                return next();
+            });
+
             app.MapModuleEndpoints([.. assemblies]);
 
             return app;

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Swashbuckle.AspNetCore.Annotations;
+using YourCorporation.Modules.Users.Api.Authorization;
 using YourCorporation.Modules.Users.Api.Features.Models;
 using YourCorporation.Modules.Users.Api.Features.Roles.CreateRoleWebhookHandler;
 using YourCorporation.Modules.Users.Api.Features.Users.Models;
@@ -33,7 +34,8 @@ namespace YourCorporation.Modules.Users.Api.Features.Roles
               .WithMetadata(
                new SwaggerOperationAttribute(summary: "Create role"),
                new ProducesResponseTypeAttribute(StatusCodes.Status200OK),
-               new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+               new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest))
+               .AddEndpointFilter<SupabaseSignatureEndpointFilter>();
 
             return builder;
         }

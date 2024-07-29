@@ -17,6 +17,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx 
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ~/.aspnet/https:/https:ro
@@ -24,7 +25,6 @@ services:
   mssql-db:
     container_name: YourCorporation_MSSQL
     image: mcr.microsoft.com/mssql/server:2022-latest
-    hostname: mssql-db
     ports:
       - "1433:1433"
     environment:

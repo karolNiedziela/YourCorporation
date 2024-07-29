@@ -1,6 +1,6 @@
-﻿namespace YourCorporation.Shared.Infrastructure.Auth
+﻿namespace YourCorporation.Shared.Abstractions.Auth
 {
-    internal class SupabaseAuthenticationOptions
+    public class SupabaseAuthenticationOptions
     {
         public const string SectionName = "SupabaseAuthentication";
 
@@ -9,5 +9,7 @@
         public string ValidAudience { get; set; }
 
         public string ValidIssuer { get; set; }
+
+        public string Signature { get; set; }
     }
 }

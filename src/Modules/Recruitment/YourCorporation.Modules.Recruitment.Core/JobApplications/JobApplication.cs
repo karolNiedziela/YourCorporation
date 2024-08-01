@@ -27,7 +27,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 
         public LastName ApplicationLastName { get; private set; }
 
-        public ContactId ContactId { get; private set; }
+        public ContactId? ContactId { get; private set; }
 
         private JobApplication() : base() { }
 
@@ -41,7 +41,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             LastName applicationLastName,
             PrivateEmail applicationEmail,
             IEnumerable<JobApplicationChosenWorkLocation> chosenWorkLocations,
-            JobApplicationId jobApplicationId = null) : base(jobApplicationId)
+            JobApplicationId? jobApplicationId = null) : base(jobApplicationId ?? JobApplicationId.New())
         {            
             CVUrl = cvUrl;
             JobOffer = jobOffer;

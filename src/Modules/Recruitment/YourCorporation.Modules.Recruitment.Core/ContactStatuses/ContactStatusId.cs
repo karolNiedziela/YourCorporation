@@ -1,15 +1,9 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.Recruitment.Core.ContactStatuses
+﻿namespace YourCorporation.Modules.Recruitment.Core.ContactStatuses
 {
-    internal class ContactStatusId : StronglyTypedId
+    internal readonly record struct ContactStatusId(Guid Value)
     {
-        public ContactStatusId() : base()
-        {
-        }
+        public static ContactStatusId New() => new(Guid.NewGuid());
 
-        public ContactStatusId(Guid value) : base(value)
-        {
-        }
+        public static implicit operator Guid(ContactStatusId contactStatusId) => contactStatusId.Value;
     }
 }

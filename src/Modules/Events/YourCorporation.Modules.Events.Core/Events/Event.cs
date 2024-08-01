@@ -50,7 +50,7 @@ namespace YourCorporation.Modules.Events.Core.Events
             EventMode mode,
             BegginingAndEndOfEvent begginingAndEndOfEvent,
             EventLimits eventLimits,
-            EventId id = null)  : base(id ?? new EventId())
+            EventId? id = null)  : base(id ?? EventId.New())
         {
             Name = name;
             Description = description;

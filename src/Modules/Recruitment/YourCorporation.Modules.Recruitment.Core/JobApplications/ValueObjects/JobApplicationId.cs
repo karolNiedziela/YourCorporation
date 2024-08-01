@@ -1,15 +1,9 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects
+﻿namespace YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects
 {
-    internal class JobApplicationId : StronglyTypedId
+    internal readonly record struct JobApplicationId(Guid Value)
     {
-        public JobApplicationId() : base()
-        {
-        }
+        public static JobApplicationId New() => new(Guid.NewGuid());
 
-        public JobApplicationId(Guid value) : base(value)
-        {
-        }
+        public static implicit operator Guid(JobApplicationId jobApplicationId) => jobApplicationId.Value;
     }
 }

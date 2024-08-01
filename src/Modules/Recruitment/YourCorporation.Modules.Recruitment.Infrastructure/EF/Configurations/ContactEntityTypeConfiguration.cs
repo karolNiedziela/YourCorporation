@@ -20,6 +20,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
         {
             builder.HasKey(x => x.Id);
 
+            builder.Property(x => x.Id)
+              .HasConversion(
+              contactId => contactId.Value,
+              value => new ContactId(value));
+
             builder.Property(x => x.FirstName)
                 .HasColumnName("FirstName")
                 .HasMaxLength(FirstName.MaxLength)

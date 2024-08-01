@@ -57,7 +57,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 
             builder.HasOne<Contact>()
                 .WithMany()
-                .HasForeignKey(x => x.ContactId);   
+                .HasForeignKey(x => x.ContactId);
         }        
     }
 }

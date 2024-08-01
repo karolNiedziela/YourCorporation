@@ -33,8 +33,8 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts
 
         private Contact() { }
 
-        private Contact(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId, ContactId contactId = null) 
-            : base(contactId ?? new ContactId())
+        private Contact(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId, ContactId? contactId = null) 
+            : base(contactId ?? ContactId.New())
         {
             FirstName = firstName;
             LastName = lastName;

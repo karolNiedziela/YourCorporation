@@ -1,15 +1,9 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.Recruitment.Core.WorkLocations
+﻿namespace YourCorporation.Modules.Recruitment.Core.WorkLocations
 {
-    internal class WorkLocationId : StronglyTypedId
+    internal readonly record struct WorkLocationId(Guid Value)
     {
-        public WorkLocationId() : base()
-        {
-        }
+        public static WorkLocationId New() => new(Guid.NewGuid());
 
-        public WorkLocationId(Guid value) : base(value)
-        {
-        }
+        public static implicit operator Guid(WorkLocationId workLocationId) => workLocationId.Value;
     }
 }

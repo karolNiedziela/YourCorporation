@@ -1,15 +1,9 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
+﻿namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
 {
-    internal class ContactId : StronglyTypedId
+    internal readonly record struct ContactId(Guid Value)
     {
-        public ContactId() : base()
-        {
-        }
+        public static ContactId New() => new(Guid.NewGuid());
 
-        public ContactId(Guid value) : base(value)
-        {
-        }
+        public static implicit operator Guid(ContactId contactId) => contactId.Value;
     }
 }

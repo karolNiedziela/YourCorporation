@@ -1,15 +1,9 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
+﻿namespace YourCorporation.Modules.Events.Core.Sessions.ValueObjects
 {
-    internal class SessionId : StronglyTypedId
+    internal readonly record struct SessionId(Guid Value)
     {
-        public SessionId() : base()
-        {
-        }
+        public static SessionId New() => new(Guid.NewGuid());
 
-        public SessionId(Guid value) : base(value)
-        {
-        }
+        public static implicit operator Guid(SessionId sessionId) => sessionId.Value;
     }
 }

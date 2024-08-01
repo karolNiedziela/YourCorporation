@@ -1,15 +1,9 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.Events.Core.Speakers.ValueObjects
+﻿namespace YourCorporation.Modules.Events.Core.Speakers.ValueObjects
 {
-    internal class SpeakerId : StronglyTypedId
+    internal readonly record struct SpeakerId(Guid Value)
     {
-        public SpeakerId() : base()
-        {
-        }
+        public static SpeakerId New() => new(Guid.NewGuid());
 
-        public SpeakerId(Guid value) : base(value)
-        {
-        }
+        public static implicit operator Guid(SpeakerId speakerId) => speakerId.Value;
     }
 }

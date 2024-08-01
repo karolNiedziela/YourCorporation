@@ -26,8 +26,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
                 options.UseSqlServer(mssqlOptions.ConnectionString, o =>
                     o.MigrationsHistoryTable(
                         tableName: HistoryRepository.DefaultTableName,
-                        schema: RecruitmentDbContext.SchemaName))
-                    .ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>();
+                        schema: RecruitmentDbContext.SchemaName));
             });
 
             services.AddUnitOfWork<RecruitmentUnitOfWork>();

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,12 +25,15 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     EventDescription = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(108)", maxLength: 108, nullable: true),
                     IsUniqueSubmission = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventForms", x => x.Id);
+                    table.PrimaryKey("PK_EventForms", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,11 +47,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReceivedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProcessedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ProcessedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inbox", x => x.Id);
+                    table.PrimaryKey("PK_Inbox", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,12 +64,15 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     JobOfferId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(108)", maxLength: 108, nullable: true),
                     IsUniqueSubmission = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobOfferForms", x => x.Id);
+                    table.PrimaryKey("PK_JobOfferForms", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,11 +87,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TraceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Outbox", x => x.Id);
+                    table.PrimaryKey("PK_Outbox", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,11 +104,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true)
+                    Code = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkLocations", x => x.Id);
+                    table.PrimaryKey("PK_WorkLocations", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,13 +121,16 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventFormId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventSubmissions", x => x.Id);
+                    table.PrimaryKey("PK_EventSubmissions", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_EventSubmissions_EventForms_EventFormId",
                         column: x => x.EventFormId,
@@ -129,13 +147,16 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     JobOfferFormId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CVUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobOfferSubmissions", x => x.Id);
+                    table.PrimaryKey("PK_JobOfferSubmissions", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_JobOfferSubmissions_JobOfferForms_JobOfferFormId",
                         column: x => x.JobOfferFormId,
@@ -150,11 +171,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 columns: table => new
                 {
                     JobOfferFormId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobOfferFormWorkLocation", x => new { x.JobOfferFormId, x.WorkLocationId });
+                    table.PrimaryKey("PK_JobOfferFormWorkLocation", x => new { x.JobOfferFormId, x.WorkLocationId })
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_JobOfferFormWorkLocation_JobOfferForms_JobOfferFormId",
                         column: x => x.JobOfferFormId,
@@ -177,11 +201,14 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 columns: table => new
                 {
                     JobOfferSubmissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    WorkLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobOfferSubmissionChosenWorkLocation", x => new { x.JobOfferSubmissionId, x.WorkLocationId });
+                    table.PrimaryKey("PK_JobOfferSubmissionChosenWorkLocation", x => new { x.JobOfferSubmissionId, x.WorkLocationId })
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_JobOfferSubmissionChosenWorkLocation_JobOfferSubmissions_JobOfferSubmissionId",
                         column: x => x.JobOfferSubmissionId,
@@ -199,6 +226,13 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_EventForms_ClusterId",
+                schema: "forms",
+                table: "EventForms",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EventForms_EventId",
                 schema: "forms",
                 table: "EventForms",
@@ -206,18 +240,31 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventSubmissions_Email",
+                name: "IX_EventSubmissions_ClusterId",
                 schema: "forms",
                 table: "EventSubmissions",
-                column: "Email",
-                unique: true,
-                filter: "[Email] IS NOT NULL");
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventSubmissions_EventFormId",
                 schema: "forms",
                 table: "EventSubmissions",
                 column: "EventFormId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inbox_ClusterId",
+                schema: "forms",
+                table: "Inbox",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobOfferForms_ClusterId",
+                schema: "forms",
+                table: "JobOfferForms",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobOfferForms_JobOfferId",
@@ -227,10 +274,24 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_JobOfferFormWorkLocation_ClusterId",
+                schema: "forms",
+                table: "JobOfferFormWorkLocation",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_JobOfferFormWorkLocation_WorkLocationId",
                 schema: "forms",
                 table: "JobOfferFormWorkLocation",
                 column: "WorkLocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobOfferSubmissionChosenWorkLocation_ClusterId",
+                schema: "forms",
+                table: "JobOfferSubmissionChosenWorkLocation",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobOfferSubmissionChosenWorkLocation_WorkLocationId",
@@ -239,18 +300,31 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                 column: "WorkLocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobOfferSubmissions_Email",
+                name: "IX_JobOfferSubmissions_ClusterId",
                 schema: "forms",
                 table: "JobOfferSubmissions",
-                column: "Email",
-                unique: true,
-                filter: "[Email] IS NOT NULL");
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobOfferSubmissions_JobOfferFormId",
                 schema: "forms",
                 table: "JobOfferSubmissions",
                 column: "JobOfferFormId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Outbox_ClusterId",
+                schema: "forms",
+                table: "Outbox",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkLocations_ClusterId",
+                schema: "forms",
+                table: "WorkLocations",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
         }
 
         /// <inheritdoc />

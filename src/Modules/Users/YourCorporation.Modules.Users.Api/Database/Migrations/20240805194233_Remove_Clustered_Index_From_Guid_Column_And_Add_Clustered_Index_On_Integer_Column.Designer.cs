@@ -12,8 +12,8 @@ using YourCorporation.Modules.Users.Api.Database;
 namespace YourCorporation.Modules.Users.Api.Database.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20240720224034_Initial")]
-    partial class Initial
+    [Migration("20240805194233_Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column")]
+    partial class Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

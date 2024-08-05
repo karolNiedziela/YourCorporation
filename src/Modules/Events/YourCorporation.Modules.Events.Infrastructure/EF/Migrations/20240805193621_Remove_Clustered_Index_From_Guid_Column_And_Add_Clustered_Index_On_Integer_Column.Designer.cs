@@ -12,8 +12,8 @@ using YourCorporation.Modules.Events.Infrastructure.EF;
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(EventsDbContext))]
-    [Migration("20240715194154_Initial")]
-    partial class Initial
+    [Migration("20240805193621_Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column")]
+    partial class Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Email");
@@ -47,6 +53,10 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 
                     SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("Attendee", "events");
                 });
 
@@ -58,6 +68,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<DateTimeOffset>("ConfirmationDate")
                         .HasColumnType("datetimeoffset");
 
@@ -65,6 +81,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("AttendeeId", "EventId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("AttendeeId", "EventId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("EventId");
 
@@ -79,10 +101,22 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<DateTimeOffset>("SignUpDate")
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("AttendeeId", "EventId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("AttendeeId", "EventId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("EventId");
 
@@ -99,7 +133,19 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("EventId");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.HasKey("SpeakerId", "EventId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("SpeakerId", "EventId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("EventId");
 
@@ -114,6 +160,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("AttendeeId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<bool>("IsMovedToDeclaredAttendee")
                         .HasColumnType("bit");
 
@@ -125,7 +177,13 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 
                     b.HasKey("EventId", "AttendeeId");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("EventId", "AttendeeId"), false);
+
                     b.HasIndex("AttendeeId");
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("WaitlistedEventAttendees", "events");
                 });
@@ -138,6 +196,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
@@ -158,6 +222,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("Events", "events");
                 });
 
@@ -171,7 +241,19 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("SessionId");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.HasKey("SpeakerId", "SessionId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("SpeakerId", "SessionId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("SessionId");
 
@@ -183,7 +265,13 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EventId")
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
+                    b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("EventId");
 
@@ -192,6 +280,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnName("Name");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("EventId");
 
@@ -203,6 +297,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("FirstName");
@@ -213,6 +313,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("Speakers", "events");
                 });
 
@@ -221,6 +327,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -242,6 +354,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("Inbox", "events");
                 });
 
@@ -250,6 +368,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -273,6 +397,12 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("Outbox", "events");
                 });
@@ -401,7 +531,9 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 {
                     b.HasOne("YourCorporation.Modules.Events.Core.Events.Event", null)
                         .WithMany()
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("YourCorporation.Modules.Events.Core.Sessions.ValueObjects.BegginingAndEndOfSession", "BegginingAndEndOfSession", b1 =>
                         {

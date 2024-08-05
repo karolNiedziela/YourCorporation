@@ -29,6 +29,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -37,6 +43,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("JobOffers", "jobsystem");
                 });
@@ -49,7 +61,19 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                     b.Property<Guid>("WorkLocationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.HasKey("JobOfferId", "WorkLocationId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("JobOfferId", "WorkLocationId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("WorkLocationId");
 
@@ -62,6 +86,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Code");
@@ -71,6 +101,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("WorkLocations", "jobsystem");
                 });
 
@@ -79,6 +115,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -100,6 +142,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("Inbox", "jobsystem");
                 });
 
@@ -108,6 +156,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -131,6 +185,12 @@ namespace YourCorporation.Modules.JobSystem.Api.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("Outbox", "jobsystem");
                 });

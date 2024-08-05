@@ -3,10 +3,11 @@ using YourCorporation.Modules.Events.Core.Events;
 using YourCorporation.Modules.Events.Core.Speakers;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
+using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF
 {
-    internal class EventsDbContext : DbContext, IInboxDbSet, IOutboxDbSet
+    internal class EventsDbContext : YourCorporationDbContext<EventsDbContext>, IInboxDbSet, IOutboxDbSet
     {
         public const string SchemaName = "events";
 

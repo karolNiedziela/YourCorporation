@@ -5,10 +5,11 @@ using YourCorporation.Modules.Recruitment.Core.WorkLocations;
 using YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
+using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
 {
-    internal class RecruitmentDbContext : DbContext, IInboxDbSet, IOutboxDbSet
+    internal class RecruitmentDbContext : YourCorporationDbContext<RecruitmentDbContext>, IInboxDbSet, IOutboxDbSet
     {
         public const string SchemaName = "recruitment";
 

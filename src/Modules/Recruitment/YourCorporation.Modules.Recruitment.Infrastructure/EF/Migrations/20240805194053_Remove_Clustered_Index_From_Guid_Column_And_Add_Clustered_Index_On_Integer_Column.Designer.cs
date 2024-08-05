@@ -12,8 +12,8 @@ using YourCorporation.Modules.Recruitment.Infrastructure.EF;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(RecruitmentDbContext))]
-    [Migration("20240801174005_JobApplication_ContactId_As_Nullable")]
-    partial class JobApplication_ContactId_As_Nullable
+    [Migration("20240805194053_Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column")]
+    partial class Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -38,6 +44,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("ContactStatuses", "recruitment");
 
@@ -57,6 +69,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("BirthDate");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<Guid>("ContactStatusId")
                         .HasColumnType("uniqueidentifier");
@@ -85,6 +103,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("ContactStatusId");
 
                     b.ToTable("Contacts", "recruitment");
@@ -112,6 +136,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<string>("CVUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<Guid?>("ContactId")
                         .HasColumnType("uniqueidentifier");
 
@@ -123,6 +153,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("ContactId");
 
@@ -137,7 +173,19 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<Guid>("WorkLocationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.HasKey("JobApplicationId", "WorkLocationId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("JobApplicationId", "WorkLocationId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("WorkLocationId");
 
@@ -149,6 +197,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("Code")
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
@@ -158,6 +212,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("WorkLocations", "recruitment");
                 });
 
@@ -166,6 +226,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -187,6 +253,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("Inbox", "recruitment");
                 });
 
@@ -195,6 +267,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -218,6 +296,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("Outbox", "recruitment");
                 });

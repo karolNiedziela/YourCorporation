@@ -3,10 +3,11 @@ using YourCorporation.Modules.JobSystem.Api.Domain.JobOffers;
 using YourCorporation.Modules.JobSystem.Api.Domain.WorkLocations;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
+using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.JobSystem.Api.Database
 {
-    internal class JobSystemDbContext(DbContextOptions<JobSystemDbContext> options) : DbContext(options), IInboxDbSet, IOutboxDbSet
+    internal class JobSystemDbContext(DbContextOptions<JobSystemDbContext> options) : YourCorporationDbContext<JobSystemDbContext>(options), IInboxDbSet, IOutboxDbSet
     {
         public const string SchemaName = "jobsystem";
 

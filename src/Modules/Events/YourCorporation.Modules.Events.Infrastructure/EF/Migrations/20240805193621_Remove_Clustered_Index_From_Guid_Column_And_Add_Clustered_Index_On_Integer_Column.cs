@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,9 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
@@ -43,11 +45,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    AttendeesLimit = table.Column<int>(type: "int", nullable: true)
+                    AttendeesLimit = table.Column<int>(type: "int", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.PrimaryKey("PK_Events", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,11 +66,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReceivedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProcessedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ProcessedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inbox", x => x.Id);
+                    table.PrimaryKey("PK_Inbox", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,11 +88,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TraceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Outbox", x => x.Id);
+                    table.PrimaryKey("PK_Outbox", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,11 +105,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Speakers", x => x.Id);
+                    table.PrimaryKey("PK_Speakers", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,11 +123,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     AttendeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SignUpDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    ConfirmationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    ConfirmationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConfirmedEventAttendees", x => new { x.AttendeeId, x.EventId });
+                    table.PrimaryKey("PK_ConfirmedEventAttendees", x => new { x.AttendeeId, x.EventId })
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_ConfirmedEventAttendees_Attendee_AttendeeId",
                         column: x => x.AttendeeId,
@@ -137,11 +154,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 {
                     AttendeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SignUpDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    SignUpDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeclaredEventAttendees", x => new { x.AttendeeId, x.EventId });
+                    table.PrimaryKey("PK_DeclaredEventAttendees", x => new { x.AttendeeId, x.EventId })
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_DeclaredEventAttendees_Attendee_AttendeeId",
                         column: x => x.AttendeeId,
@@ -164,20 +184,24 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    EndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sessions", x => x.Id);
+                    table.PrimaryKey("PK_Sessions", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_Sessions_Events_EventId",
                         column: x => x.EventId,
                         principalSchema: "events",
                         principalTable: "Events",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -189,11 +213,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SignUpDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsMovedToDeclaredAttendee = table.Column<bool>(type: "bit", nullable: false),
-                    MovedToDeclaredAttendee = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    MovedToDeclaredAttendee = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WaitlistedEventAttendees", x => new { x.EventId, x.AttendeeId });
+                    table.PrimaryKey("PK_WaitlistedEventAttendees", x => new { x.EventId, x.AttendeeId })
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_WaitlistedEventAttendees_Attendee_AttendeeId",
                         column: x => x.AttendeeId,
@@ -216,11 +243,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SpeakerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    SpeakerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventSpeaker", x => new { x.SpeakerId, x.EventId });
+                    table.PrimaryKey("PK_EventSpeaker", x => new { x.SpeakerId, x.EventId })
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_EventSpeaker_Events_EventId",
                         column: x => x.EventId,
@@ -243,11 +273,14 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 columns: table => new
                 {
                     SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SpeakerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    SpeakerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClusterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SessionSpeaker", x => new { x.SpeakerId, x.SessionId });
+                    table.PrimaryKey("PK_SessionSpeaker", x => new { x.SpeakerId, x.SessionId })
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_SessionSpeaker_Sessions_SessionId",
                         column: x => x.SessionId,
@@ -265,10 +298,31 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Attendee_ClusterId",
+                schema: "events",
+                table: "Attendee",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConfirmedEventAttendees_ClusterId",
+                schema: "events",
+                table: "ConfirmedEventAttendees",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ConfirmedEventAttendees_EventId",
                 schema: "events",
                 table: "ConfirmedEventAttendees",
                 column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeclaredEventAttendees_ClusterId",
+                schema: "events",
+                table: "DeclaredEventAttendees",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeclaredEventAttendees_EventId",
@@ -277,10 +331,45 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Events_ClusterId",
+                schema: "events",
+                table: "Events",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventSpeaker_ClusterId",
+                schema: "events",
+                table: "EventSpeaker",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EventSpeaker_EventId",
                 schema: "events",
                 table: "EventSpeaker",
                 column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inbox_ClusterId",
+                schema: "events",
+                table: "Inbox",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Outbox_ClusterId",
+                schema: "events",
+                table: "Outbox",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sessions_ClusterId",
+                schema: "events",
+                table: "Sessions",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sessions_EventId",
@@ -289,16 +378,37 @@ namespace YourCorporation.Modules.Events.Infrastructure.EF.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SessionSpeaker_ClusterId",
+                schema: "events",
+                table: "SessionSpeaker",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SessionSpeaker_SessionId",
                 schema: "events",
                 table: "SessionSpeaker",
                 column: "SessionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Speakers_ClusterId",
+                schema: "events",
+                table: "Speakers",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WaitlistedEventAttendees_AttendeeId",
                 schema: "events",
                 table: "WaitlistedEventAttendees",
                 column: "AttendeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WaitlistedEventAttendees_ClusterId",
+                schema: "events",
+                table: "WaitlistedEventAttendees",
+                column: "ClusterId")
+                .Annotation("SqlServer:Clustered", true);
         }
 
         /// <inheritdoc />

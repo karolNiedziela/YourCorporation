@@ -12,8 +12,8 @@ using YourCorporation.Modules.Forms.Api.Database;
 namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 {
     [DbContext(typeof(FormsDbContext))]
-    [Migration("20240718152928_Remove_Unique_Index_From_Form_Submission_Base")]
-    partial class Remove_Unique_Index_From_Form_Submission_Base
+    [Migration("20240805193827_Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column")]
+    partial class Remove_Clustered_Index_From_Guid_Column_And_Add_Clustered_Index_On_Integer_Column
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("Email")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -49,6 +55,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("EventFormId");
 
                     b.ToTable("EventSubmissions", "forms");
@@ -62,6 +74,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.Property<string>("CVUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Email")
                         .HasMaxLength(200)
@@ -80,6 +98,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("JobOfferFormId");
 
                     b.ToTable("JobOfferSubmissions", "forms");
@@ -93,7 +117,19 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("WorkLocationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.HasKey("JobOfferSubmissionId", "WorkLocationId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("JobOfferSubmissionId", "WorkLocationId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("WorkLocationId");
 
@@ -105,6 +141,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<DateTimeOffset>("EndTime")
                         .HasColumnType("datetimeoffset");
@@ -134,6 +176,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("EventId")
                         .IsUnique();
 
@@ -145,6 +193,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<bool>("IsUniqueSubmission")
                         .ValueGeneratedOnAdd()
@@ -160,6 +214,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.HasIndex("JobOfferId")
                         .IsUnique();
 
@@ -174,7 +234,19 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("WorkLocationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.HasKey("JobOfferFormId", "WorkLocationId");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("JobOfferFormId", "WorkLocationId"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.HasIndex("WorkLocationId");
 
@@ -187,6 +259,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
+
                     b.Property<string>("Code")
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
@@ -196,6 +274,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("WorkLocations", "forms");
                 });
 
@@ -204,6 +288,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -225,6 +315,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
+
                     b.ToTable("Inbox", "forms");
                 });
 
@@ -233,6 +329,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClusterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -256,6 +358,12 @@ namespace YourCorporation.Modules.Forms.Api.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
+                    b.HasIndex("ClusterId");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
 
                     b.ToTable("Outbox", "forms");
                 });

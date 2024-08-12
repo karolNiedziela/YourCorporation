@@ -480,3 +480,4 @@ $RECYCLE.BIN/
 # Docker files
 docker-secrets/
 .datamssql/
+.env

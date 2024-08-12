@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.ContactStatuses;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
@@ -18,6 +19,11 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.Id)
+              .HasConversion(
+              contactId => contactId.Value,
+              value => new ContactId(value));
 
             builder.Property(x => x.FirstName)
                 .HasColumnName("FirstName")
@@ -57,10 +63,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
                 linkedinUrl => linkedinUrl.Value,
                 value => LinkedinUrl.Create(value).Value);
 
-            builder.HasOne(x => x.ContactStatus)
+            builder.HasOne<ContactStatus>()
                 .WithMany()
-                .HasForeignKey("ContactStatusId");
-            builder.Navigation(x => x.ContactStatus).AutoInclude();
+                .HasForeignKey(nameof(ContactStatusId));
         }
     }
 }

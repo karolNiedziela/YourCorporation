@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using YourCorporation.Modules.Users.Api.Database;
 using YourCorporation.Modules.Users.Api.Features;
 using YourCorporation.Shared.Abstractions.Modules;
 
@@ -16,7 +17,8 @@ namespace YourCorporation.Modules.Users.Api
 
         public void Register(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddFeatures();            
+            services.AddFeatures();
+            services.AddSqlServer();
         }
 
         public void ConfigureModule(IApplicationBuilder builder)

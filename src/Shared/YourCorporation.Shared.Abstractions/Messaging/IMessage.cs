@@ -1,6 +1,8 @@
-﻿namespace YourCorporation.Shared.Abstractions.Messaging
+﻿using MediatR;
+
+namespace YourCorporation.Shared.Abstractions.Messaging
 {
-    public interface IMessage
+    public interface IMessage : INotification
     {
     }
 }

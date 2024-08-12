@@ -5,5 +5,9 @@
         Task PublishAsync(IMessage message, CancellationToken cancellationToken = default);
 
         Task PublishAsync(IMessage[] messages, CancellationToken cancellationToken = default);
+
+        Task PublisFromNotificationHandlerAsync(IMessage sourceNotification, IMessage message, CancellationToken cancellationToken = default);
+
+        Task PublisFromNotificationHandlerAsync(IMessage sourceNotification, IMessage[] messages, CancellationToken cancellationToken = default);
     }
 }

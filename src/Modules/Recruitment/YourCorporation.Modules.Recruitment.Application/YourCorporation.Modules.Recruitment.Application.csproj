@@ -9,9 +9,11 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Scrutor" Version="4.2.2" />
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\YourCorporation.Shared.Infrastructure\YourCorporation.Shared.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Forms\YourCorporation.Modules.Forms.MessagingContracts\YourCorporation.Modules.Forms.MessagingContracts.csproj" />
     <ProjectReference Include="..\..\JobSystem\YourCorporation.Modules.JobSystem.MessagingContracts\YourCorporation.Modules.JobSystem.MessagingContracts.csproj" />
     <ProjectReference Include="..\YourCorporation.Modules.Recruitment.Core\YourCorporation.Modules.Recruitment.Core.csproj" />

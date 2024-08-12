@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using YourCorporation.Modules.JobSystem.MessagingContracts;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
-using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandlers.Handlers
 {
@@ -10,13 +9,11 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
     {
         private readonly IWorkLocationRepository _workLocationRepository;
         private readonly ILogger<WorkLocationCreatedHandler> _logger;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public WorkLocationCreatedHandler(IWorkLocationRepository workLocationRepository, ILogger<WorkLocationCreatedHandler> logger, IUnitOfWork unitOfWork)
+        public WorkLocationCreatedHandler(IWorkLocationRepository workLocationRepository, ILogger<WorkLocationCreatedHandler> logger)
         {
             _workLocationRepository = workLocationRepository;
             _logger = logger;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(WorkLocationCreated notification, CancellationToken cancellationToken)
@@ -28,11 +25,9 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
                 return;
             }
 
-            var workLocation = new WorkLocation(new WorkLocationId(notification.Id), notification.Name);
+            var workLocation = new WorkLocation(new WorkLocationId(notification.Id), notification.Name, notification.Code);
 
             _workLocationRepository.Add(workLocation);
-
-            await _unitOfWork.SaveChangesAsync(workLocation, cancellationToken);
         }
     }
 }

@@ -6,6 +6,9 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications.Constants
     {
         [Display(Name = "Created")]
         Created,
+
+        [Display(Name = "Ready To Process")]
+        ReadyToProcess,
         
         [Display(Name = "CV Verification")]
         CVVerification,

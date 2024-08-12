@@ -8,8 +8,6 @@ namespace YourCorporation.Modules.Users.Api.Entities
 
         public string LastName { get; private set; }
 
-        public string FullName => $"{FirstName} {LastName}";
-
         public string Email { get; private set; }
 
         public List<Role> Roles { get; private set; } = [];
@@ -21,11 +19,6 @@ namespace YourCorporation.Modules.Users.Api.Entities
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-        }
-
-        public void AddRole(Role role)
-        {
-            Roles.Add(role);
         }
     }
 }

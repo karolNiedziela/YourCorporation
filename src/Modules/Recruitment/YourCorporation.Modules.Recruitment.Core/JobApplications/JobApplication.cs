@@ -27,7 +27,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 
         public LastName ApplicationLastName { get; private set; }
 
-        public ContactId ContactId { get; private set; }
+        public ContactId? ContactId { get; private set; }
 
         private JobApplication() : base() { }
 
@@ -41,7 +41,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             LastName applicationLastName,
             PrivateEmail applicationEmail,
             IEnumerable<JobApplicationChosenWorkLocation> chosenWorkLocations,
-            JobApplicationId jobApplicationId = null) : base(jobApplicationId)
+            JobApplicationId? jobApplicationId = null) : base(jobApplicationId ?? JobApplicationId.New())
         {            
             CVUrl = cvUrl;
             JobOffer = jobOffer;
@@ -51,9 +51,13 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
             JobOfferSubmissionId = jobOfferSubmissionId;
             JobApplicationStatus = JobApplicationStatus.Created;
             _chosenWorkLocations.AddRange(chosenWorkLocations);
-            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName, ApplicationLastName, ApplicationEmail));
+            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName.Value, ApplicationLastName.Value, ApplicationEmail.Value));
         }
 
-        public void AssignContact(ContactId contactId) => ContactId = contactId;
+        public void AssignContact(ContactId contactId)
+        {
+            ContactId = contactId;
+            JobApplicationStatus = JobApplicationStatus.ReadyToProcess;
+        }
     }
 }

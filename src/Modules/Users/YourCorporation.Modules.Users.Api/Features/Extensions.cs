@@ -1,8 +1,6 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using YourCorporation.Shared.Abstractions.MediatR.Behaviors;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace YourCorporation.Modules.Users.Api.Features
 {

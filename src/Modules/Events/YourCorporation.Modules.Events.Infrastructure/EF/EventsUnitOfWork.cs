@@ -3,7 +3,7 @@ using YourCorporation.Shared.Infrastructure.Persistence;
 
 namespace YourCorporation.Modules.Events.Infrastructure.EF
 {
-    internal class EventsUnitOfWork : UnitOfWorkModuleContext<EventsDbContext>
+    internal class EventsUnitOfWork : UnitOfWork<EventsDbContext>
     {
         public EventsUnitOfWork(EventsDbContext dbContext, IDomainEventsBroker domainEventsBroker) : base(dbContext, domainEventsBroker)
         {

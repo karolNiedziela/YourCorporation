@@ -9,7 +9,7 @@ namespace YourCorporation.Modules.Users.Api.Database
 {
     internal static class Extensions
     {
-        public static IServiceCollection AddSqlServer(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddSqlServer(this IServiceCollection services)
         {
             services.AddDbContext<UsersDbContext>((services, options) =>
             {

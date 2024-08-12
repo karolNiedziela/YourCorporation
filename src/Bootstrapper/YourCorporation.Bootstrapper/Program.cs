@@ -4,9 +4,9 @@ using YourCorporation.Shared.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = new ConfigurationBuilder()
-  .SetBasePath(Directory.GetCurrentDirectory())
+  .SetBasePath(builder.Environment.ContentRootPath)
   .AddJsonFile("appsettings.json")
-  .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+  .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true)
   .AddUserSecrets<Program>()
   .AddEnvironmentVariables()
   .Build();

@@ -1,9 +1,9 @@
-﻿using YourCorporation.Shared.Abstractions.Types;
-
-namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
+﻿namespace YourCorporation.Modules.Events.Core.Events.ValueObjects
 {
-    internal class EventId(Guid value) : StronglyTypedId(value)
+    internal readonly record struct EventId(Guid Value)
     {
-        public static implicit operator EventId(Guid value) => new(value);
+        public static EventId New() => new(Guid.NewGuid());
+
+        public static implicit operator Guid(EventId eventId) => eventId.Value;
     }
 }

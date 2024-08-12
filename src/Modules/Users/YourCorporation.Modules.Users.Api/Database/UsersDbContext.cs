@@ -1,19 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using YourCorporation.Modules.Users.Api.Entities;
+using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Users.Api.Database
 {
-    internal class UsersDbContext : DbContext
+    internal class UsersDbContext(DbContextOptions<UsersDbContext> options) : YourCorporationDbContext<UsersDbContext>(options)
     {
         public const string SchemaName = "users";
 
-        public UsersDbContext(DbContextOptions<UsersDbContext> options) : base(options)
-        {
-        }
+        public DbSet<SystemUser> SystemUsers { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<Permission> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

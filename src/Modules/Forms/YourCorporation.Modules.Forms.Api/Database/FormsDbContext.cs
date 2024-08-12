@@ -6,10 +6,11 @@ using YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSubmiss
 using YourCorporation.Modules.Forms.Api.Entities.WorkLocations;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
+using YourCorporation.Shared.Abstractions.Persistence;
 
 namespace YourCorporation.Modules.Forms.Api.Database
 {
-    internal class FormsDbContext : DbContext, IInboxDbSet, IOutboxDbSet
+    internal class FormsDbContext : YourCorporationDbContext<FormsDbContext>, IInboxDbSet, IOutboxDbSet
     {
         public const string SchemaName = "forms";
 

@@ -30,7 +30,9 @@ namespace YourCorporation.Shared.Infrastructure
             IList<Assembly> assemblies,
             IConfiguration configuration)
         {
-            services.AddSupabaseAuth(configuration);
+            //services.AddSupabaseAuth(configuration);
+            services.AddKeycloakAuth(configuration);
+
             services.AddSupabaseFeatures(configuration);
 
             services.AddMemoryCache();
@@ -104,6 +106,12 @@ namespace YourCorporation.Shared.Infrastructure
             }
 
             app.UseAuth();
+
+            app.Use((context, next) =>
+            {
+                context.Request.EnableBuffering();
+                return next();
+            });
 
             app.MapModuleEndpoints([.. assemblies]);
 

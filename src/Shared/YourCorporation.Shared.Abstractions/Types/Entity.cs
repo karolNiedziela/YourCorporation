@@ -1,7 +1,6 @@
 ﻿namespace YourCorporation.Shared.Abstractions.Types
 {
-    public abstract class Entity<TId> : IEquatable<Entity<TId>>
-        where TId : notnull
+    public abstract class Entity<TId> where TId : IEquatable<TId>
     {
         public TId Id { get; protected set; }
 
@@ -12,14 +11,10 @@
             Id = id;
         }
 
-        public override bool Equals(object obj) => obj is Entity<TId> entity && Id.Equals(entity.Id);
-
-        public bool Equals(Entity<TId> other) => Equals((object)other);
-
-        public static bool operator ==(Entity<TId> left, Entity<TId> right) => Equals(left, right);
-
-        public static bool operator !=(Entity<TId> left, Entity<TId> right) => !Equals(left, right);
-
-        public override int GetHashCode() => Id.GetHashCode();
+        public static IEqualityComparer<Entity<TId>> IdEqualityComparer =>
+            EqualityComparer<Entity<TId>>.Create((x, y) =>
+                x is null ?
+                y is null : 
+                y is not null && x.GetType() == y.GetType() && x.Id.Equals(y.Id));
     }
 }

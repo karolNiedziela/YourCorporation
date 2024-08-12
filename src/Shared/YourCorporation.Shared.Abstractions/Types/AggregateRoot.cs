@@ -1,13 +1,13 @@
 ﻿namespace YourCorporation.Shared.Abstractions.Types
 {
     public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
-        where TId : StronglyTypedId
+        where TId : IEquatable<TId>
     {
         private readonly List<IDomainEvent> _events = new();
 
         public IReadOnlyList<IDomainEvent> Events => _events.ToList();
 
-        protected AggregateRoot(): base() { }
+        protected AggregateRoot() { }
 
         protected AggregateRoot(TId id) : base(id)
         {

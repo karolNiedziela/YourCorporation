@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,12 +13,23 @@ namespace YourCorporation.Shared.Infrastructure.Auth
 {
     internal static class Extensions
     {
-        public static IServiceCollection AddSupabaseAuth(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration) 
         {
             services.AddCors();
 
+            services.AddSupabaseAuth(configuration);
+            //services.AddKeycloakAuth(configuration);
+
             services.AddAuthorization();
 
+            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddSupabaseAuth(this IServiceCollection services, IConfiguration configuration)
+        {
             services.Configure<SupabaseAuthenticationOptions>(configuration.GetSection(SupabaseAuthenticationOptions.SectionName));
 
             var supabaseAuthenticationOptions = configuration.GetSection(SupabaseAuthenticationOptions.SectionName).Get<SupabaseAuthenticationOptions>();
@@ -38,12 +50,8 @@ namespace YourCorporation.Shared.Infrastructure.Auth
             return services;
         }
 
-        public static IServiceCollection AddKeycloakAuth(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddKeycloakAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCors();
-
-            services.AddAuthorization();
-
             services.Configure<KeycloakOptions>(configuration.GetSection(KeycloakOptions.SectionName));
 
             var keycloakOptions = configuration.GetSection(KeycloakOptions.SectionName).Get<KeycloakOptions>();

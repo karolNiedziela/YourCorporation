@@ -18,13 +18,6 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
 
         public async Task Handle(WorkLocationCreated notification, CancellationToken cancellationToken)
         {
-            var existingWorkLocation = await _workLocationRepository.GetAsync(notification.Id);
-            if (existingWorkLocation is not null)
-            {
-                _logger.LogInformation($"Work location with id '{notification.Id}' already exists.");
-                return;
-            }
-
             var workLocation = new WorkLocation(new WorkLocationId(notification.Id), notification.Name, notification.Code);
 
             _workLocationRepository.Add(workLocation);

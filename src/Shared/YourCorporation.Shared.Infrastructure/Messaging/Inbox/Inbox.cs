@@ -19,7 +19,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
         private readonly TimeProvider _timeProvider;
         private readonly ILogger<Inbox<T>> _logger;
         private readonly IMessageContextRegistry _messageContextRegistry;
-        private readonly IPublisher _publisher;
+        private readonly IInboxNotificationPublisher _publisher;
 
         public bool Enabled { get; }
 
@@ -29,7 +29,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
             ILogger<Inbox<T>> logger,
             IOptions<OutboxOptions> options,
             IMessageContextRegistry messageContextRegistry,
-            IPublisher publisher)
+            IInboxNotificationPublisher publisher)
         {
             _dbContext = dbContext;
             _inboxMessages = _dbContext.Set<InboxMessage>();
@@ -126,7 +126,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
 
                 try
                 {
-                    await _publisher.Publish(message);
+                    await _publisher.Publish(message, moduleName);
                 }
                 catch (Exception exception)
                 {

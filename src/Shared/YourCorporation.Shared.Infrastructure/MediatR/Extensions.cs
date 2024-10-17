@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using YourCorporation.Shared.Abstractions.MediatR.Behaviors;
+using YourCorporation.Shared.Abstractions.Messaging.Inbox;
+using YourCorporation.Shared.Infrastructure.Messaging.Inbox;
 
 namespace YourCorporation.Shared.Infrastructure.MediatR
 {
@@ -8,6 +10,7 @@ namespace YourCorporation.Shared.Infrastructure.MediatR
     {
         public static IServiceCollection AddBehaviors(this IServiceCollection services)
         {
+            services.AddScoped<IInboxNotificationPublisher, InboxNotificationPublisher>();
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
             return services;

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YourCorporation.Modules.Users.Api.Database;
 using YourCorporation.Modules.Users.Api.Features;
+using YourCorporation.Modules.Users.Api.Services;
 using YourCorporation.Shared.Abstractions.Modules;
 
 namespace YourCorporation.Modules.Users.Api
@@ -19,6 +20,7 @@ namespace YourCorporation.Modules.Users.Api
         {
             services.AddFeatures();
             services.AddSqlServer();
+            services.AddServices();
         }
 
         public void ConfigureModule(IApplicationBuilder builder)

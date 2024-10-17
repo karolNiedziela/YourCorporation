@@ -30,8 +30,7 @@ namespace YourCorporation.Shared.Infrastructure
             IList<Assembly> assemblies,
             IConfiguration configuration)
         {
-            //services.AddSupabaseAuth(configuration);
-            services.AddKeycloakAuth(configuration);
+            services.AddAuth(configuration);
 
             services.AddSupabaseFeatures(configuration);
 

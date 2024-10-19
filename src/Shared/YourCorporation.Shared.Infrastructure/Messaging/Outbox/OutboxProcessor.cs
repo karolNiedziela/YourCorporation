@@ -64,7 +64,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
                     {
                         Interlocked.Exchange(ref _isProcessing, 0);
                         stopwatch.Stop();
-                        _logger.LogTrace($"Finished processing outbox messages in {stopwatch.ElapsedMilliseconds} ms.");
+                        _logger.LogTrace("Finished processing outbox messages in {OutboxProcessorElapsedMilliseconds} ms.", stopwatch.ElapsedMilliseconds);
                     }
                 }
 

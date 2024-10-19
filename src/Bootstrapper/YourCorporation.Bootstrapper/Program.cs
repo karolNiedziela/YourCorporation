@@ -1,5 +1,6 @@
 using YourCorporation.Bootstrapper;
 using YourCorporation.Shared.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -41,7 +41,6 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
                 return;
             }
 
-            _logger.LogInformation($"Cleanup outbox is enabled, start delay: {_startDelay}, cleanup interval: {_cleanupInterval}");
             await Task.Delay(_startDelay, stoppingToken);
 
             while (!stoppingToken.IsCancellationRequested)
@@ -76,7 +75,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
                     {
                         Interlocked.Exchange(ref _isProcessing, 0);
                         stopwatch.Stop();
-                        _logger.LogTrace($"Finished cleaning up outbox messages in {stopwatch.ElapsedMilliseconds} ms.");
+                        _logger.LogTrace("Finished cleaning up outbox messages in {OutboxCleanupProcessorElapsedMilliseconds} ms.", stopwatch.ElapsedMilliseconds);
                     }
                 }
 

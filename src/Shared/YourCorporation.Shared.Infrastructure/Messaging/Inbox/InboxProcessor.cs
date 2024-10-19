@@ -66,7 +66,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
                 {
                     Interlocked.Exchange(ref _isProcessing, 0);
                     stopwatch.Stop();
-                    _logger.LogTrace($"Finished processing inbox messages in {stopwatch.ElapsedMilliseconds} ms.");
+                    _logger.LogTrace("Finished processing inbox messages in {InboxProcessorElapsedMilliseconds} ms.", stopwatch.ElapsedMilliseconds);
                 }
 
                 await Task.Delay(_interval, stoppingToken);

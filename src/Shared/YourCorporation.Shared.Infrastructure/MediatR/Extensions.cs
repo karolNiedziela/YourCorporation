@@ -12,6 +12,7 @@ namespace YourCorporation.Shared.Infrastructure.MediatR
         {
             services.AddScoped<IInboxNotificationPublisher, InboxNotificationPublisher>();
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 
             return services;
         }

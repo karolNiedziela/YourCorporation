@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using YourCorporation.Shared.Abstractions.Contexts;
+using YourCorporation.Shared.Abstractions.Extensions;
 using YourCorporation.Shared.Abstractions.Messaging;
 using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 using YourCorporation.Shared.Abstractions.Messaging.Contexts;
@@ -74,7 +75,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Brokers
                 var traceId = _context.TraceId;
 
 
-                _logger.LogInformation("Domain event: {Name} ({Module}) [Request Id: {RequestId}, Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
+                _logger.LogInformation("Domain event: {Name} ({ModuleName}) [Request Id: {RequestId}, Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
                     name, module, requestId, messageContext.MessageId, messageContext.Context.CorrelationId, traceId);
             }
 
@@ -108,7 +109,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Brokers
                 var traceId = _context?.TraceId;
 
 
-                _logger.LogInformation("Domain event: {Name} ({Module}) [Request Id: {RequestId}, Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
+                _logger.LogInformation("Domain event: {Name} ({ModuleName}) [Request Id: {RequestId}, Message Id: {MessageId}, Correlation Id: {CorrelationId}, Trace Id: '{TraceId}']...",
                     name, module, requestId, messageContext.MessageId, messageContext.Context.CorrelationId, traceId);
             }
 

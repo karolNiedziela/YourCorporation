@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using YourCorporation.Shared.Abstractions.Extensions;
 
 namespace YourCorporation.Shared.Infrastructure.Persistence
 {
@@ -30,7 +31,7 @@ namespace YourCorporation.Shared.Infrastructure.Persistence
                     continue;
                 }
 
-                _logger.LogInformation("Running migration for context for module {Module}.", dbContextType.GetModuleName());
+                _logger.LogInformation("Running migration for context for module {ModuleName}.", dbContextType.GetModuleName());
                 await dbContext.Database.MigrateAsync(cancellationToken);
             }
         }

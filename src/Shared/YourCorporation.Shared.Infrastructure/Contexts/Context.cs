@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using YourCorporation.Shared.Abstractions.Contexts;
+using YourCorporation.Shared.Abstractions.Extensions;
 
 namespace YourCorporation.Shared.Infrastructure.Contexts
 {
@@ -15,19 +16,19 @@ namespace YourCorporation.Shared.Infrastructure.Contexts
         {
         }
 
-        public Context(HttpContext httpContext) : this(httpContext.TryGetCorrelationId(), httpContext.TraceIdentifier)
+        public Context(HttpContext httpContext) : this(httpContext.GetCorrelationId(), httpContext.TraceIdentifier)
         {
         }
 
-        public Context(Guid? correlationId, string traceId)
+        public Context(Guid correlationId, string traceId)
         {
-            CorrelationId = correlationId ?? Guid.NewGuid();
+            CorrelationId = correlationId;
             TraceId = traceId;
         }
 
-        public Context(Guid? correlationId)
+        public Context(Guid correlationId)
         {
-            CorrelationId = correlationId ?? Guid.NewGuid();
+            CorrelationId = correlationId;
         }
 
         public static IContext Empty => new Context();

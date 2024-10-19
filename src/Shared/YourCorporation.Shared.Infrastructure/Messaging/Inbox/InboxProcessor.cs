@@ -41,6 +41,12 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
 
             while (!stoppingToken.IsCancellationRequested)
             {
+                if (Interlocked.Exchange(ref _isProcessing, 1) == 1)
+                {
+                    await Task.Delay(_interval, stoppingToken);
+                    continue;
+                }
+
                 _logger.LogTrace("Started processing inbox messages...");
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();

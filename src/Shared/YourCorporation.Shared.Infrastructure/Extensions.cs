@@ -45,8 +45,6 @@ namespace YourCorporation.Shared.Infrastructure
 
             services.AddSwaggerExtensions();
 
-            services.AddContext();
-
             services.AddBehaviors();
 
             services.AddSerilogLogging(configuration);
@@ -103,14 +101,12 @@ namespace YourCorporation.Shared.Infrastructure
 
             app.UseSerilogRequestLogging();
 
-            app.UseContext();
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
             app.UseAuth();
 
             app.UseMiddleware<RequestContextLoggingMiddleware>();

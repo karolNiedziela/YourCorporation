@@ -12,18 +12,21 @@ namespace YourCorporation.Shared.Infrastructure.Contexts
 
         public string TraceId { get; }
 
+        public IIdentityContext Identity { get; }
+
         public Context() : this(Guid.NewGuid(), $"{Guid.NewGuid():N}")
         {
         }
 
-        public Context(HttpContext httpContext) : this(httpContext.GetCorrelationId(), httpContext.TraceIdentifier)
+        public Context(HttpContext httpContext) : this(httpContext.GetCorrelationId(), httpContext.TraceIdentifier, new IdentityContext(httpContext.User))
         {
         }
 
-        public Context(Guid correlationId, string traceId)
+        public Context(Guid correlationId, string traceId, IIdentityContext identity = null)
         {
             CorrelationId = correlationId;
             TraceId = traceId;
+            Identity = identity ?? IdentityContext.Empty;
         }
 
         public Context(Guid correlationId)

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using YourCorporation.Shared.Abstractions.Auth;
+using YourCorporation.Shared.Infrastructure.Contexts;
 
 namespace YourCorporation.Shared.Infrastructure.Auth
 {
@@ -19,6 +20,8 @@ namespace YourCorporation.Shared.Infrastructure.Auth
 
             services.AddSupabaseAuth(configuration);
             //services.AddKeycloakAuth(configuration);
+
+            services.AddContext();
 
             services.AddAuthorization();
 
@@ -83,6 +86,9 @@ namespace YourCorporation.Shared.Infrastructure.Auth
         {
             app.UseCors();
             app.UseAuthentication();
+
+            app.UseContext();
+
             app.UseAuthorization();
 
             return app;

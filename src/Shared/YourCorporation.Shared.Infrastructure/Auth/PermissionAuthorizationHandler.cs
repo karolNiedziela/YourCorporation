@@ -3,25 +3,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using YourCorporation.Shared.Abstractions.Auth;
+using YourCorporation.Shared.Abstractions.Contexts;
 
 namespace YourCorporation.Shared.Infrastructure.Auth
 {
     internal class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
-        private const string _realmAccessClaim = "realm_access";
-        private const string _userRoleClaim = "user_roles";
-        private const string _systemAdministratorRole = "System Administrator";
-
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IContext _context;
 
-        public PermissionAuthorizationHandler(IServiceScopeFactory serviceScopeFactory)
+        public PermissionAuthorizationHandler(IServiceScopeFactory serviceScopeFactory, IContext context)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _context = context;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
-            if (IsSupabaseSystemAdministrator(context))
+            if (_context.Identity.IsSystemAdministrator())
             {
                 context.Succeed(requirement);
                 return;
@@ -43,37 +42,6 @@ namespace YourCorporation.Shared.Infrastructure.Auth
             {
                 context.Succeed(requirement);
             }
-        }
-
-        private static bool IsKeyCloakSystemAdministrator(AuthorizationHandlerContext context)
-        {
-            if (!context.User.HasClaim(c => c.Type == _realmAccessClaim))
-            {
-                return false;
-            }
-
-            var realmRolesClaim = context.User.Claims.FirstOrDefault(c => c.Type == _realmAccessClaim)?.Value;
-            var realRoles = JsonConvert.DeserializeObject<RealmAccess>(realmRolesClaim)?.Roles ?? [];
-
-            return realRoles.Contains(_systemAdministratorRole);
-        }
-
-        private static bool IsSupabaseSystemAdministrator(AuthorizationHandlerContext context)
-        {
-            if (!context.User.HasClaim(c => c.Type == _userRoleClaim))
-            {
-                return false;
-            }
-
-            var userRolesClaimValue = context.User.Claims.FirstOrDefault(c => c.Type == _userRoleClaim)?.Value;
-            var userRoles = userRolesClaimValue.Split(',');
-
-            return userRoles.Any(x => x.Contains(_systemAdministratorRole));
-        }
-
-        private class RealmAccess
-        {
-            public string[] Roles { get; set; }
-        }
+        }       
     }
 }

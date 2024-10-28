@@ -23,7 +23,6 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
                 CVUrl: notification.CvUrl,
                 Email: notification.Email,
                 JobOfferId: notification.JobOfferId,
-                JobOfferName: notification.JobOfferName,
                 ChosenWorkLocationIds: notification.WorkLocationIds);
 
             await _messageBroker.PublishAsync(jobOfferSubmissionCreated, notification, cancellationToken);

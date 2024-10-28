@@ -21,7 +21,7 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
             var age = today.Year - value.Year;
             if (value > today.AddYears(-age))
             {
-                return ErrorCodes.Candidates.TooYoungError;
+                return ErrorCodes.Contacts.TooYoungError;
             }
 
             return new BirthDate(value);

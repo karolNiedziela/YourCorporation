@@ -19,13 +19,13 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
             var emailAddressAttribute = new EmailAddressAttribute();
             if (!emailAddressAttribute.IsValid(value))
             {
-                return ErrorCodes.Candidates.InvalidPrivateEmailFormatError;
+                return ErrorCodes.Contacts.InvalidPrivateEmailFormatError;
             }
 
             var domain = value.Split("@").Last();
             if (invalidDomains.Contains(domain))
             {
-                return ErrorCodes.Candidates.InvalidPrivateEmailDomainError;
+                return ErrorCodes.Contacts.InvalidPrivateEmailDomainError;
             }
 
             return new PrivateEmail(value);

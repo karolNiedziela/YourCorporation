@@ -73,8 +73,7 @@ namespace YourCorporation.Modules.Forms.Api.Features.FormSubmissions.JobOfferSub
                 CvUrl: jobOfferSubmission.CVUrl,
                 Email: jobOfferSubmission.Email,
                 WorkLocationIds: jobOfferSubmission.ChosenWorkLocations.Select(x => x.Id).ToList(),
-                JobOfferId: jobOfferSubmission.JobOfferFormId,
-                JobOfferName: jobOfferSubmission.JobOfferForm.Name), cancellationToken);
+                JobOfferId: jobOfferSubmission.JobOfferFormId), cancellationToken);
 
             return jobOfferSubmission.Id;
         }

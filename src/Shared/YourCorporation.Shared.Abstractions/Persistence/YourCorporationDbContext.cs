@@ -19,7 +19,6 @@ namespace YourCorporation.Shared.Abstractions.Persistence
                 }
 
                 var primaryKey = entityType.FindPrimaryKey();
-
                 if (primaryKey is null)
                 {
                     continue;
@@ -31,7 +30,7 @@ namespace YourCorporation.Shared.Abstractions.Persistence
                 {
                     var propertyType = p.ClrType;
                     return propertyType == typeof(Guid) ||
-                           (propertyType.IsValueType && propertyType.GetProperty("Value").PropertyType == typeof(Guid));
+                           (propertyType.GetProperty("Value").PropertyType == typeof(Guid));
                 });
 
                 if (!isGuidKey)

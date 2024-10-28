@@ -39,16 +39,15 @@ namespace YourCorporation.Modules.Recruitment.Application.IntegrationEventHandle
             }
 
             var chosenWorkLocationIds = notification.ChosenWorkLocationIds.Select(x => new WorkLocationId(x));
-            var jobOffer = new JobOffer(notification.JobOfferId, notification.JobOfferName);
             var jobApplicationId = new JobApplicationId(Guid.NewGuid());
             var jobApplication = new JobApplication(
                 notification.CVUrl,
-                jobOffer,
+                notification.JobOfferId,
                 notification.JobOfferSubmissionId,
                 firstName.Value,
                 lastName.Value,
                 privateEmail.Value,
-                chosenWorkLocationIds.Select(x => new JobApplicationChosenWorkLocation(jobApplicationId, x)),
+                chosenWorkLocationIds,
                 jobApplicationId);
 
             _jobApplicationRepository.Add(jobApplication);

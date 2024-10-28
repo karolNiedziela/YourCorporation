@@ -19,7 +19,7 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
             var emailAddressAttribute = new EmailAddressAttribute();
             if (!emailAddressAttribute.IsValid(value))
             {
-                return ErrorCodes.Candidates.InvalidPrivatePhoneFormatError;
+                return ErrorCodes.Contacts.InvalidPrivatePhoneFormatError;
             }
 
             return new PrivatePhone(value);

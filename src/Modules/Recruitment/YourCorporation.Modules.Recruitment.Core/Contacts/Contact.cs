@@ -23,6 +23,8 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts
 
         public LinkedinUrl LinkedinUrl { get; private set; }
 
+        public ContactStatus ContactStatus { get; private set; }
+
         public ContactStatusId ContactStatusId { get; private set; }
 
         //public Nationality Nationality { get; private set; }

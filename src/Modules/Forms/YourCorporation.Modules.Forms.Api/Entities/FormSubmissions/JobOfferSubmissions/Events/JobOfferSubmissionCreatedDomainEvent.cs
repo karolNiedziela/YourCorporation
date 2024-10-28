@@ -9,6 +9,5 @@ namespace YourCorporation.Modules.Forms.Api.Entities.FormSubmissions.JobOfferSub
         string CvUrl,
         string Email,
         ICollection<Guid> WorkLocationIds,
-        Guid JobOfferId,
-        string JobOfferName) : IDomainEvent;
+        Guid JobOfferId) : IDomainEvent;
 }

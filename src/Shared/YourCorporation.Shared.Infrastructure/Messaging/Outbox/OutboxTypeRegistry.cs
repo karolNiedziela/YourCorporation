@@ -1,4 +1,5 @@
-﻿using YourCorporation.Shared.Abstractions.Messaging;
+﻿using YourCorporation.Shared.Abstractions.Extensions;
+using YourCorporation.Shared.Abstractions.Messaging;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
 
 namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox

@@ -7,13 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using YourCorporation.Shared.Infrastructure.Auth;
 using YourCorporation.Shared.Infrastructure.Contexts;
 using YourCorporation.Shared.Infrastructure.Exceptions;
+using YourCorporation.Shared.Infrastructure.Logging;
 using YourCorporation.Shared.Infrastructure.MediatR;
 using YourCorporation.Shared.Infrastructure.Messaging;
+using YourCorporation.Shared.Infrastructure.Middlewares;
 using YourCorporation.Shared.Infrastructure.MinimalApis;
 using YourCorporation.Shared.Infrastructure.Persistence;
 using YourCorporation.Shared.Infrastructure.SupabaseFeatures;
@@ -23,15 +26,14 @@ namespace YourCorporation.Shared.Infrastructure
 {
     public static class Extensions
     {
-        private const string CorrelationIdKey = "correlation-id";
+        public const string CorrelationIdKey = "X-Correlation-Id";
 
         public static IServiceCollection AddModularInfrastructure(
             this IServiceCollection services, 
             IList<Assembly> assemblies,
             IConfiguration configuration)
         {
-            //services.AddSupabaseAuth(configuration);
-            services.AddKeycloakAuth(configuration);
+            services.AddAuth(configuration);
 
             services.AddSupabaseFeatures(configuration);
 
@@ -43,9 +45,9 @@ namespace YourCorporation.Shared.Infrastructure
 
             services.AddSwaggerExtensions();
 
-            services.AddContext();
-
             services.AddBehaviors();
+
+            services.AddSerilogLogging(configuration);
 
             services.AddSqlServer(configuration);
 
@@ -97,15 +99,17 @@ namespace YourCorporation.Shared.Infrastructure
 
             app.UseAntiforgery();
 
-            app.UseContext();
+            app.UseSerilogRequestLogging();
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
             app.UseAuth();
+
+            app.UseMiddleware<RequestContextLoggingMiddleware>();
 
             app.Use((context, next) =>
             {
@@ -117,23 +121,5 @@ namespace YourCorporation.Shared.Infrastructure
 
             return app;
         }
-
-        public static string GetModuleName(this object value)
-            => value?.GetType().GetModuleName() ?? string.Empty;
-
-        public static string GetModuleName(this Type type, string namespacePart = "Modules", int splitIndex = 2)
-        {
-            if (type?.Namespace is null)
-            {
-                return string.Empty;
-            }
-
-            return type.Namespace.Contains(namespacePart)
-                ? type.Namespace.Split(".")[splitIndex]
-                : string.Empty;
-        }
-
-        public static Guid? TryGetCorrelationId(this HttpContext context)
-            => context.Items.TryGetValue(CorrelationIdKey, out var id) ? (Guid)id : null;
     }
 }

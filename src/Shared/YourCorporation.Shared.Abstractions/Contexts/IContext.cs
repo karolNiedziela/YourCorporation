@@ -7,5 +7,7 @@
         Guid CorrelationId { get; }
 
         string TraceId { get; }
+
+        IIdentityContext Identity { get; }
     }
 }

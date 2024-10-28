@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.JobApplications;
+using YourCorporation.Modules.Recruitment.Core.Queues;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
 using YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations;
 using YourCorporation.Shared.Abstractions.Messaging.Inbox;
@@ -31,14 +32,16 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
 
         public DbSet<Contact> Contacts { get; set; }
 
+        public DbSet<RecruitmentQueue> RecruitmentQueues { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(SchemaName);
             modelBuilder.ApplyConfiguration(new JobApplicationEntityypeConfiguration());
-            modelBuilder.ApplyConfiguration(new ContactEntityypeConfiguration(_timeProvider));
             modelBuilder.ApplyConfiguration(new ContactStatusEntityypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactEntityypeConfiguration(_timeProvider));
             modelBuilder.ApplyConfiguration(new WorkLocationEntityypeConfiguration());
-            modelBuilder.ApplyConfiguration(new JobApplicationChosenWorkLocationEntityypeConfiguration());
+            modelBuilder.ApplyConfiguration(new RecruitmentQueueEntityTypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

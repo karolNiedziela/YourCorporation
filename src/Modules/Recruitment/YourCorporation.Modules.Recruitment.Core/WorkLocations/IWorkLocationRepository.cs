@@ -4,6 +4,8 @@
     {
         Task<WorkLocation> GetAsync(Guid workLocationId);
 
+        Task<IEnumerable<Guid>> GetNonExistignWorkLocationsAsync(IEnumerable<Guid> workLocationIds);
+
         public void Add(WorkLocation workLocation);
     }
 }

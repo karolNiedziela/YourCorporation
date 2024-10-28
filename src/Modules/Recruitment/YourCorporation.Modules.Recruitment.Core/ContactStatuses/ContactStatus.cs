@@ -12,10 +12,10 @@ namespace YourCorporation.Modules.Recruitment.Core.ContactStatuses
 
         private ContactStatus() { }
 
-        private ContactStatus(string status, string subStatus, ContactStatusId contactStatusId) : base(contactStatusId)
+        private ContactStatus(string status, string substatus, ContactStatusId contactStatusId) : base(contactStatusId)
         {
             Status = status;
-            Status = subStatus;
+            Substatus = substatus;
         }
 
         public static IEnumerable<ContactStatus> GetAll() => [ApplicantNotVerified];

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
+using YourCorporation.Modules.Recruitment.Core.RecruitmentQueues.Repositories;
 using YourCorporation.Modules.Recruitment.Core.WorkLocations;
 using YourCorporation.Modules.Recruitment.Infrastructure.EF.Repositories;
 using YourCorporation.Shared.Abstractions.Persistence;
@@ -35,6 +36,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
             services.AddInbox<RecruitmentDbContext>(configuration);
 
             services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+            services.AddScoped<IRecruitmentQueueRepository, RecruitmentQueueRepository>();
             services.AddScoped<IWorkLocationRepository, WorkLocationRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();         
 

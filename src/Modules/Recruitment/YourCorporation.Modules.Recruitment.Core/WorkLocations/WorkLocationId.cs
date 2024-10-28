@@ -1,6 +1,6 @@
 ﻿namespace YourCorporation.Modules.Recruitment.Core.WorkLocations
 {
-    internal readonly record struct WorkLocationId(Guid Value)
+    internal record WorkLocationId(Guid Value)
     {
         public static WorkLocationId New() => new(Guid.NewGuid());
 

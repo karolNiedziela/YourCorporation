@@ -1,7 +1,8 @@
 ﻿using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
-using YourCorporation.Modules.Recruitment.Core.JobApplications.Constants;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.RecruitmentQueues.ValueObjects;
+using YourCorporation.Modules.Recruitment.Core.WorkLocations;
 using YourCorporation.Shared.Abstractions.Types;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
@@ -9,55 +10,47 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 {
     internal class JobApplication : AggregateRoot<JobApplicationId>
     {
-        private readonly List<JobApplicationChosenWorkLocation> _chosenWorkLocations = [];
+        private readonly List<WorkLocationId> _chosenWorkLocations = [];
 
-        public string Name => $"{ApplicationFirstName.Value} {ApplicationLastName.Value}";
+        private readonly List<RecruitmentQueueId> _recruitmentQueues = [];
+
+        public string Name { get; private set; }
 
         public string CVUrl { get; private set; }
 
-        public JobApplicationStatus JobApplicationStatus { get; private set; }
-          
-        public JobOffer JobOffer { get; private set; }
+        public Guid JobOfferId { get; private set; }
 
         public Guid JobOfferSubmissionId { get; private set; }
-
-        public PrivateEmail ApplicationEmail { get; private set; }
-
-        public FirstName ApplicationFirstName { get; private set; }
-
-        public LastName ApplicationLastName { get; private set; }
 
         public ContactId? ContactId { get; private set; }
 
         private JobApplication() : base() { }
 
-        public IReadOnlyCollection<JobApplicationChosenWorkLocation> ChosenWorkLocations => _chosenWorkLocations.AsReadOnly();
+        public IReadOnlyCollection<WorkLocationId> ChosenWorkLocations => _chosenWorkLocations.AsReadOnly();
 
-        public JobApplication (
+        public IReadOnlyCollection<RecruitmentQueueId> RecruitmentQueues => _recruitmentQueues.AsReadOnly();
+
+        public JobApplication(
             string cvUrl,
-            JobOffer jobOffer,
+            Guid jobOfferId,
             Guid jobOfferSubmissionId,
             FirstName applicationFirstName,
             LastName applicationLastName,
             PrivateEmail applicationEmail,
-            IEnumerable<JobApplicationChosenWorkLocation> chosenWorkLocations,
-            JobApplicationId? jobApplicationId = null) : base(jobApplicationId ?? JobApplicationId.New())
-        {            
+            IEnumerable<WorkLocationId> chosenWorkLocations,
+            JobApplicationId jobApplicationId = null) : base(jobApplicationId ?? JobApplicationId.New())
+        {
             CVUrl = cvUrl;
-            JobOffer = jobOffer;
-            ApplicationFirstName = applicationFirstName;
-            ApplicationLastName = applicationLastName;
-            ApplicationEmail = applicationEmail;
+            JobOfferId = jobOfferId;
+            Name = $"{applicationFirstName} {applicationLastName}";
             JobOfferSubmissionId = jobOfferSubmissionId;
-            JobApplicationStatus = JobApplicationStatus.Created;
             _chosenWorkLocations.AddRange(chosenWorkLocations);
-            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, ApplicationFirstName.Value, ApplicationLastName.Value, ApplicationEmail.Value));
+            AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, applicationFirstName.Value, applicationLastName.Value, applicationEmail.Value));
         }
 
-        public void AssignContact(ContactId contactId)
-        {
-            ContactId = contactId;
-            JobApplicationStatus = JobApplicationStatus.ReadyToProcess;
-        }
+        internal void AssignContact(ContactId contactId) => ContactId = contactId;
+
+        internal void AssignRecruitmentQueues(IEnumerable<RecruitmentQueueId> recruitmentQueues)
+            => _recruitmentQueues.AddRange(recruitmentQueues);
     }
 }

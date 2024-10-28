@@ -13,7 +13,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Repositories
             _jobApplications = context.JobApplications;
         }
 
-        public async Task<JobApplication?> GetAsync(Guid jobApplicationId)
+        public async Task<JobApplication> GetAsync(Guid jobApplicationId)
             => await _jobApplications.FirstOrDefaultAsync(x => x.Id == jobApplicationId);
 
         public void Add(JobApplication jobApplication)

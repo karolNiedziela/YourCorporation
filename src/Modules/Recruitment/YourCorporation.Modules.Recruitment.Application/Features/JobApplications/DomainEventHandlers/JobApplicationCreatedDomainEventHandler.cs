@@ -4,23 +4,26 @@ using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Events;
-using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
+using YourCorporation.Modules.Recruitment.Core.JobApplications.Services;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Shared.Abstractions.ValueObjects;
 
-namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplications.CreateJobApplication
+namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplications.DomainEventHandlers
 {
     internal class JobApplicationCreatedDomainEventHandler : INotificationHandler<JobApplicationCreatedDomainEvent>
     {
         private readonly IContactRepository _contactRepository;
         private readonly ILogger<JobApplicationCreatedDomainEventHandler> _logger;
-        private readonly IJobApplicationRepository _jobApplicationRepository;
+        private readonly IJobApplicationService _jobApplicationService;
 
-        public JobApplicationCreatedDomainEventHandler(IContactRepository contactRepository, ILogger<JobApplicationCreatedDomainEventHandler> logger, IJobApplicationRepository jobApplicationRepository)
+        public JobApplicationCreatedDomainEventHandler(
+            IContactRepository contactRepository,
+            ILogger<JobApplicationCreatedDomainEventHandler> logger,
+            IJobApplicationService jobApplicationService)
         {
             _contactRepository = contactRepository;
             _logger = logger;
-            _jobApplicationRepository = jobApplicationRepository;
+            _jobApplicationService = jobApplicationService;
         }
 
         public async Task Handle(JobApplicationCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -30,7 +33,8 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
             var existingContact = await _contactRepository.GetAsync(privateEmail.Value);
             if (existingContact is not null)
             {
-                await AssignContactToJobApplication(existingContact, notification, cancellationToken);
+                await _jobApplicationService.ProcessNewJobApplication(new JobApplicationId(notification.JobApplicationId), new ContactId(existingContact.Id));
+                _logger.LogInformation("Contact with id '{ContactId}' assigned to Job Application with id '{JobApplicationId}'.", existingContact.Id, notification.JobApplicationId);
                 return;
             }
 
@@ -41,18 +45,6 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.JobApplicatio
                 new JobApplicationId(notification.JobApplicationId));
 
             _contactRepository.Add(contact);
-
-            _logger.LogInformation("New contact with '{ContactId}' and private email '{PrivateEmail}'.", contact.Id, contact.PrivateEmail.Value);
-        }
-
-        private async Task AssignContactToJobApplication(Contact contact, JobApplicationCreatedDomainEvent notification, CancellationToken cancellationToken)
-        {
-            var jobApplication = await _jobApplicationRepository.GetAsync(notification.JobApplicationId);
-            jobApplication.AssignContact(contact.Id);
-
-            _jobApplicationRepository.Update(jobApplication);
-
-            _logger.LogDebug($"Contact with id '{contact.Id}' assigned to Job Application with id '{notification.JobApplicationId}'.");
         }
     }
 }

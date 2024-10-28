@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
+using YourCorporation.Modules.Recruitment.Core.JobApplications.Services;
 
 [assembly: InternalsVisibleTo("YourCorporation.Modules.Recruitment.Application")]
 [assembly: InternalsVisibleTo("YourCorporation.Modules.Recruitment.Infrastructure")]
@@ -11,6 +12,8 @@ namespace YourCorporation.Modules.Recruitment.Core
     {
         public static IServiceCollection AddCore(this IServiceCollection services)
         {
+            services.AddScoped<IJobApplicationService, JobApplicationService>();
+
             return services;
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace YourCorporation.Modules.Recruitment.Core.ContactStatuses
 {
-    internal readonly record struct ContactStatusId(Guid Value)
+    internal record ContactStatusId(Guid Value)
     {
         public static ContactStatusId New() => new(Guid.NewGuid());
 

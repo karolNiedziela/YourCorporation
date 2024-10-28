@@ -1,4 +1,5 @@
-﻿using YourCorporation.Shared.Abstractions.Messaging.Inbox;
+﻿using YourCorporation.Shared.Abstractions.Extensions;
+using YourCorporation.Shared.Abstractions.Messaging.Inbox;
 
 namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
 {

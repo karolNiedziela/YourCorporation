@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
+using YourCorporation.Shared.Abstractions.Extensions;
 using YourCorporation.Shared.Abstractions.Messaging;
 using YourCorporation.Shared.Abstractions.Messaging.Brokers;
 using YourCorporation.Shared.Abstractions.Messaging.Contexts;

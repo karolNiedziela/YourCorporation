@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using YourCorporation.Shared.Abstractions.Extensions;
 using YourCorporation.Shared.Abstractions.Messaging;
 using YourCorporation.Shared.Abstractions.Messaging.Contexts;
 using YourCorporation.Shared.Abstractions.Messaging.Outbox;
@@ -46,13 +47,13 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
             var moduleName = _dbContext.GetModuleName();
             if (!Enabled)
             {
-                _logger.LogWarning($"Outbox is disabled ('{moduleName}'), outgoing messages won't be saved.");
+                _logger.LogWarning("Outbox is disabled ('{ModuleName}'), outgoing messages won't be saved.", moduleName);
                 return;
             }
 
             if (messages is null || messages.Length == 0)
             {
-                _logger.LogWarning($"No messages have beed provided to be saved to the outbox ('{moduleName}').");
+                _logger.LogWarning("No messages have beed provided to be saved to the outbox ('{ModuleName}').", moduleName);
                 return;
             }
 
@@ -78,14 +79,14 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
 
             if (outboxMessages.Length == 0)
             {
-                _logger.LogWarning($"No messages have beed provided to be saved to the outbox ('{moduleName}').");
+                _logger.LogWarning("No messages have beed provided to be saved to the outbox ('{ModuleName}').", moduleName);
                 return;
             }
 
             await _outboxMessages.AddRangeAsync(outboxMessages);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation($"Saved {outboxMessages.Length} messages to the outbox ('{moduleName}').");
+            _logger.LogInformation("Saved {OutboxMessagesCount} messages to the outbox ('{ModuleName}').", outboxMessages.Length, moduleName);
         }
 
         public async Task PublishUnsentAsync()
@@ -93,18 +94,18 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
             var moduleName = _dbContext.GetModuleName();
             if (!Enabled)
             {
-                _logger.LogWarning($"Outbox is disabled ('{moduleName}'), outgoing messages won't be saved.");
+                _logger.LogWarning("Outbox is disabled ('{ModuleName}'), outgoing messages won't be saved.", moduleName);
                 return;
             }
 
             var unsentMessages = await _outboxMessages.Where(x => x.SentAt == null).ToListAsync();
             if (!unsentMessages.Any())
             {
-                _logger.LogTrace($"No unsent messages found in outbox ('{moduleName}').");
+                _logger.LogTrace("No unsent messages found in outbox ('{moduleName}').", moduleName);
                 return;
             }
 
-            _logger.LogTrace($"Found {unsentMessages.Count} unsent messages in outbox ('{moduleName}'), publishing...");
+            _logger.LogTrace("Found {UnsentMessagesCount} unsent messages in outbox ('{ModuleName}'), publishing...", unsentMessages.Count, moduleName);
 
             foreach (var outboxMessage in unsentMessages)
             {
@@ -117,8 +118,8 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
 
                 if (message is null)
                 {
-                    _logger.LogError($"Invalid message type in outbox ('{moduleName}'): '{type!.Name}', name: '{outboxMessage.Name}', " +
-                               $"Id: '{outboxMessage.Id}' ('{moduleName}').");
+                    _logger.LogError("Invalid message type in outbox ('{ModuleName}'): '{MessageType}', name: '{OutboxMessageName}', " +
+                               "Id: '{MessageId}' ('{moduleName}').", moduleName, type!.Name, outboxMessage.Name, outboxMessage.Id, moduleName);
                     continue;
                 }
 
@@ -149,7 +150,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
             var moduleName = _dbContext.GetModuleName();
             if (!Enabled)
             {
-                _logger.LogWarning($"Outbox is disabled ('{moduleName}'), outgoing messages won't be saved.");
+                _logger.LogWarning("Outbox is disabled ('{ModuleName}'), outgoing messages won't be saved.", moduleName);
                 return;
             }
 
@@ -157,16 +158,16 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Outbox
             var sentMessages = await _outboxMessages.Where(x => x.SentAt != null && x.CreatedAt <= cleanupToDate).ToListAsync();
             if (!sentMessages.Any())
             {
-                _logger.LogTrace($"No sent messages found in outbox ('{moduleName}') till: {cleanupToDate}.");
+                _logger.LogTrace("No sent messages found in outbox ('{ModuleName}') till: {TillOutboxDateTo}.", moduleName, cleanupToDate);
                 return;
             }
 
-            _logger.LogTrace($"Found {sentMessages.Count} sent messages in outbox ('{moduleName}') till: {cleanupToDate}, cleaning up...");
+            _logger.LogTrace("Found {SentMessagesCount} sent messages in outbox ('{ModuleName}') till: {TillInboxDateTo}, cleaning up...", sentMessages.Count, moduleName, cleanupToDate);
 
             _outboxMessages.RemoveRange(sentMessages);
             await _dbContext.SaveChangesAsync();
             
-            _logger.LogTrace($"Removed {sentMessages.Count} sent messages from outbox ('{moduleName}') till: {cleanupToDate}.");
+            _logger.LogTrace("Removed {SentMessagesCount} sent messages from outbox ('{ModuleName}') till: {TillInboxDateTo}.", sentMessages.Count, moduleName, cleanupToDate);
         }
     }
 }

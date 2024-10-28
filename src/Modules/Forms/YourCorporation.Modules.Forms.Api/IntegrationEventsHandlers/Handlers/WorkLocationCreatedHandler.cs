@@ -19,13 +19,6 @@ namespace YourCorporation.Modules.Forms.Api.IntegrationEventsHandlers.Handlers
 
         public async Task Handle(WorkLocationCreated notification, CancellationToken cancellationToken)
         {
-            var existingWorkLocation = await _workLocationRepository.GetAsync(notification.Id);
-            if (existingWorkLocation is not null)
-            {
-                _logger.LogInformation($"Work location with id '{notification.Id}' already exists.");
-                return;
-            }
-
             var workLocation = new WorkLocation(notification.Id, notification.Name, notification.Code);
 
             await _workLocationRepository.AddAsync(workLocation);

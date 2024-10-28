@@ -1,6 +1,6 @@
 ﻿namespace YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects
 {
-    internal readonly record struct JobApplicationId(Guid Value)
+    internal record JobApplicationId(Guid Value)
     {
         public static JobApplicationId New() => new(Guid.NewGuid());
 

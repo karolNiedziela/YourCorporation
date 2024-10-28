@@ -18,6 +18,8 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
+            builder.ToTable(nameof(Contact));
+
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
@@ -41,12 +43,14 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 
             builder.Property(x => x.PrivateEmail)
                 .HasColumnName("PrivateEmail")
+                .HasMaxLength(100)
                 .HasConversion(
                 privateEmail => privateEmail.Value,
                 value => PrivateEmail.Create(value).Value);
 
             builder.Property(x => x.PrivatePhone)
                 .HasColumnName("PrivatePhone")
+                .HasMaxLength(15)
                 .HasConversion(
                 privatePhone => privatePhone.Value,
                 value => PrivatePhone.Create(value).Value);
@@ -59,13 +63,16 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
 
             builder.Property(x => x.LinkedinUrl)
                 .HasColumnName("LinkedinUrl")
+                .HasMaxLength(500)
                 .HasConversion(
                 linkedinUrl => linkedinUrl.Value,
                 value => LinkedinUrl.Create(value).Value);
 
-            builder.HasOne<ContactStatus>()
+
+            builder.HasOne(x => x.ContactStatus)
                 .WithMany()
-                .HasForeignKey(nameof(ContactStatusId));
+                .HasForeignKey(nameof(ContactStatusId))
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

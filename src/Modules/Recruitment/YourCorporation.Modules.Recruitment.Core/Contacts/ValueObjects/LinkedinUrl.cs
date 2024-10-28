@@ -23,7 +23,7 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects
         {
             if (!IsLinkedin().IsMatch(value))
             {
-                return ErrorCodes.Candidates.InvalidLinkedinUrlError;
+                return ErrorCodes.Contacts.InvalidLinkedinUrlError;
             }
 
             return new LinkedinUrl(value);

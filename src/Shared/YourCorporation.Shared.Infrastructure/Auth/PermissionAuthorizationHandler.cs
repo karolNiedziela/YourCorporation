@@ -1,20 +1,47 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
+using YourCorporation.Shared.Abstractions.Auth;
+using YourCorporation.Shared.Abstractions.Contexts;
 
 namespace YourCorporation.Shared.Infrastructure.Auth
 {
     internal class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IContext _context;
+
+        public PermissionAuthorizationHandler(IServiceScopeFactory serviceScopeFactory, IContext context)
         {
-            var systemUserId = context.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+            _serviceScopeFactory = serviceScopeFactory;
+            _context = context;
+        }
+
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+        {
+            if (_context.Identity.IsSystemAdministrator())
+            {
+                context.Succeed(requirement);
+                return;
+            }
+
+            var systemUserId = context.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
 
             if (!Guid.TryParse(systemUserId, out var parsedSystemUserId))
             {
-
+                return;
             }
 
-            return Task.CompletedTask;
-        }
+            using var scope = _serviceScopeFactory.CreateScope();
+            var permissionService = scope.ServiceProvider.GetRequiredService<IPermissionService>();
+
+            var permissions = await permissionService.GetPermissionAsync(parsedSystemUserId);
+
+            if (permissions.Contains(requirement.Permission))
+            {
+                context.Succeed(requirement);
+            }
+        }       
     }
 }

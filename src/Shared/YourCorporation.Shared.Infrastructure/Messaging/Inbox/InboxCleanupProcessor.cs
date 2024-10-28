@@ -65,7 +65,7 @@ namespace YourCorporation.Shared.Infrastructure.Messaging.Inbox
                     {
                         Interlocked.Exchange(ref _isProcessing, 0);
                         stopwatch.Stop();
-                        _logger.LogTrace($"Finished cleaning up inbox messages in {stopwatch.ElapsedMilliseconds} ms.");
+                        _logger.LogTrace("Finished cleaning up inbox messages in {InboxCleanupProcessorElapsedMilliseconds} ms.", stopwatch.ElapsedMilliseconds);
                     }
                 }
 

@@ -40,12 +40,6 @@ namespace YourCorporation.Modules.Recruitment.Api.Endpoints
 
         public static async Task<Results<Ok, NotFound>> GetAsync(Guid recruitmentQueueId, ISender sender, HttpContext context)
         {
-            //var eventDto = await sender.Send(new GetDraftEventQuery(draftEventId));
-            //if (draftEventDto is null)
-            //{
-            //    return TypedResults.NotFound();
-            //}
-
             return TypedResults.Ok();
         }
 
@@ -60,12 +54,12 @@ namespace YourCorporation.Modules.Recruitment.Api.Endpoints
             return result.Match<Results<Created, BadRequest<List<Error>>, Conflict<Error>>>(
                  onSuccess: (Guid recruitmentQueueId) =>
                 {
-                    var eventLink = linkGenerator.GetUriByName(context,
+                    var recruitmentQueueLink = linkGenerator.GetUriByName(context,
                           endpointName: GetRecruitmentQueue,
                           values: new { recruitmentQueueId = result.Value }
                           );
 
-                    return TypedResults.Created(eventLink);
+                    return TypedResults.Created(recruitmentQueueLink);
                 },
                 onError: (List<Error> errors) => TypedResults.BadRequest(errors),
                 onConflict: (Error error) => TypedResults.Conflict(error));

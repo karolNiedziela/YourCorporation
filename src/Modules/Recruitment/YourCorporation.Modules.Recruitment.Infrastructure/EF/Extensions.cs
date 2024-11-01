@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using YourCorporation.Modules.Recruitment.Core.ContactJobApplicationResults.Repositories;
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
 using YourCorporation.Modules.Recruitment.Core.RecruitmentQueues.Repositories;
@@ -39,6 +40,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
             services.AddScoped<IRecruitmentQueueRepository, RecruitmentQueueRepository>();
             services.AddScoped<IWorkLocationRepository, WorkLocationRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();         
+            services.AddScoped<IContactJobApplicationResultRepository, ContactJobApplicationResultRepository>();         
 
             return services;
         }

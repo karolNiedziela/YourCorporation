@@ -6,6 +6,8 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts.Repositories
     {
         Task<Contact> GetAsync(PrivateEmail privateEmail);
 
+        Task<Contact> GetAsync(ContactId id);
+
         void Add(Contact contact);
 
         void Update(Contact contact);

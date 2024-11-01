@@ -25,6 +25,12 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
             builder.Property(x => x.CVUrl).HasMaxLength(500).IsRequired();
             builder.Property(x => x.JobOfferId).IsRequired();
             builder.Property(x => x.JobOfferSubmissionId).IsRequired();
+            builder.OwnsOne(x => x.AssignedRecruiter, navigation =>
+            {
+                navigation.Property(x => x.Id).HasColumnName("AssignedRecruiterId").IsRequired(false);
+                navigation.Property(x => x.FullName).HasColumnName("AssignedRecruiterFullName").HasMaxLength(200).IsRequired(false);
+            });
+            builder.Navigation(x => x.AssignedRecruiter).IsRequired(false);
 
             ConfigureChosenWorkLocations(builder);
             ConfigureRecruitmentQueues(builder);

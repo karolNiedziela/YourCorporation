@@ -6,6 +6,8 @@
 
         Guid Id { get; }
 
+        string FullName { get; }
+
         string[] Roles { get; }
 
         Dictionary<string, IEnumerable<string>> Claims { get; }

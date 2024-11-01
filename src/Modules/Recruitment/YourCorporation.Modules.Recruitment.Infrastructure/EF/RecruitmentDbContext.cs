@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using YourCorporation.Modules.Recruitment.Core.ContactJobApplicationResults;
 using YourCorporation.Modules.Recruitment.Core.Contacts;
 using YourCorporation.Modules.Recruitment.Core.JobApplications;
 using YourCorporation.Modules.Recruitment.Core.Queues;
@@ -34,6 +35,8 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
 
         public DbSet<RecruitmentQueue> RecruitmentQueues { get; set; }
 
+        public DbSet<ContactJobApplicationResult> ContactJobApplicationResults { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(SchemaName);
@@ -42,6 +45,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF
             modelBuilder.ApplyConfiguration(new ContactEntityypeConfiguration(_timeProvider));
             modelBuilder.ApplyConfiguration(new WorkLocationEntityypeConfiguration());
             modelBuilder.ApplyConfiguration(new RecruitmentQueueEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactJobApplicationResultEntityTypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

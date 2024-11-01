@@ -17,6 +17,9 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Repositories
         public async Task<Contact> GetAsync(PrivateEmail privateEmail)
             => await _contacts.FirstOrDefaultAsync(x => x.PrivateEmail == privateEmail);
 
+        public async Task<Contact> GetAsync(ContactId id)
+            => await _contacts.FirstOrDefaultAsync(x => x.Id == id);
+
         public void Add(Contact contact)
             => _contacts.Add(contact);
 

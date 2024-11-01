@@ -43,9 +43,11 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts
             PrivateEmail = privateEmail;
             ContactStatusId = ContactStatus.ApplicantNotVerified.Id;
             AddDomainEvent(new ContactFromJobApplicationCreatedDomainEvent(Id, jobApplicationId.Value));
-        }
 
+        }
         public static Contact CreateFromJobApplication(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId)
             => new(firstName, lastName, privateEmail, jobApplicationId);
+
+        public void UpdateStatus(ContactStatusId contactStatusId) => ContactStatusId = contactStatusId;
     }
 }

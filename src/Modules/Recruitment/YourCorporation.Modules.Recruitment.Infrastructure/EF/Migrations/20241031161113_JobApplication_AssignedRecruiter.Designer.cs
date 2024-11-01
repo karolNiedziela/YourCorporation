@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YourCorporation.Modules.Recruitment.Infrastructure.EF;
 
@@ -12,9 +13,11 @@ using YourCorporation.Modules.Recruitment.Infrastructure.EF;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(RecruitmentDbContext))]
-    partial class RecruitmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031161113_JobApplication_AssignedRecruiter")]
+    partial class JobApplication_AssignedRecruiter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,43 +26,6 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.ContactJobApplicationResults.ContactJobApplicationResult", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ApplicationDecision")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ClusterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClusterId"));
-
-                    b.Property<Guid>("ContactId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("JobApplicationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("RejectedReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
-
-                    b.HasIndex("ClusterId");
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("ClusterId"));
-
-                    b.HasIndex("JobApplicationId");
-
-                    b.ToTable("ContactJobApplicationResult", "recruitment");
-                });
 
             modelBuilder.Entity("YourCorporation.Modules.Recruitment.Core.ContactStatuses.ContactStatus", b =>
                 {
@@ -98,18 +64,6 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
                             Id = new Guid("0380bc27-18de-4683-bd10-37c267f4f979"),
                             Status = "Applicant",
                             Substatus = "Not Verified"
-                        },
-                        new
-                        {
-                            Id = new Guid("92845a34-6931-4316-aec9-a9dd2799f3ad"),
-                            Status = "Candidate",
-                            Substatus = "To contact"
-                        },
-                        new
-                        {
-                            Id = new Guid("ccc70ee3-3f85-4df1-9761-9d5d1eff54e5"),
-                            Status = "Candidate",
-                            Substatus = "Rejected"
                         });
                 });
 

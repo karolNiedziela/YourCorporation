@@ -22,7 +22,9 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 
         public Guid JobOfferSubmissionId { get; private set; }
 
-        public ContactId? ContactId { get; private set; }
+        public ContactId ContactId { get; private set; }
+
+        public AssignedRecruiter AssignedRecruiter { get; private set; } 
 
         private JobApplication() : base() { }
 
@@ -42,7 +44,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
         {
             CVUrl = cvUrl;
             JobOfferId = jobOfferId;
-            Name = $"{applicationFirstName} {applicationLastName}";
+            Name = $"{applicationFirstName.Value} {applicationLastName.Value}";
             JobOfferSubmissionId = jobOfferSubmissionId;
             _chosenWorkLocations.AddRange(chosenWorkLocations);
             AddDomainEvent(new JobApplicationCreatedDomainEvent(Id, applicationFirstName.Value, applicationLastName.Value, applicationEmail.Value));
@@ -52,5 +54,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 
         internal void AssignRecruitmentQueues(IEnumerable<RecruitmentQueueId> recruitmentQueues)
             => _recruitmentQueues.AddRange(recruitmentQueues);
+
+        public void AssignRecruiter(AssignedRecruiter assignedRecruiter) => AssignedRecruiter = assignedRecruiter;        
     }
 }

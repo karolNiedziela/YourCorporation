@@ -5,7 +5,7 @@ using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Services;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 
-namespace YourCorporation.Modules.Recruitment.Application.Features.Contacts.CreateContactFromJobApplication
+namespace YourCorporation.Modules.Recruitment.Application.Features.Contacts.DomainEventHandlers.CreateContactFromJobApplication
 {
     internal class ContactFromJobApplicationCreatedDomainEventHandler : INotificationHandler<ContactFromJobApplicationCreatedDomainEvent>
     {

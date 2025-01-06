@@ -46,5 +46,8 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications.Services
 
             jobApplication.AssignRecruitmentQueues(matchingRecruitmentQueues);
         }
+
+        public bool CanComplete(JobApplication jobApplication)
+            => jobApplication.AssignedRecruiter is not null;
     }
 }

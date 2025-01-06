@@ -10,6 +10,8 @@ namespace YourCorporation.Modules.Recruitment.Core
             public static Error EmailError = new("JobApplication.Email", "Invalid email format.");
             public static Error NotFoundError(Guid jobApplicationId) => Error.NotFound("JobApplication.NotFound", $"Job Application with id '{jobApplicationId}' was not found.");
             public static Error RecruiterAlreadyAssigned => new("JobApplication.RecruiterAlreadyAssigned", "Job application has already assigned recruiter.");
+
+            public static Error CannotComplete => new ("JobApplication.CannotComplete", "Job application does not contain all required data.")
         }
 
         public static class Contacts
@@ -32,7 +34,7 @@ namespace YourCorporation.Modules.Recruitment.Core
 
         public static class ContactJobApplicationResult
         {
-            public static Error AlreadyExistsError(Guid jobApplicationId) => Error.Conflict("ContactJobApplicationResult.AlreadyExists", $"Contact Job Application Result with job application id '{jobApplicationId}' already exists.");
+            public static Error AlreadyExistsError(Guid jobApplicationId) => Error.Conflict("ContactJobApplicationResult.AlreadyExists", $"Contact Job Application Result for job application id '{jobApplicationId}' already exists.");
 
             public static Error GivenRejectedReasonError => new Error("ContactJobApplicationResult.GivenRejectedReason", "Rejected reason cannot be given when Application Decision is different to rejected.");
             public static Error NoRejectedReasonError => new Error("ContactJobApplicationResult.NoRejectedReason", "Rejected reason is required when Application Decision is rejected.");

@@ -25,6 +25,7 @@ namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Configurations
             builder.Property(x => x.CVUrl).HasMaxLength(500).IsRequired();
             builder.Property(x => x.JobOfferId).IsRequired();
             builder.Property(x => x.JobOfferSubmissionId).IsRequired();
+            builder.Property(x => x.CompletedAt).IsRequired(false);
             builder.OwnsOne(x => x.AssignedRecruiter, navigation =>
             {
                 navigation.Property(x => x.Id).HasColumnName("AssignedRecruiterId").IsRequired(false);

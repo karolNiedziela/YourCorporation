@@ -5,6 +5,7 @@ using YourCorporation.Modules.Recruitment.Core.ContactJobApplicationResults.Even
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.ContactStatuses;
+using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 
 namespace YourCorporation.Modules.Recruitment.Application.Features.ContactJobApplicationResults.DomainEventHandlers
 {
@@ -31,11 +32,11 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.ContactJobApp
             switch (notification.ApplicationDecision)
             {
                 case ApplicationDecision.ToContact:
-                    existingContact.UpdateStatus(ContactStatus.CandidateToContact.Id);
+                    existingContact.UpdateStatus(ContactStatus.CandidateToContact.Id, JobApplicationId.New(notification.JobApplicationId));
                     break;
 
                 case ApplicationDecision.Rejected:
-                    existingContact.UpdateStatus(ContactStatus.CandidateRejected.Id);
+                    existingContact.UpdateStatus(ContactStatus.CandidateRejected.Id, JobApplicationId.New(notification.JobApplicationId));
                     break;
 
                 default:
@@ -48,5 +49,6 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.ContactJobApp
                 existingContact.ContactStatusId,
                 notification.ContactId);
         }
+
     }
 }

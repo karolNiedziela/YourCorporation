@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Contacts\DomainEventHandlers\**" />
+    <EmbeddedResource Remove="Features\Contacts\DomainEventHandlers\**" />
+    <None Remove="Features\Contacts\DomainEventHandlers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.10.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Scrutor" Version="5.0.1" />

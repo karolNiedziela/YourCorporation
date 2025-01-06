@@ -5,6 +5,7 @@ using YourCorporation.Modules.Recruitment.Core.ContactJobApplicationResults.Repo
 using YourCorporation.Modules.Recruitment.Core.Contacts.Repositories;
 using YourCorporation.Modules.Recruitment.Core.Contacts.ValueObjects;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.Repositories;
+using YourCorporation.Modules.Recruitment.Core.JobApplications.Services;
 using YourCorporation.Modules.Recruitment.Core.JobApplications.ValueObjects;
 using YourCorporation.Shared.Abstractions.Results;
 
@@ -15,12 +16,14 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.ContactJobApp
         private readonly IContactJobApplicationResultRepository _contactJobApplicationResultRepository;
         private readonly IContactRepository _contactRepository;
         private readonly IJobApplicationRepository _jobApplicationRepository;
+        private readonly IJobApplicationService _jobApplicationService;
 
-        public CreateContactJobApplicationResultCommandHandler(IContactJobApplicationResultRepository contactJobApplicationResultRepository, IContactRepository contactRepository, IJobApplicationRepository jobApplicationRepository)
+        public CreateContactJobApplicationResultCommandHandler(IContactJobApplicationResultRepository contactJobApplicationResultRepository, IContactRepository contactRepository, IJobApplicationRepository jobApplicationRepository, IJobApplicationService jobApplicationService)
         {
             _contactJobApplicationResultRepository = contactJobApplicationResultRepository;
             _contactRepository = contactRepository;
             _jobApplicationRepository = jobApplicationRepository;
+            _jobApplicationService = jobApplicationService;
         }
 
         public async Task<Result<Guid>> Handle(CreateContactJobApplicationResultCommand request, CancellationToken cancellationToken)
@@ -43,6 +46,11 @@ namespace YourCorporation.Modules.Recruitment.Application.Features.ContactJobApp
             if (existingContactJobApplicationResult is not null)
             {
                 return ErrorCodes.ContactJobApplicationResult.AlreadyExistsError(request.JobApplicationId);
+            }
+
+            if (!_jobApplicationService.CanComplete(jobApplication))
+            {
+                return ErrorCodes.JobApplications.CannotComplete;
             }
 
             var resultContactJobApplicationResult = ContactJobApplicationResult.Create(

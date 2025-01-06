@@ -48,6 +48,10 @@ namespace YourCorporation.Modules.Recruitment.Core.Contacts
         public static Contact CreateFromJobApplication(FirstName firstName, LastName lastName, PrivateEmail privateEmail, JobApplicationId jobApplicationId)
             => new(firstName, lastName, privateEmail, jobApplicationId);
 
-        public void UpdateStatus(ContactStatusId contactStatusId) => ContactStatusId = contactStatusId;
+        public void UpdateStatus(ContactStatusId contactStatusId, JobApplicationId jobApplicationId) 
+        {
+            ContactStatusId = contactStatusId;
+            AddDomainEvent(new ContactStatusUpdatedFromJobApplicationDomainEvent(jobApplicationId.Value));
+        } 
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YourCorporation.Modules.Recruitment.Infrastructure.EF;
 
@@ -12,9 +13,11 @@ using YourCorporation.Modules.Recruitment.Infrastructure.EF;
 namespace YourCorporation.Modules.Recruitment.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(RecruitmentDbContext))]
-    partial class RecruitmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250106175907_JobApplication_CompletedAt")]
+    partial class JobApplication_CompletedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

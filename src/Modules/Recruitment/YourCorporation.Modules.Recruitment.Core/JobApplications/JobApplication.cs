@@ -24,7 +24,9 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
 
         public ContactId ContactId { get; private set; }
 
-        public AssignedRecruiter AssignedRecruiter { get; private set; } 
+        public AssignedRecruiter AssignedRecruiter { get; private set; }
+
+        public DateTimeOffset? CompletedAt { get; private set; }
 
         private JobApplication() : base() { }
 
@@ -55,6 +57,8 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications
         internal void AssignRecruitmentQueues(IEnumerable<RecruitmentQueueId> recruitmentQueues)
             => _recruitmentQueues.AddRange(recruitmentQueues);
 
-        public void AssignRecruiter(AssignedRecruiter assignedRecruiter) => AssignedRecruiter = assignedRecruiter;        
+        public void AssignRecruiter(AssignedRecruiter assignedRecruiter) => AssignedRecruiter = assignedRecruiter;
+        
+        public void Complete(DateTimeOffset completedAt) => CompletedAt = completedAt;
     }
 }

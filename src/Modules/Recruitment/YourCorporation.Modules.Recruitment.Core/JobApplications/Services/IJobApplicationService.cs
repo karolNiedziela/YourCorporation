@@ -7,5 +7,7 @@ namespace YourCorporation.Modules.Recruitment.Core.JobApplications.Services
     internal interface IJobApplicationService
     {
         Task<Result> ProcessNewJobApplication(JobApplicationId jobApplicationId, ContactId contactId);
+
+        bool CanComplete(JobApplication jobApplication);
     }
 }
